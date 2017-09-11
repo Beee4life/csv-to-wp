@@ -399,10 +399,10 @@
 
                         // @TODO: check if file exists
 
-                        do_action( 'csvi_before_upload' );
+                        do_action( 'csvi_before_csv_upload' );
 	                    if (move_uploaded_file($_FILES['csv_upload']['tmp_name'], '/' . $target_file)) {
                             // file uploaded succeeded
-		                    do_action( 'csvi_successful_upload' );
+		                    do_action( 'csvi_successful_csv_upload' );
                             CSV_Importer::csvi_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_upload' ][ 'name' ] . '" is successfully uploaded and now shows under \'Select files to import\'.', 'cvs-importer' ) );
                             return;
 
@@ -411,7 +411,7 @@
                             CSV_Importer::csvi_errors()->add( 'error_file_uploaded', __( 'Upload failed. Please try again.', 'cvs-importer' ) );
                             return;
                         }
-	                    do_action( 'csvi_after_upload' );
+	                    do_action( 'csvi_after_csv_upload' );
                     }
                 }
 
@@ -422,7 +422,7 @@
 	         * @return string
 	         */
             public static function csvi_admin_menu() {
-		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csv-import">' . esc_html( __( 'CSV Importer', 'action-logger' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-settings">' . esc_html( __( 'Settings', 'action-logger' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-misc">' . esc_html( __( 'Misc', 'action-logger' ) ) . '</a></p>';
+		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csv-import">' . esc_html( __( 'CSV Importer', 'action-logger' ) ) . '</a> <span class="hidden">| <a  href="' . site_url() . '/wp-admin/admin.php?page=csvi-settings">' . esc_html( __( 'Settings', 'action-logger' ) ) . '</a> </span>| <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-misc">' . esc_html( __( 'Misc', 'action-logger' ) ) . '</a></p>';
 	        }
 
 	        /**
