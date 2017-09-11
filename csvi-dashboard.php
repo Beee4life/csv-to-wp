@@ -42,7 +42,6 @@
                 ?>
                     <br />
                     <h2><?php esc_html_e( 'Select a file to \'handle\'', 'csv-importer' ); ?></h2>
-                        <p><small>For the preview option, the file name can not contain a space.</small></p>
 
                     <?php if ( 0 < count( $file_index ) ) { ?>
                         <form name="" method="POST">
