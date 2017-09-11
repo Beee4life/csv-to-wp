@@ -40,7 +40,9 @@
 	            register_deactivation_hook( __FILE__,   array( $this, 'csvi_plugin_deactivation' ) );
 
                 // actions
-                add_action( 'admin_menu',               array( $this, 'csvi_dashboard_page' ) );
+                add_action( 'admin_menu',               array( $this, 'csvi_add_dashboard_page' ) );
+	            add_action( 'admin_menu',               array( $this, 'csvi_add_settings_page' ) );
+	            add_action( 'admin_menu',               array( $this, 'csvi_add_misc_page' ) );
                 add_action( 'admin_enqueue_scripts',    array( $this, 'enqueue_csvi_css' ) );
 
                 // csv actions
@@ -523,13 +525,29 @@
 		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csv-import">' . esc_html( __( 'CSV Importer', 'action-logger' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-settings">' . esc_html( __( 'Settings', 'action-logger' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-misc">' . esc_html( __( 'Misc', 'action-logger' ) ) . '</a></p>';
 	        }
 
-            /**
+	        /**
              * Create admin page
              */
-            public function csvi_dashboard_page() {
+            public function csvi_add_dashboard_page() {
                 add_menu_page( 'CSV Importer', 'CSV Importer', 'manage_options', 'csv-import', 'csv_import_dashboard', 'dashicons-grid-view' );
-	            include( 'dashboard-page.php' );
+	            include( 'csvi-dashboard.php' );
             }
+
+	        /**
+	         * Adds a (hidden) settings page, only through the menu on top of the pages.
+	         */
+	        public function csvi_add_settings_page() {
+		        add_submenu_page( NULL, 'Settings', 'Settings', 'manage_options', 'csvi-settings', 'csvi_settings_page' );
+		        include( 'csvi-settings.php' ); // content for the settings page
+	        }
+
+	        /**
+	         * Adds a (hidden) settings page, only through the menu on top of the pages.
+	         */
+	        public function csvi_add_misc_page() {
+		        add_submenu_page( NULL, 'Misc', 'Misc', 'manage_options', 'csvi-misc', 'csvi_misc_page' );
+		        include( 'csvi-misc.php' ); // content for the settings page
+	        }
 
             /**
              * Enqueue CSS
