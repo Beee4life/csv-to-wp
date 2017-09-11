@@ -1,0 +1,10 @@
+# Development
+.DS_Store
+.idea/**
+.tmp/**
+*.sublime-*
+*.xlsx
+
+# Package Managers
+vendor/**
+node_modules/**
