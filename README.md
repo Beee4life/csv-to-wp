@@ -20,9 +20,13 @@ Answer
 
 ### To Do
 * [ ] - Preview data
+* [ ] - Add setting who can import
+* [ ] - Read header columns
+* [ ] - Count header columns (for column verification)
+* [ ] - Choose to insert where
 
 ## Changelog
 
-**1.0**
+**0.1**
 
 Initial release

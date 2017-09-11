@@ -1,8 +1,8 @@
 <?php
     /*
     Plugin Name: CSV Importer
-    Version: 1.0
-    Plugin URI:
+    Version: 0.1
+    Plugin URI: http://www.berryplasman.com
     Description: This plugin allows you to import an verify CSV data and import it wherever you want in the database.
     Author: Beee
     Author URI: http://berryplasman.com
@@ -23,13 +23,9 @@
         class CSV_Importer {
             var $settings;
 
-            /**
-             *  A dummy constructor to ensure plugin is only initialized once
-             */
             function __construct() {}
 
             function initialize() {
-                // vars
                 $this->settings = array(
                     'path'      => trailingslashit( dirname( __FILE__ ) ),
                     'version'   => '1.0.0',
