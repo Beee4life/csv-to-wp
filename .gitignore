@@ -4,6 +4,7 @@
 .tmp/**
 *.sublime-*
 *.xlsx
+uploads/**
 
 # Package Managers
 vendor/**
