@@ -19,10 +19,10 @@ Answer
 ### Misc
 
 ### To Do
+* [X] - Add setting who can import
 * [ ] - Preview data
-* [ ] - Add setting who can import
 * [ ] - Read header columns
-* [ ] - Count header columns (for column verification)
+* [X] - Count header columns (for column verification)
 * [ ] - Choose to insert where
 
 ## Changelog

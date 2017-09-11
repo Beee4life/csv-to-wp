@@ -36,17 +36,18 @@
 	            register_deactivation_hook( __FILE__,   array( $this, 'csvi_plugin_deactivation' ) );
 
                 // actions
-                add_action( 'admin_menu',               array( $this, 'csvi_add_dashboard_page' ) );
+	            add_action( 'admin_menu',               array( $this, 'csvi_add_dashboard_page' ) );
+	            add_action( 'admin_menu',               array( $this, 'csvi_add_preview_page' ) );
 	            add_action( 'admin_menu',               array( $this, 'csvi_add_settings_page' ) );
+	            add_action( 'admin_menu',               array( $this, 'csvi_add_faq_page' ) );
 	            add_action( 'admin_menu',               array( $this, 'csvi_add_misc_page' ) );
                 add_action( 'admin_enqueue_scripts',    array( $this, 'enqueue_csvi_css' ) );
 
                 // csv actions
                 add_action( 'admin_init',               array( $this, 'upload_file_functions' ) );
-                add_action( 'admin_init',               array( $this, 'read_file_functions' ) );
+	            add_action( 'admin_init',               array( $this, 'read_file_functions' ) );
+	            add_action( 'admin_init',               array( $this, 'csv_to_array' ) );
                 add_action( 'admin_init',               array( $this, 'import_raw_csv_data' ) );
-                // add_action( 'admin_init',               array( $this, 'delete_individual_ranking' ) );
-                // add_action( 'admin_init',               array( $this, 'nuke_all_data' ) );
 
 	            // misc actions
 	            add_action( 'admin_init',               array( $this, 'csvi_errors' ) );
@@ -55,25 +56,39 @@
 	            include( 'verify-csv-data.php' );
 	            include( 'not-in-use.php' );
 
+	            // $this->csvi_store_default_values();
+
             }
+
+	        // @TODO: preview raw imported data
+
+
             /**
              * Function which runs upon plugin deactivation
              */
             public function csvi_plugin_activation() {
                 $this->csvi_create_uploads_directory();
-                // $this->csvi_store_default_values();
+                $this->csvi_store_default_values();
             }
 
             /**
              * Function which runs upon plugin deactivation
              */
             public function csvi_plugin_deactivation() {
+	            delete_option( 'csvi_import_role' );
             }
 
 	        public function csvi_create_uploads_directory() {
             	if ( true != is_dir( plugin_dir_path( __FILE__ ) . 'uploads' ) ) {
 		            mkdir(plugin_dir_path( __FILE__ ) . 'uploads', 0755 );
 	            }
+	        }
+
+	        /**
+	         * Function which runs upon plugin deactivation
+	         */
+	        public function csvi_store_default_values() {
+	        	update_option( 'csvi_import_role', 'manage_options' );
 	        }
 
 	        /**
@@ -107,6 +122,7 @@
 						        $prefix     = false;
 					        } else {
 						        $error  = true;
+						        $span_class = 'notice-error ';
 						        $prefix = esc_html( __( 'Error', 'action-logger' ) );
 					        }
 				        }
@@ -133,20 +149,21 @@
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_raw_rankings_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "import_raw_rankings_nonce" ], 'import-raw-rankings-nonce' ) ) {
-                        CSV_Importer::csvi_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'cvs-importer' ) );
+                        CSV_Importer::csvi_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv-importer' ) );
 
                         return;
                     } else {
                         // nonce ok + verified
 
                         $raw_data      = $_POST[ 'raw_csv_import' ];
+                        // verify data
                         $verified_data = verify_csv_data( $raw_data );
                         $verify        = ! empty( $_POST[ 'verify' ] ) ? $_POST[ 'verify' ] : false;
 
                         if ( false != $verified_data ) {
 
                             if ( false != $verify ) {
-                                CSV_Importer::csvi_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there are no errors in your CSV.', 'cvs-importer' ) );
+                                CSV_Importer::csvi_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there are no errors in your CSV.', 'csv-importer' ) );
 
                                 return;
                             } else {
@@ -177,9 +194,9 @@
                                         $count++;
                                     }
                                     if ( class_exists( 'ActionLogger' ) ) {
-                                        ActionLogger::al_log_user_action( 'import_raw', 'cvs-importer', ' uploaded ' . $count . ' lines through raw import' );
+                                        ActionLogger::al_log_user_action( 'import_raw', 'csv-importer', ' uploaded ' . $count . ' lines through raw import' );
                                     }
-                                    CSV_Importer::csvi_errors()->add( 'success_rankings_imported', __( $count . ' lines imported through raw import. You can check the last user which is imported <a href="' . get_author_posts_url( $idf_number ) . '">here</a>.', 'cvs-importer' ) );
+                                    CSV_Importer::csvi_errors()->add( 'success_rankings_imported', __( $count . ' lines imported through raw import. You can check the last user which is imported <a href="' . get_author_posts_url( $idf_number ) . '">here</a>.', 'csv-importer' ) );
                                 }
                             }
                         }
@@ -195,14 +212,14 @@
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "select_file_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "select_file_nonce" ], 'select-file-nonce' ) ) {
-                        CSV_Importer::csvi_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'cvs-importer' ) );
+                        CSV_Importer::csvi_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv-importer' ) );
 
                         return;
                     } else {
                         // nonce ok + verified
 
                         if ( ! isset( $_POST[ 'file_name' ] ) ) {
-                            CSV_Importer::csvi_errors()->add( 'error_no_file_selected', __( 'You didn\'t select a file.', 'cvs-importer' ) );
+                            CSV_Importer::csvi_errors()->add( 'error_no_file_selected', __( 'You didn\'t select a file.', 'csv-importer' ) );
 
                             return;
                         }
@@ -213,147 +230,87 @@
 
                         if ( false == $remove ) {
 
-                            if ( count( $_POST[ 'file_name' ] ) != 1 ) {
-                                CSV_Importer::csvi_errors()->add( 'error_too_many_files', __( 'Only 1 file at a time please, otherwise the error messages can be off. And yes, it\'s already on the todo list.', 'cvs-importer' ) );
+	                        // echo '<pre>'; var_dump($_POST); echo '</pre>'; exit;
+
+                            if ( count( $_POST[ 'file_name' ] ) > 1 ) {
+	                            CSV_Importer::csvi_errors()->add( 'error_too_many_files', __( 'Only 1 file at a time please, otherwise the error messages can be off. And yes, it\'s already on the todo list.', 'csv-importer' ) );
 
                                 return;
                             }
 
-                            // read file
-                            if (($handle = fopen( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name[0], "r")) !== FALSE) {
-                                $line_number = 0;
+	                        // read file to create new array of data to work with
+	                        if (($handle = fopen( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name[0], "r")) !== FALSE) {
+		                        while (($csv_line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+		                        }
+	                        }
 
+	                        // read file
+                            if (($handle = fopen( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name[0], "r")) !== FALSE) {
+	                            $line_number      = 0;
+	                            $column_benchmark = 0;
+	                            $csv_array = array();
                                 while (($csv_line = fgetcsv($handle, 1000, ",")) !== FALSE) {
                                     $line_number++;
 
-                                    if ( count( $csv_line ) != 5 ) {
-                                        if ( count( $csv_line ) < 5 ) {
+	                                // if line is 1, count columns (of header)
+	                                if ( 1 == $line_number ) {
+		                                // count columns to compare with other lines
+		                                $column_benchmark = count($csv_line);
+	                                }
+
+                                    // check amount of columns
+	                                if ( count( $csv_line ) != $column_benchmark ) {
+	                                	// if column count doesn't match benchmark
+                                        if ( count( $csv_line ) < $column_benchmark ) {
                                             if ( false != $verify ) {
                                                 $error_message = 'Since your file is not accurate anymore, the file is deleted.';
                                             } else {
                                                 $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                                             }
-                                            CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'cvs-importer' ), $line_number, $error_message ) );
+                                            CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'csv-importer' ), $line_number, $error_message ) );
 
-                                        } elseif ( count( $csv_line ) > 5 ) {
-                                            if ( false != $verify ) {
-                                                CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', __( 'There are too many columns on line ' . $line_number . '. Lines 0-' . ( $line_number - 1 ) . ' Since your file is not accurate anymore, the file is deleted.', 'cvs-importer' ) );
-                                            } else {
-                                                CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', __( 'There are too many columns on line ' . $line_number . '. Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted.', 'cvs-importer' ) );
-                                            }
+                                        } elseif ( count( $csv_line ) > $column_benchmark ) {
+	                                        if ( false != $verify ) {
+		                                        $error_message = 'Since your file is not accurate anymore, the file is deleted.';
+	                                        } else {
+		                                        $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
+	                                        }
+	                                        CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too many columns on line %d. %s', 'csv-importer' ), $line_number, $error_message ) );
                                         }
                                         foreach( $_POST[ 'file_name' ] as $file_name ) {
                                             // delete file
-                                            unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
+                                            // unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
                                         }
 
                                         return;
                                     }
 
-                                    foreach( $csv_line as $line ) {
-                                        if ( $line == '0' ) {
-                                            if ( false != $verify ) {
-                                                CSV_Importer::csvi_errors()->add( 'error_zero_value', __( 'There\'s a zero value on line ' . $line_number . '. Since your file is not accurate anymore, it\'s deleted. ', 'cvs-importer' ) );
-                                            } else {
-                                                CSV_Importer::csvi_errors()->add( 'error_zero_value', __( 'There\'s a zero value on line ' . $line_number . '. Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, therefor it\'s deleted.', 'cvs-importer' ) );
-                                            }
-                                            foreach( $_POST[ 'file_name' ] as $file_name ) {
-                                                // delete file
-                                                unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
-                                            }
-
-                                            return;
-                                        }
-                                    }
-
-                                    $idf_number = $csv_line[ 0 ];
-                                    $user_data  = get_userdata( intval( $idf_number ) );
-                                    if ( false == $user_data ) {
-                                        // user does not exist, so check for old ids
-                                    }
-
-                                    $year = $csv_line[ 1 ];
-                                    if ( strlen( $year ) != 4 ) {
-                                        if ( false != $verify ) {
-                                            CSV_Importer::csvi_errors()->add( 'error_zero_value', __( 'There\'s a year which is not 4 characters long on line ' . $line_number . '. Since your file is not accurate anymore, it\'s deleted. ', 'cvs-importer' ) );
-                                        } else {
-                                            CSV_Importer::csvi_errors()->add( 'error_zero_value', __( 'There\'s a year which is not 4 characters long on line ' . $line_number . '. Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, therefor it\'s deleted.', 'cvs-importer' ) );
-                                        }
-                                        foreach( $_POST[ 'file_name' ] as $file_name ) {
-                                            // delete file
-                                            unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
-                                        }
-
-                                        return;
-                                    }
-
-                                    $category = $csv_line[ 2 ];
-                                    if ( ! in_array( $category, [
-                                        'Open',
-                                        'Women',
-                                        'Juniors',
-                                        'Masters',
-                                        'Luge',
-                                        'Street luge',
-                                        'Classic luge'
-                                    ] ) ) {
-                                        if ( false != $verify ) {
-                                            CSV_Importer::csvi_errors()->add( 'error_zero_value', __( 'There\'s a non-approved category name on line ' . $line_number . '.', 'cvs-importer' ) );
-                                        } else {
-                                            CSV_Importer::csvi_errors()->add( 'error_zero_value', __( 'There\'s a non-approved category name on line ' . $line_number . '. Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, therefor it\'s deleted.', 'cvs-importer' ) );
-                                        }
-                                        foreach( $_POST[ 'file_name' ] as $file_name ) {
-                                            // delete file
-                                            unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
-                                        }
-
-                                        return;
-                                    }
-
-                                    $ranking    = $csv_line[ 3 ];
-                                    $points     = $csv_line[ 4 ];
-
-                                    $new_value = array(
-                                        $year => array(
-                                            'year'          => $year,
-                                            'category_name' => $category,
-                                            'ranking'       => $ranking,
-                                            'points'        => $points,
-                                        ),
-                                    );
-
-                                    if ( false == $verify ) {
-
-                                        $race_rankings = get_user_meta( $idf_number, 'race_rankings', true );
-                                        $user_meta     = ! empty( $race_rankings ) ? $race_rankings : false;
-                                        if ( false != $user_meta ) {
-                                            $new_value = array_merge( $new_value, $user_meta );
-                                            asort( $new_value );
-                                        }
-                                        update_user_meta( $idf_number, 'race_rankings', $new_value );
-                                    }
+                                    $new_line = array();
+	                                foreach( $csv_line as $item ) {
+	                                	$new_line[] = $item;
+	                                }
+	                                $csv_array[] = $new_line;
 
                                 }
                                 fclose($handle);
 
-
-                                // delete file
+                                // import data or delete file
                                 if ( false == $verify ) {
+                                	// verify = false, so this is for real, this is no verification, there are no errors, so files can be processed
+
+	                                // do something with the data ($csv_array) here
+
                                     foreach( $_POST[ 'file_name' ] as $file_name ) {
                                         // delete file
-                                        unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
+                                        // unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
                                     }
-                                    if ( class_exists( 'ActionLogger' ) ) {
-                                        ActionLogger::al_log_user_action( 'rankings_imported', 'cvs-importer', ' successfully imported ' . $line_number . ' lines from file' );
-                                    }
-                                    CSV_Importer::csvi_errors()->add( 'success_rankings_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted. You can check the last user which is imported <a href="' . get_author_posts_url( $idf_number ) . '">here</a>.', 'cvs-importer' ) );
+                                    do_action( 'csvi_successfull_csv_import' );
+                                    CSV_Importer::csvi_errors()->add( 'success_rankings_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv-importer' ) );
 
                                     return;
                                 } else {
-                                    if ( class_exists( 'ActionLogger' ) ) {
-                                        ActionLogger::al_log_user_action( 'verify_csv', 'cvs-importer', ' successfully verified ' . $_POST[ 'file_name' ][0] );
-                                    }
-                                    CSV_Importer::csvi_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there are no errors in your CSV.', 'cvs-importer' ) );
+	                                do_action( 'csvi_successfull_csv_validate' );
+                                    CSV_Importer::csvi_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there are no errors in your CSV.', 'csv-importer' ) );
 
                                     return;
                                 }
@@ -367,14 +324,14 @@
                                     unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
                                 }
                                 if ( count( $_POST[ 'file_name' ] ) == 1 ) {
-                                    CSV_Importer::csvi_errors()->add( 'success_file_deleted', __( 'File "' . $file_name . '" successfully deleted.', 'cvs-importer' ) );
+                                    CSV_Importer::csvi_errors()->add( 'success_file_deleted', __( 'File "' . $file_name . '" successfully deleted.', 'csv-importer' ) );
                                 } else {
-                                    CSV_Importer::csvi_errors()->add( 'success_files_deleted', __( 'Files successfully deleted.', 'cvs-importer' ) );
+                                    CSV_Importer::csvi_errors()->add( 'success_files_deleted', __( 'Files successfully deleted.', 'csv-importer' ) );
                                 }
 
                             } else {
                                 // no files selected
-                                CSV_Importer::csvi_errors()->add( 'warning_no_files_selected', __( 'You didn\'t select a file to delete.', 'cvs-importer' ) );
+                                CSV_Importer::csvi_errors()->add( 'warning_no_files_selected', __( 'You didn\'t select a file to delete.', 'csv-importer' ) );
                             }
 
                         }
@@ -382,36 +339,89 @@
                 }
             }
 
-            /**
+	        /**
+	         * Change CSV into array
+	         */
+	        public static function csv_to_array( $file_name = false ) {
+
+	        	// $file_name = 'test2.csv';
+	            if ( false != $file_name ) {
+		            // echo '<pre>'; var_dump($file_name); echo '</pre>'; exit;
+			        // read file to create new array of data to work with
+			        if (($handle = fopen( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name, "r")) !== FALSE) {
+				        $line_number      = 0;
+				        $column_benchmark = 0;
+				        $csv_array = array();
+				        while (($csv_line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+					        $line_number++;
+
+					        // if line is 1, count columns (of header)
+					        if ( 1 == $line_number ) {
+						        // count columns to compare with other lines
+						        $column_benchmark = count($csv_line);
+					        }
+
+					        // check amount of columns
+					        if ( count( $csv_line ) != $column_benchmark ) {
+						        // if column count doesn't match benchmark
+						        $error_message = 'Since your file is not accurate anymore, the file is deleted.';
+						        if ( count( $csv_line ) < $column_benchmark ) {
+							        CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'csv-importer' ), $line_number, $error_message ) );
+						        } elseif ( count( $csv_line ) > $column_benchmark ) {
+							        CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too many columns on line %d. %s', 'csv-importer' ), $line_number, $error_message ) );
+						        }
+						        // foreach( $_POST[ 'file_name' ] as $file_name ) {
+							        // delete file
+							        // unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
+						        // }
+
+						        return false;
+					        }
+
+					        $new_line = array();
+					        foreach( $csv_line as $item ) {
+						        $new_line[] = $item;
+					        }
+					        $csv_array[] = $new_line;
+
+				        }
+				        fclose($handle);
+
+				        return $csv_array;
+
+			        }
+			        return false;
+		        }
+	        }
+
+	        /**
              * Upload a CSV file
              */
             public function upload_file_functions() {
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_rankings_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "import_rankings_nonce" ], 'import-rankings-nonce' ) ) {
-                        CSV_Importer::csvi_errors()->add( 'error_nonce_no_match', __( 'Upload failed. Please try again.', 'cvs-importer' ) );
+                        CSV_Importer::csvi_errors()->add( 'error_nonce_no_match', __( 'Upload failed. Please try again.', 'csv-importer' ) );
 
                         return;
                     } else {
 
-                        $target_dir  = plugin_dir_path( __FILE__ ) . 'uploads/';
-                        $target_file = $target_dir . basename( $_FILES[ 'csv_upload' ][ 'name' ] );
+	                    if ( true != is_dir( plugin_dir_path( __FILE__ ) . 'uploads' ) ) {
+		                    mkdir(plugin_dir_path( __FILE__ ) . 'uploads', 0755 );
+	                    }
+                        $target_file = plugin_dir_path( __FILE__ ) . 'uploads/' . basename( $_FILES[ 'csv_upload' ][ 'name' ] );
 
-                        // @TODO: check if file exists
-
-                        do_action( 'csvi_before_csv_upload' );
 	                    if (move_uploaded_file($_FILES['csv_upload']['tmp_name'], '/' . $target_file)) {
                             // file uploaded succeeded
 		                    do_action( 'csvi_successful_csv_upload' );
-                            CSV_Importer::csvi_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_upload' ][ 'name' ] . '" is successfully uploaded and now shows under \'Select files to import\'.', 'cvs-importer' ) );
+                            CSV_Importer::csvi_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_upload' ][ 'name' ] . '" is successfully uploaded and now shows under \'Select files to import\'.', 'csv-importer' ) );
                             return;
 
                         } else {
                             // file upload failed
-                            CSV_Importer::csvi_errors()->add( 'error_file_uploaded', __( 'Upload failed. Please try again.', 'cvs-importer' ) );
+                            CSV_Importer::csvi_errors()->add( 'error_file_uploaded', __( 'Upload failed. Please try again.', 'csv-importer' ) );
                             return;
                         }
-	                    do_action( 'csvi_after_csv_upload' );
                     }
                 }
 
@@ -422,16 +432,24 @@
 	         * @return string
 	         */
             public static function csvi_admin_menu() {
-		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csv-import">' . esc_html( __( 'CSV Importer', 'action-logger' ) ) . '</a> <span class="hidden">| <a  href="' . site_url() . '/wp-admin/admin.php?page=csvi-settings">' . esc_html( __( 'Settings', 'action-logger' ) ) . '</a> </span>| <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-misc">' . esc_html( __( 'Misc', 'action-logger' ) ) . '</a></p>';
+		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csvi-dashboard">' . esc_html( __( 'Dashboard', 'action-logger' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-preview">' . esc_html( __( 'Preview data', 'action-logger' ) ) . '</a> <span class="xhidden">| <a  href="' . site_url() . '/wp-admin/admin.php?page=csvi-settings">' . esc_html( __( 'Settings', 'action-logger' ) ) . '</a> </span>| <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-faq">' . esc_html( __( 'FAQ', 'action-logger' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csvi-misc">' . esc_html( __( 'Misc', 'action-logger' ) ) . '</a></p>';
 	        }
 
 	        /**
              * Create admin page
              */
             public function csvi_add_dashboard_page() {
-                add_menu_page( 'CSV Importer', 'CSV Importer', 'manage_options', 'csv-import', 'csv_import_dashboard', 'dashicons-grid-view' );
+                add_menu_page( 'CSV Importer', 'CSV Importer', 'manage_options', 'csvi-dashboard', 'csv_import_dashboard', 'dashicons-grid-view' );
 	            include( 'csvi-dashboard.php' );
             }
+
+	        /**
+	         * Adds a (hidden) settings page, only through the menu on top of the pages.
+	         */
+	        public function csvi_add_preview_page() {
+		        add_submenu_page( NULL, 'Preview', 'Preview', 'manage_options', 'csvi-preview', 'csvi_preview_page' );
+		        include( 'csvi-preview.php' ); // content for the settings page
+	        }
 
 	        /**
 	         * Adds a (hidden) settings page, only through the menu on top of the pages.
@@ -449,6 +467,13 @@
 		        include( 'csvi-misc.php' ); // content for the settings page
 	        }
 
+	        /**
+	         * Adds a (hidden) settings page, only through the menu on top of the pages.
+	         */
+	        public function csvi_add_faq_page() {
+		        add_submenu_page( NULL, 'FAQ', 'FAQ', 'manage_options', 'csvi-faq', 'csvi_faq_page' );
+		        include( 'csvi-faq.php' ); // content for the settings page
+	        }
             /**
              * Enqueue CSS
              */

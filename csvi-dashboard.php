@@ -17,11 +17,11 @@
 
             <?php CSV_Importer::csvi_show_admin_notices(); ?>
 
-            <?php echo CSV_Importer::csvi_admin_menu(); ?>
-
             <div id="csv-importer" class="">
 
-                <p><?php esc_html_e( 'This page allows to import a csv (according to a specific format) to import rider\'s rankings.', 'csv-importer' ); ?>
+	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
+
+                <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv-importer' ); ?>
 
                 <h2><?php esc_html_e( 'Upload a file', 'csv-importer' ); ?></h2>
 
@@ -42,6 +42,7 @@
                 ?>
                     <br />
                     <h2><?php esc_html_e( 'Select a file to \'handle\'', 'csv-importer' ); ?></h2>
+                        <p><small>For the preview option, the file name can not contain a space.</small></p>
 
                     <?php if ( 0 < count( $file_index ) ) { ?>
                         <form name="" method="POST">
@@ -63,7 +64,7 @@
                             </table>
                             <?php if ( $has_files ) { ?>
                                 <br />
-                                <!--<input name="verify" type="submit" value="Verify selected file(s)" />-->
+                                <input name="verify" type="submit" value="Verify selected file(s)" />
                                 <input name="import" type="submit" value="Import selected file(s)" />
                                 <input name="remove" type="submit" value="Remove selected file(s)" />
                             <?php } ?>
