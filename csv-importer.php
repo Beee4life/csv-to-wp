@@ -1,6 +1,6 @@
 <?php
     /*
-    Plugin Name: CSV Importer (Beee)
+    Plugin Name: CSV Importer
     Version: 0.1
     Plugin URI: http://www.berryplasman.com
     Description: This plugin allows you to import an verify CSV data and import it wherever you want in the database.
@@ -399,11 +399,10 @@
 
                         // @TODO: check if file exists
 
-                        if (move_uploaded_file($_FILES['csv_upload']['tmp_name'], '/' . $target_file)) {
+                        do_action( 'csvi_before_upload' );
+	                    if (move_uploaded_file($_FILES['csv_upload']['tmp_name'], '/' . $target_file)) {
                             // file uploaded succeeded
-                            if ( class_exists( 'ActionLogger' ) ) {
-                                // ActionLogger::al_log_user_action( 'upload_rankings_csv', 'cvs-importer', ' uploaded a file named ' . $_FILES[ 'csv_upload' ][ 'name' ], false );
-                            }
+		                    do_action( 'csvi_successful_upload' );
                             CSV_Importer::csvi_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_upload' ][ 'name' ] . '" is successfully uploaded and now shows under \'Select files to import\'.', 'cvs-importer' ) );
                             return;
 
@@ -412,6 +411,7 @@
                             CSV_Importer::csvi_errors()->add( 'error_file_uploaded', __( 'Upload failed. Please try again.', 'cvs-importer' ) );
                             return;
                         }
+	                    do_action( 'csvi_after_upload' );
                     }
                 }
 
