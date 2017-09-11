@@ -35,6 +35,10 @@
                     'version'   => '1.0.0',
                 );
 
+	            // (de)activation hooks
+	            register_activation_hook( __FILE__,     array( $this, 'csvi_plugin_activation' ) );
+	            register_deactivation_hook( __FILE__,   array( $this, 'csvi_plugin_deactivation' ) );
+
                 // actions
                 add_action( 'admin_menu',               array( $this, 'csvi_dashboard_page' ) );
                 add_action( 'admin_enqueue_scripts',    array( $this, 'enqueue_csvi_css' ) );
@@ -48,12 +52,32 @@
 
 	            // misc actions
 	            add_action( 'admin_init',               array( $this, 'csvi_errors' ) );
-	            // add_action( 'admin_init',               array( $this, 'csvi_show_admin_notices' ) );
 	            add_action( 'admin_init',               array( $this, 'csvi_admin_menu' ) );
 
                 include( 'verify-csv-data.php' );
 
+                // echo '<pre>'; var_dump(plugin_dir_path( __FILE__ )); echo '</pre>'; exit;
+
             }
+            /**
+             * Function which runs upon plugin deactivation
+             */
+            public function csvi_plugin_activation() {
+                $this->csvi_create_uploads_directory();
+                // $this->csvi_store_default_values();
+            }
+
+            /**
+             * Function which runs upon plugin deactivation
+             */
+            public function csvi_plugin_deactivation() {
+            }
+
+	        public function csvi_create_uploads_directory() {
+            	if ( true != is_dir( plugin_dir_path( __FILE__ ) . 'uploads' ) ) {
+		            mkdir(plugin_dir_path( __FILE__ ) . 'uploads', 0755 );
+	            }
+	        }
 
 	        /**
 	         * @return WP_Error
