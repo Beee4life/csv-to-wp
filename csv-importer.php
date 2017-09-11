@@ -1,6 +1,6 @@
 <?php
     /*
-    Plugin Name: CSV Importer
+    Plugin Name: CSV Importer (Beee)
     Version: 0.1
     Plugin URI: http://www.berryplasman.com
     Description: This plugin allows you to import an verify CSV data and import it wherever you want in the database.
