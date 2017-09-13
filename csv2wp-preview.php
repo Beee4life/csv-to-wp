@@ -3,7 +3,7 @@
     /**
      * Content for the settings page
      */
-    function csvi_preview_page() {
+    function csv2wp_preview_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
@@ -15,11 +15,11 @@
 
             <h1>CSV Importer overview</h1>
 
-	        <?php CSV_Importer::csvi_show_admin_notices(); ?>
+	        <?php CSV_WP::csv2wp_show_admin_notices(); ?>
 
             <div id="csv-importer" class="">
 
-	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
+	            <?php echo CSV_WP::csv2wp_admin_menu(); ?>
 
                 <!--<h2>--><?php //esc_html_e( 'CSM Import results', 'csv2wp' ); ?><!--</h2>-->
                 <p>Here you can preview your uploaded csv files.</p>
@@ -62,7 +62,7 @@
                 <!--Get imported data-->
                 <?php if ( $file_name ) { ?>
                     <?php
-                        $lines = CSV_Importer::csv_to_array( $file_name );
+                        $lines = CSV_WP::csv_to_array( $file_name );
                         if ( false != $lines ) {
 	                        $header_row = array_shift($lines);
 	                        $column_count = count( $header_row );

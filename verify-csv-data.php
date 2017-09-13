@@ -16,7 +16,7 @@
                 $line_number++;
 
                 if ( strlen( $line ) < 2 ) {
-                    CSV_Importer::csvi_errors()->add( 'error_in_data', __( 'There is an empty line on line ' . $line_number . '.', 'csv-importer' ) );
+                    CSV_WP::csv2wp_errors()->add( 'error_in_data', __( 'There is an empty line on line ' . $line_number . '.', 'csv2wp' ) );
 
                     return false;
                 } else {
@@ -26,9 +26,9 @@
                     if ( count( $line_array ) != 5 ) {
                         // length of a line if not correct
                         if ( count( $line_array ) < 5 ) {
-                            CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', __( 'There are too few columns on line ' . $line_number . '.', 'csv-importer' ) );
+                            CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', __( 'There are too few columns on line ' . $line_number . '.', 'csv2wp' ) );
                         } elseif ( count( $line_array ) > 5 ) {
-                            CSV_Importer::csvi_errors()->add( 'error_no_correct_columns', __( 'There are too many columns on line ' . $line_number . '.', 'csv-importer' ) );
+                            CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', __( 'There are too many columns on line ' . $line_number . '.', 'csv2wp' ) );
                         }
                         return false;
                     } else {

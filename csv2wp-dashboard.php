@@ -1,6 +1,6 @@
 <?php
 
-	function csv_import_dashboard() {
+	function csv2wp_dashboard_page() {
 		if ( ! current_user_can( 'manage_options' ) )  {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
@@ -15,11 +15,11 @@
 
             <h2>CSV importer dashboard</h2>
 
-            <?php CSV_Importer::csvi_show_admin_notices(); ?>
+            <?php CSV_WP::csv2wp_show_admin_notices(); ?>
 
             <div id="csv-importer" class="">
 
-	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
+	            <?php echo CSV_WP::csv2wp_admin_menu(); ?>
 
                 <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv2wp' ); ?>
 
