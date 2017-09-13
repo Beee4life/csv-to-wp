@@ -5,8 +5,8 @@
         die;
     }
 
-    // Remove CSV Importer options
-    // $options   = get_option( 'csvi_' );
+    // Remove options
+    // $options   = get_option( 'csv2wp_' );
     // foreach ( $options as $key ) {
-    //     delete_option( 'csvi_' . $key );
+    //     delete_option( 'csv2wp_' . $key );
     // }
