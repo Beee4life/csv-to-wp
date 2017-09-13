@@ -22,8 +22,8 @@
 	            <?php echo CSV_WP::csv2wp_admin_menu(); ?>
 
                 <h2><?php esc_html_e( 'Support', 'csv2wp' ); ?></h2>
-                <p><?php echo sprintf( __( 'If you know about this plugin, you probably know me and know where to reach me. If not, please report it on GitHub in the %s.', 'csv2wp' ), '<a href="https://github.com/Beee4life/csv-importer/issues">issues section</a>' ); ?></p>
-                <p><?php esc_html_e( 'Find more info about the plugin on', 'csv2wp' ); ?> <a href="https://github.com/Beee4life/csv-importer/">GitHub</a>.</p>
+                <p><?php echo sprintf( __( 'If you know about this plugin, you probably know me and know where to reach me. If not, please report it on GitHub in the %s.', 'csv2wp' ), '<a href="https://github.com/Beee4life/csv-to-wp/issues">issues section</a>' ); ?></p>
+                <p><?php esc_html_e( 'Find more info about the plugin on', 'csv2wp' ); ?> <a href="https://github.com/Beee4life/csv-to-wp/">GitHub</a>.</p>
 
             </div><!-- end #csv-importer -->
 
