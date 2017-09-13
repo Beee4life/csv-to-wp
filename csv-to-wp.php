@@ -44,10 +44,10 @@
                 add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_css' ) );
 
                 // csv actions
-                add_action( 'admin_init',               array( $this, 'upload_file_functions' ) );
-	            add_action( 'admin_init',               array( $this, 'read_file_functions' ) );
-	            add_action( 'admin_init',               array( $this, 'csv_to_array' ) );
-                add_action( 'admin_init',               array( $this, 'import_raw_csv_data' ) );
+                add_action( 'admin_init',               array( $this, 'csv2wp_upload_functions' ) );
+	            add_action( 'admin_init',               array( $this, 'csv2wp_read_file_functions' ) );
+	            add_action( 'admin_init',               array( $this, 'csv2wp_csv_to_array' ) );
+                add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
 
 	            // misc actions
 	            add_action( 'admin_init',               array( $this, 'csv2wp_errors' ) );
@@ -75,7 +75,7 @@
              * Function which runs upon plugin deactivation
              */
             public function csv2wp_plugin_deactivation() {
-	            delete_option( 'csvi_import_role' );
+	            delete_option( 'csv2wp_import_role' );
             }
 
 	        public function csv2wp_create_uploads_directory() {
@@ -88,7 +88,7 @@
 	         * Store default values (upon activation)
 	         */
 	        public function csv2wp_store_default_values() {
-	        	update_option( 'csvi_import_role', 'manage_options' );
+	        	update_option( 'csv2wp_import_role', 'manage_options' );
 	        }
 
 	        /**
@@ -145,7 +145,7 @@
             /**
              * Import raw uploaded csv data
              */
-            public function import_raw_csv_data() {
+            public function csv2wp_import_raw_csv_data() {
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_raw_rankings_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "import_raw_rankings_nonce" ], 'import-raw-rankings-nonce' ) ) {
@@ -208,7 +208,7 @@
              * Read uploaded file for verification or import
              * Delete file is also included in this function
              */
-            public function read_file_functions() {
+            public function csv2wp_read_file_functions() {
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "select_file_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "select_file_nonce" ], 'select-file-nonce' ) ) {
@@ -342,7 +342,7 @@
 	        /**
 	         * Change CSV into array
 	         */
-	        public static function csv_to_array( $file_name = false ) {
+	        public static function csv2wp_csv_to_array( $file_name = false ) {
 
 	        	// $file_name = 'test2.csv';
 	            if ( false != $file_name ) {
@@ -397,7 +397,7 @@
 	        /**
              * Upload a CSV file
              */
-            public function upload_file_functions() {
+            public function csv2wp_upload_functions() {
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_rankings_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "import_rankings_nonce" ], 'import-rankings-nonce' ) ) {
