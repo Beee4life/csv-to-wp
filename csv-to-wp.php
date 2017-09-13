@@ -463,7 +463,7 @@
 	         * Adds a (hidden) settings page, only through the menu on top of the pages.
 	         */
 	        public function csv2wp_add_misc_page() {
-		        add_submenu_page( NULL, 'Misc', 'Misc', 'manage_options', 'csv2wp-misc', 'ccsv2wp_misc_page' );
+		        add_submenu_page( NULL, 'Misc', 'Misc', 'manage_options', 'csv2wp-misc', 'csv2wp_misc_page' );
 		        include( 'csv2wp-misc.php' ); // content for the settings page
 	        }
 
