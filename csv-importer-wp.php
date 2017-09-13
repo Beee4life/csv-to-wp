@@ -1,12 +1,12 @@
 <?php
     /*
-    Plugin Name: CSV Importer
+    Plugin Name: CSV Importer for WP
     Version: 0.1
     Plugin URI: http://www.berryplasman.com
     Description: This plugin allows you to import an verify CSV data and import it wherever you want in the database.
     Author: Beee
     Author URI: http://berryplasman.com
-    Text-domain: csv-importer
+    Text-domain: csv-importer-wp
 
             http://www.berryplasman.com
                ___  ____ ____ ____
@@ -85,7 +85,7 @@
 	        }
 
 	        /**
-	         * Function which runs upon plugin deactivation
+	         * Store default values (upon activation)
 	         */
 	        public function csvi_store_default_values() {
 	        	update_option( 'csvi_import_role', 'manage_options' );
