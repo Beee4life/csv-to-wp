@@ -21,14 +21,14 @@
 
 	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
 
-                <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv-importer' ); ?>
+                <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv2wp' ); ?>
 
-                <h2><?php esc_html_e( 'Upload a file', 'csv-importer' ); ?></h2>
+                <h2><?php esc_html_e( 'Upload a file', 'csv2wp' ); ?></h2>
 
                 <form enctype="multipart/form-data" method="POST">
                     <input name="import_rankings_nonce" type="hidden" value="<?php echo wp_create_nonce( 'import-rankings-nonce' ); ?>" />
                     <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
-                    <label for="file_upload"><?php esc_html_e( 'Choose a (csv) file to upload', 'csv-importer' ); ?></label>
+                    <label for="file_upload"><?php esc_html_e( 'Choose a (csv) file to upload', 'csv2wp' ); ?></label>
                     <input name="csv_upload" type="file" accept=".csv" />
                     <br /><br />
                     <input type="submit" value="Upload file" />
@@ -41,7 +41,7 @@
                     if ( $file_index ) {
                 ?>
                     <br />
-                    <h2><?php esc_html_e( 'Select a file to \'handle\'', 'csv-importer' ); ?></h2>
+                    <h2><?php esc_html_e( 'Select a file to \'handle\'', 'csv2wp' ); ?></h2>
 
                     <?php if ( 0 < count( $file_index ) ) { ?>
                         <form name="" method="POST">
@@ -142,9 +142,9 @@
                 <br />
                 <h2>Import raw CSV data</h2>
                 <p>
-                    <?php esc_html_e( 'Make sure the cursor is ON the last line (after the last character), NOT on a new line.', 'csv-importer' ); ?>
+                    <?php esc_html_e( 'Make sure the cursor is ON the last line (after the last character), NOT on a new line.', 'csv2wp' ); ?>
                     <br />
-                    <?php esc_html_e( 'This is seen as a new entry and creates an error !!!', 'csv-importer' ); ?>
+                    <?php esc_html_e( 'This is seen as a new entry and creates an error !!!', 'csv2wp' ); ?>
                 </p>
 
                 <?php $submitted_raw_data = false; if ( isset( $_POST[ 'raw_csv_import' ] ) ) { $submitted_raw_data = $_POST[ 'raw_csv_import' ]; } ?>

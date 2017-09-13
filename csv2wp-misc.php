@@ -6,7 +6,7 @@
     function csvi_misc_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv-importer' ) );
+            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
         ?>
 
@@ -21,7 +21,7 @@
 
 	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
 
-                <h2><?php esc_html_e( 'About the author', 'csv-importer' ); ?></h2>
+                <h2><?php esc_html_e( 'About the author', 'csv2wp' ); ?></h2>
                 <p>This plugin is created by <a href="http://www.berryplasman.com">Beee</a>, a Wordpress developer from Amsterdam.</p>
 
             </div><!-- end #csv-importer -->

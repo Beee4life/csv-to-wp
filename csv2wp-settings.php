@@ -6,7 +6,7 @@
     function csvi_settings_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv-importer' ) );
+            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
         ?>
 
@@ -21,10 +21,10 @@
 
 	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
 
-                <h2><?php esc_html_e( 'Who can import csv data ?', 'csv-importer' ); ?></h2>
+                <h2><?php esc_html_e( 'Who can import csv data ?', 'csv2wp' ); ?></h2>
                 <p>
-		            <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv-importer' ); ?>
-		            <?php esc_html_e( 'The reason why it\'s set per capability instead of per user is because two users with the same role can have different capabilities.', 'csv-importer' ); ?>
+		            <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv2wp' ); ?>
+		            <?php esc_html_e( 'The reason why it\'s set per capability instead of per user is because two users with the same role can have different capabilities.', 'csv2wp' ); ?>
                 </p>
 
                 <form name="settings-form" id="settings-form" action="" method="post">

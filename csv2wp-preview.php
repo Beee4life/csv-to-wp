@@ -6,7 +6,7 @@
     function csvi_preview_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv-importer' ) );
+            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
         ?>
 
@@ -21,7 +21,7 @@
 
 	            <?php echo CSV_Importer::csvi_admin_menu(); ?>
 
-                <!--<h2>--><?php //esc_html_e( 'CSM Import results', 'csv-importer' ); ?><!--</h2>-->
+                <!--<h2>--><?php //esc_html_e( 'CSM Import results', 'csv2wp' ); ?><!--</h2>-->
                 <p>Here you can preview your uploaded csv files.</p>
 
                 <?php //echo '<pre>'; var_dump($_POST); echo '</pre>'; exit; ?>
