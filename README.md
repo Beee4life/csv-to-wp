@@ -1,6 +1,6 @@
-# Action Logger
+# CSV to WP
 
-Welcome to the CSV importer plugin for [Wordpress](http://wordpress.org). I built this initially for the IDF ([International Downhill Federation](http://internationaldownhillfederation.org)), to import rankings to user profiles, but I thought there's more that can be done with it.
+Welcome to the 'CSV to WP' plugin for [Wordpress](http://wordpress.org). I built this initially for the IDF ([International Downhill Federation](http://internationaldownhillfederation.org)), to import rankings to user profiles, but I thought there's more that can be done with it.
 
 ## Description 
 
