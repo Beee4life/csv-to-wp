@@ -2,7 +2,7 @@
     /*
     Plugin Name: CSV to WP
     Version: 0.1
-    Plugin URI: http://www.berryplasman.com
+    Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import an verify CSV data and imports it to your WordPress database.
     Author: Beee
     Author URI: http://berryplasman.com
@@ -35,6 +35,9 @@
 	            register_activation_hook( __FILE__,     array( $this, 'csv2wp_plugin_activation' ) );
 	            register_deactivation_hook( __FILE__,   array( $this, 'csv2wp_plugin_deactivation' ) );
 
+	            // add settings link to plugin
+	            add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'csv2wp_plugin_link' ) );
+
                 // actions
 	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_dashboard_page' ) );
 	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_preview_page' ) );
@@ -45,9 +48,10 @@
 
                 // csv actions
                 add_action( 'admin_init',               array( $this, 'csv2wp_upload_functions' ) );
-	            add_action( 'admin_init',               array( $this, 'csv2wp_read_file_functions' ) );
 	            add_action( 'admin_init',               array( $this, 'csv2wp_csv_to_array' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
+	            add_action( 'admin_init',               array( $this, 'csv2wp_read_file_functions' ) );
+	            add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
+	            add_action( 'admin_init',               array( $this, 'csv2wp_create_uploads_directory' ) );
 
 	            // misc actions
 	            add_action( 'admin_init',               array( $this, 'csv2wp_errors' ) );
@@ -67,7 +71,7 @@
              * Function which runs upon plugin deactivation
              */
             public function csv2wp_plugin_activation() {
-                $this->csv2wp_create_uploads_directory();
+                // $this->csv2wp_create_uploads_directory();
                 $this->csv2wp_store_default_values();
             }
 
@@ -426,6 +430,20 @@
                 }
 
             }
+
+	        /**
+	         * Adds a link in the plugin menu
+	         *
+	         * @param $links
+	         *
+	         * @return array
+	         */
+            public function csv2wp_plugin_link( $links ) {
+		        $add_this = array(
+			        '<a href="' . admin_url( 'admin.php?page=csv2wp-settings' ) . '">Settings</a>',
+		        );
+		        return array_merge( $links, $add_this );
+	        }
 
 	        /**
 	         * Adds a menu on top of the pages
