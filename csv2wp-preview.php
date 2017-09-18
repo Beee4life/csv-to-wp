@@ -37,35 +37,44 @@
                 <!--Get imported data-->
 	            <?php $target_dir = plugin_dir_path( __FILE__ ) . 'uploads/'; ?>
 	            <?php $file_index = scandir( $target_dir ); ?>
-	            <?php //echo '<pre>'; var_dump($file_index); echo '</pre>'; exit; ?>
-                <form name="select-preview-file" id="settings-form" action="" method="post">
-                    <input name="select_preview_nonce" type="hidden" value="<?php echo wp_create_nonce( 'select-preview-nonce' ); ?>"/>
-                    <label for="select-preview-file" class="screen-reader-text"></label>
-                    <select name="file_name" id="select-preview-file">
-	                    <?php if ( $file_index ) { ?>
-                            <?php $posted_file = false;
-                                if ( isset( $_POST[ 'file_name' ] ) ) {
-                                    $posted_file = $_POST[ 'file_name' ];
-                                }
-                            ?>
-                            <option value="">Choose a file</option>
-                            <?php foreach( $file_index as $file ) { ?>
-			                    <?php if ( '.DS_Store' != $file && '.' != $file && '..' != $file ) { ?>
-                                    <option value="<?php echo $file; ?>"<?php echo ( $posted_file == $file ? ' selected' : '' ); ?>><?php echo $file; ?></option>
-			                    <?php } ?>
-		                    <?php } ?>
-                        <?php } ?>
-                    </select>
-                    <input type="submit" class="admin-button admin-button-small" value="Preview this file" />
-                </form>
+	            <?php $posted_file = false; ?>
+	            <?php if ( $file_index ) { ?>
+                    <form name="select-preview-file" id="settings-form" action="" method="post">
+                        <input name="select_preview_nonce" type="hidden" value="<?php echo wp_create_nonce( 'select-preview-nonce' ); ?>"/>
+                        <label for="select-preview-file" class="screen-reader-text"></label>
+                        <select name="file_name" id="select-preview-file">
+                                <?php
+                                    if ( isset( $_POST[ 'file_name' ] ) ) {
+                                        $posted_file = $_POST[ 'file_name' ];
+                                    }
+                                ?>
+                                <option value="">Choose a file</option>
+                                <?php foreach( $file_index as $file ) { ?>
+                                    <?php if ( '.DS_Store' != $file && '.' != $file && '..' != $file ) { ?>
+                                        <option value="<?php echo $file; ?>"<?php echo ( $posted_file == $file ? ' selected' : '' ); ?>><?php echo $file; ?></option>
+                                    <?php } ?>
+                                <?php } ?>
+                        </select>
+                        <p>
+                            <label for="header-row" class=""></label>
+                            <input name="header-row" id="header-row" type="checkbox" value="true" /> Does the data contain a header row ?
+                        </p>
+                        <input type="submit" class="admin-button admin-button-small" value="Preview this file" />
+                    </form>
+                <?php } ?>
 
                 <!--Get imported data-->
                 <?php if ( $file_name ) { ?>
                     <?php
-                        $lines = CSV_WP::csv_to_array( $file_name );
-                        if ( false != $lines ) {
+                        $show_header = false;
+                        $header_row  = array();
+                        $lines       = CSV_WP::csv2wp_csv_to_array( $file_name );
+                        if ( ! empty( $_POST[ 'header-row' ] ) ) {
+                            $show_header = true;
 	                        $header_row = array_shift($lines);
-	                        $column_count = count( $header_row );
+                        }
+                        if ( false != $lines ) {
+	                        $column_count = count( $lines[0] );
 	                        echo '<h2>CSV contents</h2>';
 	                        echo '<table class="csv-preview" cellpadding="0" cellspacing="0">';
 	                        echo '<thead>';
