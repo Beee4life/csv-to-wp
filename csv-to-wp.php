@@ -198,7 +198,7 @@
                                         $count++;
                                     }
                                     if ( class_exists( 'ActionLogger' ) ) {
-                                        ActionLogger::al_log_user_action( 'import_raw', 'csv2wp', ' uploaded ' . $count . ' lines through raw import' );
+                                        ActionLogger::al_log_user_action( 'import_raw', 'csv2wp', get_user_data( get_current_user_id() )->display_name . ' uploaded ' . $count . ' lines through raw import' );
                                     }
                                     CSV_WP::csv2wp_errors()->add( 'success_rankings_imported', __( $count . ' lines imported through raw import. You can check the last user which is imported <a href="' . get_author_posts_url( $idf_number ) . '">here</a>.', 'csv2wp' ) );
                                 }
@@ -216,7 +216,7 @@
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "select_file_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "select_file_nonce" ], 'select-file-nonce' ) ) {
-                        CSV_WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv2wp' ) );
+                        CSV_WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html( __( 'Something went wrong. Please try again.', 'csv2wp' ) ) );
 
                         return;
                     } else {
@@ -267,7 +267,7 @@
 	                                	// if column count doesn't match benchmark
                                         if ( count( $csv_line ) < $column_benchmark ) {
                                             if ( false != $verify ) {
-                                                $error_message = 'Since your file is not accurate anymore, the file is deleted.';
+                                                $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
                                             } else {
                                                 $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                                             }
@@ -275,11 +275,11 @@
 
                                         } elseif ( count( $csv_line ) > $column_benchmark ) {
 	                                        if ( false != $verify ) {
-		                                        $error_message = 'Since your file is not accurate anymore, the file is deleted.';
+		                                        $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
 	                                        } else {
 		                                        $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
 	                                        }
-	                                        CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too many columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
+	                                        CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
                                         }
                                         foreach( $_POST[ 'file_name' ] as $file_name ) {
                                             // delete file
@@ -314,7 +314,7 @@
                                     return;
                                 } else {
 	                                do_action( 'csv2wp_successfull_csv_validate' );
-                                    CSV_WP::csv2wp_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there are no errors in your CSV.', 'csv2wp' ) );
+                                    CSV_WP::csv2wp_errors()->add( 'success_no_errors_in_csv', esc_html( __( 'Congratulations, there are no errors in your CSV.', 'csv2wp' ) ) );
 
                                     return;
                                 }
@@ -330,12 +330,12 @@
                                 if ( count( $_POST[ 'file_name' ] ) == 1 ) {
                                     CSV_WP::csv2wp_errors()->add( 'success_file_deleted', __( 'File "' . $file_name . '" successfully deleted.', 'csv2wp' ) );
                                 } else {
-                                    CSV_WP::csv2wp_errors()->add( 'success_files_deleted', __( 'Files successfully deleted.', 'csv2wp' ) );
+                                    CSV_WP::csv2wp_errors()->add( 'success_files_deleted', esc_html( __( 'Files successfully deleted.', 'csv2wp' ) ) );
                                 }
 
                             } else {
                                 // no files selected
-                                CSV_WP::csv2wp_errors()->add( 'warning_no_files_selected', __( 'You didn\'t select a file to delete.', 'csv2wp' ) );
+                                CSV_WP::csv2wp_errors()->add( 'warning_no_files_selected', esc_html( __( 'You didn\'t select a file to delete.', 'csv2wp' ) ) );
                             }
 
                         }
@@ -370,9 +370,9 @@
 						        // if column count doesn't match benchmark
 						        $error_message = 'Since your file is not accurate anymore, the file is deleted.';
 						        if ( count( $csv_line ) < $column_benchmark ) {
-							        CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
+							        CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too few columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
 						        } elseif ( count( $csv_line ) > $column_benchmark ) {
-							        CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too many columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
+							        CSV_WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
 						        }
 						        // foreach( $_POST[ 'file_name' ] as $file_name ) {
 							        // delete file
@@ -405,7 +405,7 @@
 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_rankings_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "import_rankings_nonce" ], 'import-rankings-nonce' ) ) {
-                        CSV_WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Upload failed. Please try again.', 'csv2wp' ) );
+                        CSV_WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html( __( 'Something went wrong. Please try again.', 'csv2wp' ) ) );
 
                         return;
                     } else {
@@ -423,7 +423,7 @@
 
                         } else {
                             // file upload failed
-                            CSV_WP::csv2wp_errors()->add( 'error_file_uploaded', __( 'Upload failed. Please try again.', 'csv2wp' ) );
+                            CSV_WP::csv2wp_errors()->add( 'error_file_uploaded', esc_html( __( 'Upload failed. Please try again.', 'csv2wp' ) ) );
                             return;
                         }
                     }

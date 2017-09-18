@@ -1,0 +1,246 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CSV to WP\n"
+"POT-Creation-Date: 2017-09-19 00:58+0200\n"
+"PO-Revision-Date: 2017-09-19 00:58+0200\n"
+"Last-Translator: Beee\n"
+"Language-Team: \n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: languages\n"
+"X-Poedit-SearchPathExcluded-1: test data\n"
+"X-Poedit-SearchPathExcluded-2: uploads\n"
+"X-Poedit-SearchPathExcluded-3: not-in-use.php\n"
+
+#: csv-to-wp.php:123
+msgid "Warning"
+msgstr "Waarschuwing"
+
+#: csv-to-wp.php:130
+msgid "Error"
+msgstr "Fout"
+
+#: csv-to-wp.php:142
+msgid "Dismiss this notice"
+msgstr "Verberg deze melding"
+
+#: csv-to-wp.php:156 csv-to-wp.php:219 csv-to-wp.php:408
+msgid "Something went wrong. Please try again."
+msgstr "Er ging iets fout, probeer het aub nog een keer."
+
+#: csv-to-wp.php:170 csv-to-wp.php:317
+msgid "Congratulations, there are no errors in your CSV."
+msgstr "Gefeliciteerd, er zijn geen errors gevonden in je CSV."
+
+#: csv-to-wp.php:203
+msgid ""
+" lines imported through raw import. You can check the last user which is "
+"imported <a href=\""
+msgstr ""
+
+#: csv-to-wp.php:226
+msgid "You didn't select a file."
+msgstr "Je hebt geen bestand geselecteerd."
+
+#: csv-to-wp.php:240
+msgid ""
+"Only 1 file at a time please, otherwise the error messages can be off. And "
+"yes, it's already on the todo list."
+msgstr ""
+
+#: csv-to-wp.php:270 csv-to-wp.php:278
+msgid "Since your file is not accurate anymore, the file is deleted."
+msgstr "Aangezien je bestand niet meer correct is, is het verwijderd."
+
+#: csv-to-wp.php:274 csv-to-wp.php:373
+#, php-format
+msgid "There are too few columns on line %d. %s"
+msgstr "Er zijn te weinig kolommen op regel %d. %s"
+
+#: csv-to-wp.php:282 csv-to-wp.php:375
+#, php-format
+msgid "There are too many columns on line %d. %s"
+msgstr "Er zijn teveel kolommen op regel %d. %s"
+
+#: csv-to-wp.php:312
+msgid "YAY ! "
+msgstr "Yay ! "
+
+#: csv-to-wp.php:331 csv-to-wp.php:421
+msgid "File \""
+msgstr "Bestand “"
+
+#: csv-to-wp.php:333
+msgid "Files successfully deleted."
+msgstr "Bestanden succesvol verwijderd."
+
+#: csv-to-wp.php:338
+msgid "You didn't select a file to delete."
+msgstr "Je hebt geen bestand geselecteerd om te verwijderen."
+
+#: csv-to-wp.php:426
+msgid "Upload failed. Please try again."
+msgstr "Fout bij upload. Probeer aub opnieuw."
+
+#: csv-to-wp.php:453
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: csv-to-wp.php:453
+msgid "Preview data"
+msgstr "Preview data"
+
+#: csv-to-wp.php:453
+msgid "Settings"
+msgstr "Instellingen"
+
+#: csv-to-wp.php:453
+msgid "FAQ"
+msgstr "FAQ"
+
+#: csv-to-wp.php:453
+msgid "Misc"
+msgstr "Misc"
+
+#: csv2wp-dashboard.php:5 csv2wp-faq.php:9 csv2wp-misc.php:9
+#: csv2wp-preview.php:9 csv2wp-settings.php:9
+msgid "Sorry, you do not have sufficient permissions to access this page."
+msgstr "Sorry, je hebt niet de goede permissie om deze pagina te bekijken."
+
+#: csv2wp-dashboard.php:24
+msgid "This page allows to import a csv and import it into your database."
+msgstr ""
+"Deze pagina geeft je de mogelijkheid een csv te uploaden en te importeren in "
+"je database."
+
+#: csv2wp-dashboard.php:26
+msgid "Upload a file"
+msgstr "Upload een bestand"
+
+#: csv2wp-dashboard.php:31
+msgid "Choose a (csv) file to upload"
+msgstr "Kies een (csv) bestand om te uploaden"
+
+#: csv2wp-dashboard.php:34
+msgid "Upload file"
+msgstr "Upload bestand"
+
+#: csv2wp-dashboard.php:44
+msgid "Select a file to 'handle'"
+msgstr "Selecteer een bestand om te ‘gebruiken’"
+
+#: csv2wp-dashboard.php:66
+msgid "Verify selected file(s)"
+msgstr "Verifieer geselecteerd bestand"
+
+#: csv2wp-dashboard.php:67
+msgid "Import selected file(s)"
+msgstr "Importeer geselecteerde bestanden"
+
+#: csv2wp-dashboard.php:68
+msgid "Remove selected file(s)"
+msgstr "Verwijder geselecteerde bestanden"
+
+#: csv2wp-dashboard.php:75
+msgid "No files uploaded"
+msgstr "Geen bestanden ge-upload"
+
+#: csv2wp-dashboard.php:145
+msgid ""
+"Make sure the cursor is ON the last line (after the last character), NOT on "
+"a new line."
+msgstr ""
+
+#: csv2wp-dashboard.php:147
+msgid "This is seen as a new entry and creates an error !!!"
+msgstr "Dit wordt gezien als een nieuwe regel en genereert een fout !"
+
+#: csv2wp-dashboard.php:156
+msgid "Verify data"
+msgstr "Verifieer data"
+
+#: csv2wp-dashboard.php:157
+msgid "Import data"
+msgstr "Importeer data"
+
+#: csv2wp-faq.php:24
+msgid "Support"
+msgstr "Ondersteuning"
+
+#: csv2wp-faq.php:25
+#, php-format
+msgid ""
+"If you know about this plugin, you probably know me and know where to reach "
+"me. If not, please report it on GitHub in the <a href=\"%s\">issues section</"
+"a>."
+msgstr ""
+"Als je van deze plugin weet, dan ken je mij waarschijnlijk en weet je waar "
+"ik te bereiken ben. Zo niet, dan report het issue aub op GitHub in de <a "
+"href=“%s”>issues sectie</a>."
+
+#: csv2wp-faq.php:26
+msgid "Find more info about the plugin on"
+msgstr "Vind meer info over de plugin op"
+
+#: csv2wp-misc.php:24
+msgid "About the author"
+msgstr "Over de auteur"
+
+#: csv2wp-preview.php:25
+msgid "Here you can preview your uploaded csv files."
+msgstr "Hier kun je je ge-uploade csv bestanden previewen."
+
+#: csv2wp-preview.php:51
+msgid "Choose a file"
+msgstr "Kies een bestand"
+
+#: csv2wp-preview.php:62
+msgid "Preview this file"
+msgstr "Preview dit bestand"
+
+#: csv2wp-settings.php:24
+msgid "Who can import csv data ?"
+msgstr "Wie kan ckv data importeren ?"
+
+#: csv2wp-settings.php:26
+msgid ""
+"Here you can select what capability a user needs to import any data. The "
+"default setting is \"manage_options\" which belongs to administrator."
+msgstr ""
+"Hier kun je selecteren wat voor ‘permissie’ een gebruiker moet hebben om "
+"data te mogen importeren. De standaard instelling is “manage_options” welke "
+"bij administrators hoort."
+
+#: csv2wp-settings.php:27
+msgid ""
+"The reason why it's set per capability instead of per user is because two "
+"users with the same role can have different capabilities."
+msgstr ""
+"De reden waarom het per ‘recht’ is ingesteld ipv per gebruiker is omdat twee "
+"gebruikers met dezelfde rol, verschillende rechten kunnen hebben."
+
+#: csv2wp-settings.php:44
+msgid "Save settings"
+msgstr "Instellingen opslaan"
+
+#: verify-csv-data.php:19
+msgid "There is an empty line on line "
+msgstr "Er is een lege regel op regel "
+
+#: verify-csv-data.php:29
+msgid "There are too few columns on line "
+msgstr "Er zijn te weinig kolommen op regel "
+
+#: verify-csv-data.php:31
+msgid "There are too many columns on line "
+msgstr "Er zijn teveel kolommen op regel "
+
+#~ msgid "AAAAAAAAAND it's gone."
+#~ msgstr "En foetsie."

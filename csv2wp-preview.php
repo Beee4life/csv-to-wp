@@ -6,7 +6,7 @@
     function csv2wp_preview_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
+            wp_die( esc_html( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) ) );
         }
         ?>
 
@@ -22,7 +22,7 @@
 	            <?php echo CSV_WP::csv2wp_admin_menu(); ?>
 
                 <!--<h2>--><?php //esc_html_e( 'CSM Import results', 'csv2wp' ); ?><!--</h2>-->
-                <p>Here you can preview your uploaded csv files.</p>
+                <p><?php esc_html_e( 'Here you can preview your uploaded csv files.', 'csv2wp' ); ?></p>
 
                 <?php //echo '<pre>'; var_dump($_POST); echo '</pre>'; exit; ?>
 
@@ -48,7 +48,7 @@
                                         $posted_file = $_POST[ 'file_name' ];
                                     }
                                 ?>
-                                <option value="">Choose a file</option>
+                                <option value=""><?php esc_html_e( 'Choose a file', 'csv2wp' ); ?></option>
                                 <?php foreach( $file_index as $file ) { ?>
                                     <?php if ( '.DS_Store' != $file && '.' != $file && '..' != $file ) { ?>
                                         <option value="<?php echo $file; ?>"<?php echo ( $posted_file == $file ? ' selected' : '' ); ?>><?php echo $file; ?></option>
@@ -59,7 +59,7 @@
                             <label for="header-row" class=""></label>
                             <input name="header-row" id="header-row" type="checkbox" value="true" /> Does the data contain a header row ?
                         </p>
-                        <input type="submit" class="admin-button admin-button-small" value="Preview this file" />
+                        <input type="submit" class="admin-button admin-button-small" value="<?php esc_html_e( 'Preview this file', 'csv2wp' ); ?>" />
                     </form>
                 <?php } ?>
 

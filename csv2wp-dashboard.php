@@ -2,7 +2,7 @@
 
 	function csv2wp_dashboard_page() {
 		if ( ! current_user_can( 'manage_options' ) )  {
-			wp_die( __('You do not have sufficient permissions to access this page.') );
+			wp_die( esc_html( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) ) );
 		}
 
 		$show_search = false;
@@ -21,7 +21,7 @@
 
 	            <?php echo CSV_WP::csv2wp_admin_menu(); ?>
 
-                <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv2wp' ); ?>
+                <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv2wp' ); ?></p>
 
                 <h2><?php esc_html_e( 'Upload a file', 'csv2wp' ); ?></h2>
 
@@ -31,7 +31,7 @@
                     <label for="file_upload"><?php esc_html_e( 'Choose a (csv) file to upload', 'csv2wp' ); ?></label>
                     <input name="csv_upload" type="file" accept=".csv" />
                     <br /><br />
-                    <input type="submit" value="Upload file" />
+                    <input type="submit" value="<?php esc_html_e( 'Upload file', 'csv2wp' ); ?>" />
                 </form>
 
                 <?php
@@ -63,16 +63,16 @@
                             </table>
                             <?php if ( $has_files ) { ?>
                                 <br />
-                                <input name="verify" type="submit" value="Verify selected file(s)" />
-                                <input name="import" type="submit" value="Import selected file(s)" />
-                                <input name="remove" type="submit" value="Remove selected file(s)" />
+                                <input name="verify" type="submit" value="<?php esc_html_e( 'Verify selected file(s)', 'csv2wp' ); ?>" />
+                                <input name="import" type="submit" value="<?php esc_html_e( 'Import selected file(s)', 'csv2wp' ); ?>" />
+                                <input name="remove" type="submit" value="<?php esc_html_e( 'Remove selected file(s)', 'csv2wp' ); ?>" />
                             <?php } ?>
                         </form>
 
                         <?php } ?>
 
                         <?php if ( false == $has_files && '.DS_Store' != $file_index[0] ) { ?>
-                            <ul><li>No files uploaded</li></ul>
+                            <ul><li><?php esc_html_e( 'No files uploaded', 'csv2wp' ); ?></li></ul>
                         <?php } ?>
                     <?php } ?>
 
@@ -153,21 +153,10 @@
                     <label for="raw-import"></label>
                     <textarea name="raw_csv_import" id="raw-import" type="textarea" rows="5" cols="50" placeholder=""><?php echo $submitted_raw_data; ?></textarea>
                     <br />
-                    <input name="verify" type="submit" value="Verify data" />
-                    <input name="import" type="submit" value="Import data" />
+                    <input name="verify" type="submit" value="<?php esc_html_e( 'Verify data', 'csv2wp' ); ?>" />
+                    <input name="import" type="submit" value="<?php esc_html_e( 'Import data', 'csv2wp' ); ?>" />
                 </form>
 
-                <?php if ( false != $show_nuke ) { ?>
-                    <br />
-                    <h2>Nuke all user rankings</h2>
-                    <p>Here you can nuke ALL user rankings for all years for all categories.<br />WATCH OUT ! There\'s no confirmation, so nuke it and it\'s gone.</p>
-
-                    <form method="POST">
-                        <input name="nuke_all_nonce" type="hidden" value="<?php echo wp_create_nonce( 'nuke-all-nonce' ); ?>" />
-                        <input name="nuke_it" type="checkbox" value="nuke" /></td>
-                        <input name="nuke" type="submit" value="NUKE IT ALL !" />
-                    </form>
-                <?php } ?>
             </div>
         </div>
 
