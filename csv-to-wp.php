@@ -306,14 +306,14 @@
 
                                     foreach( $_POST[ 'file_name' ] as $file_name ) {
                                         // delete file
-                                        // unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
+                                        unlink( plugin_dir_path(__FILE__ ) . 'uploads/' . $file_name );
                                     }
-                                    do_action( 'csv2wp_successfull_csv_import' );
+                                    do_action( 'csv2wp_successful_csv_import', $line_number );
                                     CSV_WP::csv2wp_errors()->add( 'success_rankings_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv2wp' ) );
 
                                     return;
                                 } else {
-	                                do_action( 'csv2wp_successfull_csv_validate' );
+	                                do_action( 'csv2wp_successful_csv_validate', $file_name[0] );
                                     CSV_WP::csv2wp_errors()->add( 'success_no_errors_in_csv', esc_html( __( 'Congratulations, there are no errors in your CSV.', 'csv2wp' ) ) );
 
                                     return;
