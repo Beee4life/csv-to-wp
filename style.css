@@ -21,6 +21,14 @@
     padding: 10px 0 10px 15px;
 }
 
+.uploaded_files td {
+    padding-right: 2em;
+}
+
+.uploaded_files td:first-child {
+    padding-right: 0;
+}
+
 .csv-preview {
     margin-top: 1em;
 }
