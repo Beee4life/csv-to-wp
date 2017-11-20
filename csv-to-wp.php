@@ -41,10 +41,11 @@
 	            add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'csv2wp_plugin_link' ) );
 
                 // actions
-	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_dashboard_page' ) );
-	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_preview_page' ) );
-	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_settings_page' ) );
-	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_faq_page' ) );
+	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_admin_pages' ) );
+	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_dashboard_page' ) );
+	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_preview_page' ) );
+	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_settings_page' ) );
+	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_faq_page' ) );
                 add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_css' ) );
 
                 // csv actions
@@ -443,7 +444,7 @@
 		        $add_this = array(
 			        '<a href="' . admin_url( 'admin.php?page=csv2wp-settings' ) . '">Settings</a>',
 		        );
-		        return array_merge( $links, $add_this );
+		        return array_merge( $add_this, $links );
 	        }
 
 	        /**
@@ -455,36 +456,19 @@
 	        }
 
 	        /**
-             * Create admin page
+             * Create admin pages
              */
-            public function csv2wp_add_dashboard_page() {
+            public function csv2wp_add_admin_pages() {
                 add_menu_page( 'CSV Importer', 'CSV to WP', 'manage_options', 'csv2wp-dashboard', 'csv2wp_dashboard_page', 'dashicons-grid-view' );
 	            include( 'csv2wp-dashboard.php' );
+	            add_submenu_page( NULL, 'Preview', 'Preview', 'manage_options', 'csv2wp-preview', 'csv2wp_preview_page' );
+	            include( 'csv2wp-preview.php' ); // content for the settings page
+	            add_submenu_page( NULL, 'Settings', 'Settings', 'manage_options', 'csv2wp-settings', 'csv2wp_settings_page' );
+	            include( 'csv2wp-settings.php' ); // content for the settings page
+	            add_submenu_page( NULL, 'FAQ', 'FAQ', 'manage_options', 'csv2wp-faq', 'csv2wp_faq_page' );
+	            include( 'csv2wp-faq.php' ); // content for the settings page
             }
 
-	        /**
-	         * Adds a (hidden) settings page, only through the menu on top of the pages.
-	         */
-	        public function csv2wp_add_preview_page() {
-		        add_submenu_page( NULL, 'Preview', 'Preview', 'manage_options', 'csv2wp-preview', 'csv2wp_preview_page' );
-		        include( 'csv2wp-preview.php' ); // content for the settings page
-	        }
-
-	        /**
-	         * Adds a (hidden) settings page, only through the menu on top of the pages.
-	         */
-	        public function csv2wp_add_settings_page() {
-		        add_submenu_page( NULL, 'Settings', 'Settings', 'manage_options', 'csv2wp-settings', 'csv2wp_settings_page' );
-		        include( 'csv2wp-settings.php' ); // content for the settings page
-	        }
-
-	        /**
-	         * Adds a (hidden) settings page, only through the menu on top of the pages.
-	         */
-	        public function csv2wp_add_faq_page() {
-		        add_submenu_page( NULL, 'FAQ', 'FAQ', 'manage_options', 'csv2wp-faq', 'csv2wp_faq_page' );
-		        include( 'csv2wp-faq.php' ); // content for the settings page
-	        }
             /**
              * Enqueue CSS
              */
