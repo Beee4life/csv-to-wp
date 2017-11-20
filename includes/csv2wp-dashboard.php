@@ -42,6 +42,7 @@
                 ?>
                     <br />
                     <h2><?php esc_html_e( "Select a file to 'handle'", "csv2wp" ); ?></h2>
+                    <p><small>First select a file, then select where to import it.</small></p>
 
                     <?php if ( 0 < count( $file_index ) ) { ?>
                         <form name="" method="POST">
@@ -55,10 +56,18 @@
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <label for="file_name[]" class="scree-reader-text">XXX</label>
-                                                    <input id="file_name[]" name="file_name[]" type="checkbox" value="<?php echo $file; ?>">
+                                                    <label for="file_name[]" class="screen-reader-text">File name</label>
+                                                    <input id="file_name[]" name="file_name[]" type="radio" value="<?php echo $file; ?>">
                                                 </td>
                                                 <td><?php echo $file; ?></td>
+                                                <td>
+                                                    <label for="import_in_post_meta" class="screen-reader-text">Import in post_meta</label>
+                                                    <input id="import_in_post_meta" name="import_in[]" type="radio" value="1">Import in post_meta
+                                                </td>
+                                                <td>
+                                                    <label for="import_in_user_meta" class="screen-reader-text">Import in user_meta</label>
+                                                    <input id="import_in_user_meta" name="import_in[]" type="radio" value="1">Import in user_meta
+                                                </td>
                                             </tr>
                                         <?php }
                                     }
