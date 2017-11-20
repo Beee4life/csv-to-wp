@@ -451,7 +451,7 @@
 	         * @return string
 	         */
             public static function csv2wp_admin_menu() {
-		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-dashboard">' . esc_html( __( 'Dashboard', 'csv2wp' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-preview">' . esc_html( __( 'Preview data', 'csv2wp' ) ) . '</a> <span class="xhidden">| <a  href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-settings">' . esc_html( __( 'Settings', 'csv2wp' ) ) . '</a> </span>| <a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-faq">' . esc_html( __( 'FAQ', 'csv2wp' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-misc">' . esc_html( __( 'Misc', 'csv2wp' ) ) . '</a></p>';
+		        return '<p><a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-dashboard">' . esc_html( __( 'Dashboard', 'csv2wp' ) ) . '</a> | <a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-preview">' . esc_html( __( 'Preview data', 'csv2wp' ) ) . '</a> <span class="xhidden">| <a  href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-settings">' . esc_html( __( 'Settings', 'csv2wp' ) ) . '</a> </span>| <a href="' . site_url() . '/wp-admin/admin.php?page=csv2wp-faq">' . esc_html( __( 'FAQ', 'csv2wp' ) ) . '</a></p>';
 	        }
 
 	        /**
