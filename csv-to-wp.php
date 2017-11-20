@@ -16,7 +16,9 @@
 
     */
 
-    if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	} // Exit if accessed directly
 
     if ( ! class_exists( 'CSV_WP' ) ) :
 
@@ -43,7 +45,6 @@
 	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_preview_page' ) );
 	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_settings_page' ) );
 	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_faq_page' ) );
-	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_misc_page' ) );
                 add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_css' ) );
 
                 // csv actions
@@ -475,14 +476,6 @@
 	        public function csv2wp_add_settings_page() {
 		        add_submenu_page( NULL, 'Settings', 'Settings', 'manage_options', 'csv2wp-settings', 'csv2wp_settings_page' );
 		        include( 'csv2wp-settings.php' ); // content for the settings page
-	        }
-
-	        /**
-	         * Adds a (hidden) settings page, only through the menu on top of the pages.
-	         */
-	        public function csv2wp_add_misc_page() {
-		        add_submenu_page( NULL, 'Misc', 'Misc', 'manage_options', 'csv2wp-misc', 'csv2wp_misc_page' );
-		        include( 'csv2wp-misc.php' ); // content for the settings page
 	        }
 
 	        /**
