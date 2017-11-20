@@ -28,10 +28,10 @@
             function __construct() {}
 
             function initialize() {
-                $this->settings = array(
-                    'path'      => trailingslashit( dirname( __FILE__ ) ),
-                    'version'   => '1.0.0',
-                );
+	            $this->settings = array(
+		            'path'    => trailingslashit( dirname( __FILE__ ) ),
+		            'version' => '1.0.0',
+	            );
 
 	            // (de)activation hooks
 	            register_activation_hook( __FILE__,     array( $this, 'csv2wp_plugin_activation' ) );
@@ -42,10 +42,6 @@
 
                 // actions
 	            add_action( 'admin_menu',               array( $this, 'csv2wp_add_admin_pages' ) );
-	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_dashboard_page' ) );
-	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_preview_page' ) );
-	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_settings_page' ) );
-	            // add_action( 'admin_menu',               array( $this, 'csv2wp_add_faq_page' ) );
                 add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_css' ) );
 
                 // csv actions
@@ -60,9 +56,9 @@
 	            add_action( 'admin_init',               array( $this, 'csv2wp_admin_menu' ) );
 
 	            include( 'verify-csv-data.php' );
-	            include( 'not-in-use.php' );
+	            // include( 'not-in-use.php' );
 
-	            // $this->csv2wp_store_default_values();
+	            $this->csv2wp_create_uploads_directory();
 
             }
 
@@ -73,7 +69,6 @@
              * Function which runs upon plugin deactivation
              */
             public function csv2wp_plugin_activation() {
-                // $this->csv2wp_create_uploads_directory();
                 $this->csv2wp_store_default_values();
             }
 
@@ -396,8 +391,9 @@
 				        return $csv_array;
 
 			        }
-			        return false;
 		        }
+
+		        return false;
 	        }
 
 	        /**
@@ -430,7 +426,6 @@
                         }
                     }
                 }
-
             }
 
 	        /**
