@@ -46,7 +46,5 @@
 
             </div><!-- end #csv-importer -->
 
-        <?php do_action('al_after_settings' ); ?>
         </div><!-- end .wrap -->
-<?php
-    }
+<?php }
