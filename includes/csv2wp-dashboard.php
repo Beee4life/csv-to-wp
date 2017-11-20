@@ -36,12 +36,12 @@
 
                 <?php
                     // @TODO: check if directory exists
-                    $target_dir = plugin_dir_path( __FILE__ ) . 'uploads/';
+                    $target_dir = plugin_dir_path( __FILE__ ) . '../uploads/';
                     $file_index = scandir( $target_dir );
                     if ( $file_index ) {
                 ?>
                     <br />
-                    <h2><?php esc_html_e( 'Select a file to \'handle\'', 'csv2wp' ); ?></h2>
+                    <h2><?php esc_html_e( "Select a file to 'handle'", "csv2wp" ); ?></h2>
 
                     <?php if ( 0 < count( $file_index ) ) { ?>
                         <form name="" method="POST">
@@ -54,7 +54,10 @@
                                             $has_files = true;
                                             ?>
                                             <tr>
-                                                <td><input name="file_name[]" type="checkbox" value="<?php echo $file; ?>"></td>
+                                                <td>
+                                                    <label for="file_name[]" class="scree-reader-text">XXX</label>
+                                                    <input id="file_name[]" name="file_name[]" type="checkbox" value="<?php echo $file; ?>">
+                                                </td>
                                                 <td><?php echo $file; ?></td>
                                             </tr>
                                         <?php }

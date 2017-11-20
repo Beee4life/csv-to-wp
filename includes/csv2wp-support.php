@@ -3,7 +3,7 @@
     /**
      * Content for the settings page
      */
-    function csv2wp_faq_page() {
+    function csv2wp_support_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
 	        wp_die( esc_html( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) ) );

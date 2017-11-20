@@ -460,13 +460,13 @@
              */
             public function csv2wp_add_admin_pages() {
                 add_menu_page( 'CSV Importer', 'CSV to WP', 'manage_options', 'csv2wp-dashboard', 'csv2wp_dashboard_page', 'dashicons-grid-view' );
-	            include( 'csv2wp-dashboard.php' );
-	            add_submenu_page( NULL, 'Preview', 'Preview', 'manage_options', 'csv2wp-preview', 'csv2wp_preview_page' );
-	            include( 'csv2wp-preview.php' ); // content for the settings page
-	            add_submenu_page( NULL, 'Settings', 'Settings', 'manage_options', 'csv2wp-settings', 'csv2wp_settings_page' );
-	            include( 'csv2wp-settings.php' ); // content for the settings page
-	            add_submenu_page( NULL, 'FAQ', 'FAQ', 'manage_options', 'csv2wp-faq', 'csv2wp_faq_page' );
-	            include( 'csv2wp-faq.php' ); // content for the settings page
+	            require( 'includes/csv2wp-dashboard.php' );
+	            add_submenu_page( 'csv2wp-dashboard', 'Preview', 'Preview', 'manage_options', 'csv2wp-preview', 'csv2wp_preview_page' );
+	            require( 'includes/csv2wp-preview.php' ); // content for the settings page
+	            add_submenu_page( 'csv2wp-dashboard', 'Settings', 'Settings', 'manage_options', 'csv2wp-settings', 'csv2wp_settings_page' );
+	            require( 'includes/csv2wp-settings.php' ); // content for the settings page
+	            add_submenu_page( 'csv2wp-dashboard', 'Support', 'Support', 'manage_options', 'csv2wp-support', 'csv2wp_support_page' );
+	            require( 'includes/csv2wp-support.php' ); // content for the settings page
             }
 
             /**

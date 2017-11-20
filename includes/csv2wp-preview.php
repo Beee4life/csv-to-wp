@@ -35,7 +35,7 @@
 	            ?>
 
                 <!--Get imported data-->
-	            <?php $target_dir = plugin_dir_path( __FILE__ ) . 'uploads/'; ?>
+	            <?php $target_dir = plugin_dir_path( __FILE__ ) . '../uploads/'; ?>
 	            <?php $file_index = scandir( $target_dir ); ?>
 	            <?php $posted_file = false; ?>
 	            <?php if ( $file_index ) { ?>
