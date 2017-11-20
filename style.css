@@ -11,6 +11,11 @@
     max-width: 60%;
 }
 
+#csv-importer .screen-reader-text {
+    position: absolute !important;
+    left:     -999em;
+}
+
 .is-dismissible {
     margin:  5px 0 15px;
     padding: 10px 0 10px 15px;
@@ -24,16 +29,14 @@
 .csv-preview td {
     text-align:     left;
     vertical-align: top;
-    padding:  0.35em 3em 0.35em 0;
+    padding:        0.35em 3em 0.35em 0;
 }
 
 .csv-preview th {
     border-bottom: 1px solid black;
     /*padding-bottom: 0.5em;*/
 }
+
 .csv-preview td {
     border-bottom: 1px solid #CCCCCC;
-}
-.csv-preview tr:first-child td {
-    /*padding-top: 0.5em;*/
 }
