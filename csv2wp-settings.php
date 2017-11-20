@@ -31,7 +31,7 @@
                     <input name="active_logs_nonce" type="hidden" value="<?php echo wp_create_nonce( 'active-logs-nonce' ); ?>"/>
                     <?php
                         $all_capabilities = get_role( 'administrator' )->capabilities;
-                        $logs_user_role   = get_option( 'al_log_user_role' );
+                        $logs_user_role   = get_option( 'csv2wp_import_role' );
                         ksort( $all_capabilities );
                     ?>
                     <label for="select_cap" class="screen-reader-text"></label>
@@ -41,7 +41,7 @@
                         <?php } ?>
                     </select>
                     <br /><br />
-                    <input type="submit" class="admin-button admin-button-small" value="<?php esc_html( __( 'Save settings', 'csv2wp' ) ); ?>" />
+                    <input type="submit" class="admin-button admin-button-small" value="<?php esc_html( _e( 'Save settings', 'csv2wp' ) ); ?>" />
                 </form>
 
             </div><!-- end #csv-importer -->
