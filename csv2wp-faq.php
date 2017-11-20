@@ -25,6 +25,9 @@
                 <p><?php echo sprintf( __( 'If you know about this plugin, you probably know me and know where to reach me. If not, please report it on GitHub in the <a href="%s">issues section</a>.', 'csv2wp' ), esc_url( 'https://github.com/Beee4life/csv-to-wp/issues' ) ); ?></p>
                 <p><?php esc_html_e( 'Find more info about the plugin on', 'csv2wp' ); ?> <a href="https://github.com/Beee4life/csv-to-wp/">GitHub</a>.</p>
 
+                <h2><?php esc_html_e( 'About the author', 'csv2wp' ); ?></h2>
+                <p>This plugin is created by <a href="http://www.berryplasman.com">Beee</a>, a Wordpress developer from Amsterdam.</p>
+
             </div><!-- end #csv-importer -->
 
         <?php do_action('al_after_settings' ); ?>
