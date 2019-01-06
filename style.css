@@ -21,30 +21,29 @@
     padding: 10px 0 10px 15px;
 }
 
-.uploaded_files td {
+#csv-importer table td {
     padding-right: 2em;
 }
 
-.uploaded_files td:first-child {
+#csv-importer table td:first-child {
     padding-right: 0;
 }
 
-.csv-preview {
-    margin-top: 1em;
-}
-
-.csv-preview th,
-.csv-preview td {
+#csv-importer table th,
+#csv-importer table td {
     text-align:     left;
-    vertical-align: top;
-    padding:        0.35em 3em 0.35em 0;
+    padding:        0.5em 3em 0.5em 0;
 }
 
-.csv-preview th {
+#csv-importer table th {
     border-bottom: 1px solid black;
     /*padding-bottom: 0.5em;*/
 }
 
-.csv-preview td {
+#csv-importer table td {
     border-bottom: 1px solid #CCCCCC;
+}
+
+.csv-preview {
+    margin-top: 1em;
 }
