@@ -43,13 +43,23 @@
                         <br/>
                         <h2><?php esc_html_e( "Select a file to 'handle'", "csv2wp" ); ?></h2>
                         <p>
-                            <small>First select a file, then select where to import it.</small>
+                            <small>Select a file, then select where to import it.</small>
                         </p>
                         
-                        <?php if ( 0 < count( $file_index ) ) { ?>
-                            <form name="" method="POST">
+                        <?php if ( ! empty( $file_index ) ) { ?>
+                            <form method="POST">
                                 <input name="select_file_nonce" type="hidden" value="<?php echo wp_create_nonce( 'select-file-nonce' ); ?>"/>
-                                <table class="uploaded_files">
+                                <table class="uploaded_files" cellpadding="0" cellspacing="0" border="0">
+                                    <thead>
+                                        <tr>
+                                            <th>&nbsp;</th>
+                                            <th>File name</th>
+                                            <th>Import in post meta</th>
+                                            <th>Import in user meta</th>
+                                            <th>Meta field</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <?php
                                         $has_files = false;
                                         foreach ( $file_index as $file ) {
@@ -63,17 +73,22 @@
                                                     </td>
                                                     <td><?php echo $file; ?></td>
                                                     <td>
-<!--                                                        <label for="import_in_post_meta" class="screen-reader-text">Import in post_meta</label>-->
-<!--                                                        <input id="import_in_post_meta" name="import_in[]" type="radio" value="1">Import in post_meta-->
+                                                        <label for="import_in_post_meta" class="screen-reader-text">Import in post_meta</label>
+                                                        <input id="import_in_post_meta" name="import_in[]" type="radio" value="1">
                                                     </td>
                                                     <td>
-<!--                                                        <label for="import_in_user_meta" class="screen-reader-text">Import in user_meta</label>-->
-<!--                                                        <input id="import_in_user_meta" name="import_in[]" type="radio" value="1">Import in user_meta-->
+                                                        <label for="import_in_user_meta" class="screen-reader-text">Import in user_meta</label>
+                                                        <input id="import_in_user_meta" name="import_in[]" type="radio" value="1">
+                                                    </td>
+                                                    <td>
+                                                        <label for="meta_key" class="screen-reader-text">Meta key</label>
+                                                        <input id="meta_key" name="meta_key" type="text">
                                                     </td>
                                                 </tr>
                                             <?php }
                                         }
                                     ?>
+                                    </tbody>
                                 </table>
                                 <?php if ( $has_files ) { ?>
                                     <br/>

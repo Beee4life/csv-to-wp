@@ -7,8 +7,7 @@
     Author: Beee
     Author URI: http://berryplasman.com
     Text-domain: csv2wp
-
-    http://www.berryplasman.com
+    License: GPL2
        ___  ____ ____ ____
       / _ )/ __/  __/  __/
      / _  / _/   _/   _/
@@ -25,36 +24,34 @@
         class CSV2WP {
             var $settings;
             
-            function __construct() {
-            }
-            
-            function initialize() {
+            public function initialize() {
                 $this->settings = array(
                     'path'    => trailingslashit( dirname( __FILE__ ) ),
                     'version' => '1.0.0',
                 );
                 
                 // (de)activation hooks
-                register_activation_hook( __FILE__,     array( $this, 'csv2wp_plugin_activation' ) );
-                register_deactivation_hook( __FILE__,   array( $this, 'csv2wp_plugin_deactivation' ) );
+                register_activation_hook( __FILE__, array( $this, 'csv2wp_plugin_activation' ) );
+                register_deactivation_hook( __FILE__, array( $this, 'csv2wp_plugin_deactivation' ) );
                 
                 // add settings link to plugin
-                add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'csv2wp_plugin_link' ) );
+                add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array(
+                    $this,
+                    'csv2wp_plugin_link'
+                ) );
                 
                 // actions
-                add_action( 'admin_menu',               array( $this, 'csv2wp_add_admin_pages' ) );
-                add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_css' ) );
+                add_action( 'admin_menu', array( $this, 'csv2wp_add_admin_pages' ) );
+                add_action( 'admin_enqueue_scripts', array( $this, 'csv2wp_enqueue_css' ) );
+                add_action( 'admin_init', array( $this, 'csv2wp_errors' ) );
+                add_action( 'admin_init', array( $this, 'csv2wp_admin_menu' ) );
                 
                 // csv actions
-                add_action( 'admin_init',               array( $this, 'csv2wp_upload_functions' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_csv_to_array' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_read_file_functions' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_create_uploads_directory' ) );
+                add_action( 'admin_init', array( $this, 'csv2wp_upload_functions' ) );
+                add_action( 'admin_init', array( $this, 'csv2wp_handle_file_functions' ) );
+                add_action( 'admin_init', array( $this, 'csv2wp_create_uploads_directory' ) );
+                // add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
                 
-                // misc actions
-                add_action( 'admin_init',               array( $this, 'csv2wp_errors' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_admin_menu' ) );
                 
                 include( 'includes/functions.php' );
                 // include( 'not-in-use.php' );
@@ -157,46 +154,25 @@
                         return;
                     } else {
                         // nonce ok + verified
+    
+                        $verify    = ! empty( $_POST[ 'verify' ] ) ? $_POST[ 'verify' ] : false;
+                        $raw_data  = ! empty( $_POST[ 'raw_csv_import' ] ) ? $_POST[ 'raw_csv_import' ] : false;
+                        $csv_array = csv2wp_verify_raw_csv_data( $raw_data );
                         
-                        $raw_data = $_POST[ 'raw_csv_import' ];
-                        // verify data
-                        $verified_data = verify_csv_data( $raw_data );
-                        $verify        = ! empty( $_POST[ 'verify' ] ) ? $_POST[ 'verify' ] : false;
-                        
-                        if ( false != $verified_data ) {
+                        if ( false != $csv_array ) {
                             
                             if ( false != $verify ) {
-                                CSV2WP::csv2wp_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there are no errors in your CSV.', 'csv2wp' ) );
+                                CSV2WP::csv2wp_errors()->add( 'success_no_errors_in_csv', __( 'Congratulations, there appear to be no errors in your CSV.', 'csv2wp' ) );
                                 
                                 return;
                             } else {
-                                if ( count( $verified_data ) > 0 ) {
+                                if ( count( $csv_array ) > 0 ) {
                                     $count = 0;
-                                    foreach ( $verified_data as $csv_line ) {
-                                        $idf_number = $csv_line[ 0 ];
-                                        $year       = $csv_line[ 1 ];
-                                        $category   = $csv_line[ 2 ];
-                                        $ranking    = $csv_line[ 3 ];
-                                        $points     = $csv_line[ 4 ];
-                                        $new_value  = array(
-                                            $year => array(
-                                                'year'          => $year,
-                                                'category_name' => $category,
-                                                'ranking'       => $ranking,
-                                                'points'        => $points,
-                                            ),
-                                        );
-                                        
-                                        $race_rankings = get_user_meta( $idf_number, 'race_rankings', true );
-                                        $user_meta     = ! empty( $race_rankings ) ? $race_rankings : false;
-                                        if ( false != $user_meta ) {
-                                            $new_value = array_merge( $new_value, $user_meta );
-                                            asort( $new_value );
-                                        }
-                                        update_user_meta( $idf_number, 'race_rankings', $new_value );
+                                    foreach ( $csv_array as $csv_line ) {
+                                        // do something with $csv_line
                                         $count++;
                                     }
-                                    CSV2WP::csv2wp_errors()->add( 'success_rankings_imported', __( $count . ' lines imported through raw import. You can check the last user which is imported <a href="' . get_author_posts_url( $idf_number ) . '">here</a>.', 'csv2wp' ) );
+                                    CSV2WP::csv2wp_errors()->add( 'success_raw_data_imported', __( $count . ' lines imported through raw import.', 'csv2wp' ) );
                                 }
                             }
                         }
@@ -206,9 +182,9 @@
             
             /**
              * Read uploaded file for verification or import
-             * Delete file is also included in this function
+             * Or delete the file
              */
-            public function csv2wp_read_file_functions() {
+            public function csv2wp_handle_file_functions() {
                 
                 if ( current_user_can( 'manage_options' ) && isset( $_POST[ "select_file_nonce" ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "select_file_nonce" ], 'select-file-nonce' ) ) {
@@ -219,7 +195,7 @@
                         // nonce ok + verified
                         
                         if ( ! isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                            CSV2WP::csv2wp_errors()->add( 'error_no_file_selected', __( 'You didn\'t select a file.', 'csv2wp' ) );
+                            CSV2WP::csv2wp_errors()->add( "error_no_file_selected", __( "You didn't select a file.", "csv2wp" ) );
                             
                             return;
                         }
@@ -230,44 +206,37 @@
                         
                         if ( false == $remove ) {
                             
-                            // echo '<pre>'; var_dump($_POST); echo '</pre>'; exit;
-                            
                             if ( count( $_POST[ 'csv2wp_file_name' ] ) > 1 ) {
-                                CSV2WP::csv2wp_errors()->add( 'error_too_many_files', __( 'Only 1 file at a time please, otherwise the error messages can be off. And yes, it\'s already on the todo list.', 'csv2wp' ) );
+                                CSV2WP::csv2wp_errors()->add( "error_too_many_files", __( "Only 1 file at a time please, otherwise the error messages can be off. And yes, it's already on the todo list.", "csv2wp" ) );
                                 
                                 return;
                             }
-    
-                            csv2wp_read_csv_file_new( $verify );
                             
-                            // read file
-                            if ( ( $handle = fopen( plugin_dir_path( __FILE__ ) . 'uploads/' . $file_name[ 0 ], "r" ) ) !== false ) {
-                                $line_number = 0;
-                                $csv_array   = csv2wp_read_csv_file( $handle, $verify );
-                                if ( is_array( $csv_array ) ) {
-                                    $line_number = count( $csv_array );
+                            $csv_array = csv2wp_csv_to_array( $file_name[ 0 ], $verify );
+                            
+                            if ( is_array( $csv_array ) ) {
+                                $line_number = count( $csv_array );
+                            }
+                            
+                            // import data or delete file
+                            if ( false == $verify ) {
+                                // verify = false, so this is for real, this is no verification, there are no errors, so files can be processed
+                                
+                                // @TODO: do something with the data ($csv_array) here
+                                
+                                foreach ( $_POST[ 'csv2wp_file_name' ] as $file ) {
+                                    // delete file
+                                    unlink( plugin_dir_path( __FILE__ ) . 'uploads/' . $file );
                                 }
-
-                                // import data or delete file
-                                if ( false == $verify ) {
-                                    // verify = false, so this is for real, this is no verification, there are no errors, so files can be processed
-                                    
-                                    // @TODO: do something with the data ($csv_array) here
-                                    
-                                    foreach ( $_POST[ 'csv2wp_file_name' ] as $file_name ) {
-                                        // delete file
-                                        unlink( plugin_dir_path( __FILE__ ) . 'uploads/' . $file_name );
-                                    }
-                                    do_action( 'csv2wp_successful_csv_import', $line_number );
-                                    CSV2WP::csv2wp_errors()->add( 'success_data_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv2wp' ) );
-                                    
-                                    return;
-                                } else {
-                                    do_action( 'csv2wp_successful_csv_validate', $file_name[ 0 ] );
-                                    CSV2WP::csv2wp_errors()->add( 'success_no_errors_in_csv', esc_html( __( 'Congratulations, there are no errors in your CSV.', 'csv2wp' ) ) );
-                                    
-                                    return;
-                                }
+                                do_action( 'csv2wp_successful_csv_import', $line_number );
+                                CSV2WP::csv2wp_errors()->add( 'success_data_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv2wp' ) );
+                                
+                                return;
+                            } else {
+                                do_action( 'csv2wp_successful_csv_validate', $file_name );
+                                CSV2WP::csv2wp_errors()->add( 'success_no_errors_in_csv', esc_html( __( 'Congratulations, there are no errors in your CSV.', 'csv2wp' ) ) );
+                                
+                                return;
                             }
                             
                         } else {
@@ -282,35 +251,11 @@
                                 } else {
                                     CSV2WP::csv2wp_errors()->add( 'success_files_deleted', esc_html( __( 'Files successfully deleted.', 'csv2wp' ) ) );
                                 }
-                                
-                            } else {
-                                // no files selected
-                                CSV2WP::csv2wp_errors()->add( 'warning_no_files_selected', esc_html( __( 'You didn\'t select a file to delete.', 'csv2wp' ) ) );
                             }
                             
                         }
                     }
                 }
-            }
-            
-            /**
-             * Change CSV into array
-             */
-            public static function csv2wp_csv_to_array( $file_name = false ) {
-                
-                // $file_name = 'test2.csv';
-                if ( false != $file_name ) {
-                    // read file to create new array of data to work with
-                    if ( ( $handle = fopen( plugin_dir_path( __FILE__ ) . 'uploads/' . $file_name, "r" ) ) !== false ) {
-                        $line_number = 0;
-                        $csv_array   = csv2wp_read_csv_file( $handle );
-
-                        return $csv_array;
-                        
-                    }
-                }
-                
-                return false;
             }
             
             /**
@@ -367,16 +312,16 @@
              * @return string
              */
             public static function csv2wp_admin_menu() {
-    
+                
                 $menu = '<p><a href="' . admin_url() . 'admin.php?page=csv2wp-dashboard">' . esc_html( __( 'Dashboard', 'csv2wp' ) ) . '</a>';
                 if ( is_array( csv2wp_check_if_files() ) ) {
                     $menu .= ' | <a href="' . admin_url() . 'admin.php?page=csv2wp-preview">' . esc_html( __( 'Preview file', 'csv2wp' ) ) . '</a>';
                 }
                 $menu .= ' | <a href="' . admin_url() . 'admin.php?page=csv2wp-settings">' . esc_html( __( 'Settings', 'csv2wp' ) ) . '</a>';
-                $menu .= ' | <a href="' . admin_url() . 'admin.php?page=csv2wp-support">' . esc_html( __( 'F.A.Q.', 'csv2wp' ) ) . '</a>';
+                $menu .= ' | <a href="' . admin_url() . 'admin.php?page=csv2wp-support">' . esc_html( __( 'Support', 'csv2wp' ) ) . '</a>';
                 
                 return $menu;
-    
+                
             }
             
             /**
@@ -420,6 +365,9 @@
         }
         
         // initialize
-        init_csv_importer_plugin();
+        // init_csv_importer_plugin();
     
     endif; // class_exists check
+    
+    $csv_importer_plugin = new CSV2WP();
+    $csv_importer_plugin->initialize();

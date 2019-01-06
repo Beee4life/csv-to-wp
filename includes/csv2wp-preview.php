@@ -20,7 +20,6 @@
             <div id="csv-importer" class="">
                 
                 <?php echo CSV2WP::csv2wp_admin_menu(); ?>
-
                 
                 <?php
                     if ( isset( $_POST ) && isset( $_POST[ 'csv2wp_file_name' ] ) ) {
@@ -30,7 +29,6 @@
                     }
                 ?>
 
-                <!--Get imported data-->
                 <?php $posted_file = false; ?>
                 <?php $file_index = csv2wp_check_if_files(); ?>
                 <?php if ( $file_index ) { ?>
@@ -66,32 +64,30 @@
                     if ( $file_name ) {
                         $show_header = false;
                         $header_row  = array();
-                        $lines       = CSV2WP::csv2wp_csv_to_array( $file_name );
-                        if ( ! empty( $_POST[ 'csv2wp_header_row' ] ) ) {
+                        $csv_array   = csv2wp_csv_to_array( $file_name );
+                        if ( isset( $_POST[ 'csv2wp_header_row' ] ) && count( $csv_array ) > 1 ) {
                             $show_header = true;
-                            $header_row  = array_shift( $lines );
+                            $header_row  = array_shift( $csv_array );
                         }
-                        if ( false != $lines ) {
-                            $column_count = count( $lines[ 0 ] );
+                        if ( false != $csv_array ) {
+                            $column_count = count( $csv_array[ 0 ] );
                             echo '<h2>CSV contents</h2>';
-                            echo '<table class="csv-preview" cellpadding="0" cellspacing="0">';
+                            echo '<table class="csv-preview" cellpadding="0" cellspacing="0" border="0">';
                             echo '<thead>';
                             echo '<tr>';
                             foreach ( $header_row as $column ) {
                                 echo '<th>' . $column . '</th>';
                             }
-                            // echo '<th>&nbsp;</th>';
                             echo '</tr>';
                             echo '</thead>';
                             echo '<tbody>';
                             $line_number = 0;
-                            foreach ( $lines as $line ) {
+                            foreach ( $csv_array as $line ) {
                                 $line_number++;
                                 echo '<tr>';
                                 foreach ( $line as $column ) {
                                     echo '<td>' . $column . '</td>';
                                 }
-                                // echo '<td>X</td>';
                                 echo '</tr>';
                             }
                             echo '</tbody>';
