@@ -23,27 +23,28 @@
                 <?php echo CSV2WP::csv2wp_admin_menu(); ?>
 
                 <p><?php esc_html_e( 'This page allows to import a csv and import it into your database.', 'csv2wp' ); ?></p>
-
-                <h2><?php esc_html_e( 'Upload a file', 'csv2wp' ); ?></h2>
+                <p><?php esc_html_e( 'Make sure the first column in your CSV file is either a POST or USER ID.', 'csv2wp' ); ?></p>
+                <p><?php esc_html_e( 'For preview reasons a header row is recommended.', 'csv2wp' ); ?></p>
+                <h2><?php esc_html_e( 'Upload a CSV file', 'csv2wp' ); ?></h2>
 
                 <form enctype="multipart/form-data" method="POST">
                     <input name="upload_file_nonce" type="hidden" value="<?php echo wp_create_nonce( 'upload-file-nonce' ); ?>"/>
-                    <input type="hidden" name="MAX_FILE_SIZE" value=""/>
-                    <label for="file_upload"><?php esc_html_e( 'Choose a (csv) file to upload', 'csv2wp' ); ?></label>
-                    <input name="csv_upload" type="file" accept=".csv"/>
+                    <label for="csv_uploaded_file"><?php esc_html_e( 'Choose a (csv) file to upload', 'csv2wp' ); ?></label>
+                    <input id="csv_uploaded_file" name="csv_uploaded_file" type="file" accept=".csv"/>
                     <br/><br/>
                     <input type="submit" value="<?php esc_html_e( 'Upload file', 'csv2wp' ); ?>"/>
                 </form>
                 
                 <?php
-                    // @TODO: check if directory exists
                     $file_index = csv2wp_check_if_files();
                     if ( $file_index ) {
                         ?>
                         <br/>
-                        <h2><?php esc_html_e( "Select a file to 'handle'", "csv2wp" ); ?></h2>
+                        <h2>
+                            <?php esc_html_e( "Handle a CSV file", "csv2wp" ); ?>
+                        </h2>
                         <p>
-                            <small>Select a file, then select where to import it.</small>
+                            <?php esc_html_e( 'Select a file, select in which meta to import it, choose a meta field key, whether the file has a header row and if you want to limit the amount of lines.', 'csv2wp' ); ?>
                         </p>
                         
                         <?php if ( ! empty( $file_index ) ) { ?>
@@ -57,54 +58,56 @@
                                             <th>Import in post meta</th>
                                             <th>Import in user meta</th>
                                             <th>Meta field</th>
+                                            <th>CV has header row ?</th>
+                                            <th>Max # lines</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
                                         $has_files = false;
                                         foreach ( $file_index as $file ) {
-                                            if ( '.DS_Store' != $file && '.' != $file && '..' != $file ) {
-                                                $has_files = true;
-                                                ?>
-                                                <tr>
-                                                    <td>
-                                                        <label for="csv2wp_file_name[]" class="screen-reader-text">File name</label>
-                                                        <input id="csv2wp_file_name[]" name="csv2wp_file_name[]" type="radio" value="<?php echo $file; ?>">
-                                                    </td>
-                                                    <td><?php echo $file; ?></td>
-                                                    <td>
-                                                        <label for="import_in_post_meta" class="screen-reader-text">Import in post_meta</label>
-                                                        <input id="import_in_post_meta" name="import_in[]" type="radio" value="1">
-                                                    </td>
-                                                    <td>
-                                                        <label for="import_in_user_meta" class="screen-reader-text">Import in user_meta</label>
-                                                        <input id="import_in_user_meta" name="import_in[]" type="radio" value="1">
-                                                    </td>
-                                                    <td>
-                                                        <label for="meta_key" class="screen-reader-text">Meta key</label>
-                                                        <input id="meta_key" name="meta_key" type="text">
-                                                    </td>
-                                                </tr>
-                                            <?php }
-                                        }
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <label for="csv2wp_file_name[]" class="screen-reader-text">File name</label>
+                                                <input id="csv2wp_file_name[]" name="csv2wp_file_name[]" type="radio" value="<?php echo $file; ?>">
+                                            </td>
+                                            <td><?php echo $file; ?></td>
+                                            <td>
+                                                <label for="import_in_post_meta" class="screen-reader-text">Import in post_meta</label>
+                                                <input id="import_in_post_meta" name="csv2wp_import_in" type="radio" value="post">
+                                            </td>
+                                            <td>
+                                                <label for="import_in_user_meta" class="screen-reader-text">Import in user_meta</label>
+                                                <input id="import_in_user_meta" name="csv2wp_import_in" type="radio" value="user">
+                                            </td>
+                                            <td>
+                                                <label for="csv2wp_meta_key" class="screen-reader-text">Meta key</label>
+                                                <input id="csv2wp_meta_key" name="csv2wp_meta_key" type="text">
+                                            </td>
+                                            <td>
+                                                <label for="csv2wp_has_header" class="screen-reader-text">Has header row</label>
+                                                <input id="csv2wp_has_header" name="csv2wp_has_header" type="checkbox" value="1">
+                                            </td>
+                                            <td>
+                                                <label for="csv2wp_max_lines" class="screen-reader-text">Amount of lines</label>
+                                                <input id="csv2wp_max_lines" name="csv2wp_max_lines" type="text" size="5">
+                                            </td>
+                                        </tr>
+                                    <?php }
                                     ?>
                                     </tbody>
                                 </table>
-                                <?php if ( $has_files ) { ?>
-                                    <br/>
-                                    <input name="csv2wp_verify" type="submit" value="<?php esc_html_e( 'Verify selected file(s)', 'csv2wp' ); ?>"/>
-                                    <input name="csv2wp_import" type="submit" value="<?php esc_html_e( 'Import selected file(s)', 'csv2wp' ); ?>"/>
-                                    <input name="csv2wp_remove" type="submit" value="<?php esc_html_e( 'Remove selected file(s)', 'csv2wp' ); ?>"/>
-                                <?php } ?>
+                                <br/>
+                                <input name="csv2wp_verify" type="submit" value="<?php esc_html_e( 'Verify selected file(s)', 'csv2wp' ); ?>"/>
+                                <input name="csv2wp_import" type="submit" value="<?php esc_html_e( 'Import selected file(s)', 'csv2wp' ); ?>"/>
+                                <input name="csv2wp_remove" type="submit" value="<?php esc_html_e( 'Remove selected file(s)', 'csv2wp' ); ?>"/>
                             </form>
                         
                         <?php } ?>
                         
-                        <?php if ( false == $has_files && '.DS_Store' != $file_index[ 0 ] ) { ?>
-                            <ul>
-                                <li><?php esc_html_e( 'No files uploaded', 'csv2wp' ); ?></li>
-                            </ul>
-                        <?php } ?>
+                    <?php } else { ?>
+                        <p><?php esc_html_e( 'No files uploaded', 'csv2wp' ); ?></p>
                     <?php } ?>
                 
                 <?php if ( $show_raw ) { ?>

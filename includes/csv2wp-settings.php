@@ -24,7 +24,7 @@
                 <h2><?php esc_html_e( 'Who can import csv data ?', 'csv2wp' ); ?></h2>
                 <p>
                     <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv2wp' ); ?>
-                    <?php esc_html_e( 'The reason why it\'s set per capability instead of per user is because two users with the same role can have different capabilities.', 'csv2wp' ); ?>
+                    <?php esc_html_e( "The reason why it's set per capability instead of per user is because two users with the same role can have different capabilities.", "csv2wp" ); ?>
                 </p>
 
                 <form name="settings-form" id="settings-form" action="" method="post">
@@ -40,7 +40,9 @@
                             <option value="<?php echo $key; ?>"<?php echo( $logs_user_role == $key ? ' selected' : '' ); ?>><?php echo $key; ?></option>';
                         <?php } ?>
                     </select>
+
                     <br/><br/>
+
                     <input type="submit" class="admin-button admin-button-small" value="<?php esc_html_e( 'Save settings', 'csv2wp' ); ?>"/>
                 </form>
 

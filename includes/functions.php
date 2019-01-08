@@ -95,27 +95,42 @@
      *
      * @return array|bool
      */
-    function csv2wp_csv_to_array( $file_name, $verify = false ) {
+    function csv2wp_csv_to_array( $file_name, $delimiter = ',', $amount = 1000, $verify = false, $first_row = false ) {
         
         // read file
         $csv_array = array();
         if ( ( $handle = fopen( plugin_dir_path( __FILE__ ) . '../uploads/' . $file_name, "r" ) ) !== false ) {
             $line_number      = 0;
             $column_benchmark = 0;
-            // @TODO: set 1000 from setting
-            while ( ( $csv_line = fgetcsv( $handle, 1000, "," ) ) !== false ) {
+            while ( ( $csv_line = fgetcsv( $handle, $amount, "{$delimiter}" ) ) !== false ) {
                 $line_number++;
-                
+
                 // if line is 1, count columns (to set benchmark)
                 if ( 1 == $line_number ) {
                     // count columns to compare with other lines
                     $column_benchmark = count( $csv_line );
-                    
+    
+                    if ( $first_row ) {
+                        if ( count( $csv_line ) == 1 ) {
+                            $csv_info[ 'column_count' ] = false;
+                            $csv_info[ 'delimiter' ] = ';';
+                        } elseif ( count( $csv_line ) > 1 ) {
+                            $csv_info[ 'column_count' ] = count( $csv_line );
+                            $csv_info[ 'delimiter' ] = ',';
+                            
+                            foreach( $csv_line as $column ) {
+                                $csv_info[ 'column_names' ][] = $column;
+                            }
+                        }
+                        
+                        return $csv_info;
+                    }
+    
                     foreach ( $csv_line as $column ) {
                         $column_names[] = $column;
                     }
                 }
-                
+    
                 // if column count doesn't match benchmark
                 if ( count( $csv_line ) != $column_benchmark ) {
                     // if column count < benchmark
@@ -138,7 +153,7 @@
                     }
                     foreach ( $_POST[ 'csv2wp_file_name' ] as $file_name ) {
                         // delete file
-                        unlink( plugin_dir_path( __FILE__ ) . 'uploads/' . $file_name );
+                        unlink( plugin_dir_path( __FILE__ ) . '../uploads/' . $file_name );
                     }
                     
                     return false;
@@ -148,6 +163,7 @@
                 $new_line   = array();
                 $item_count = 0;
                 foreach ( $csv_line as $item ) {
+                    // echo '<pre>'; var_dump($item); echo '</pre>'; exit;
                     if ( 1 == $line_number ) {
                         // headers don't need an array index
                         $new_line[] = $item;
@@ -164,6 +180,25 @@
         }
         
         return $csv_array;
+    }
+    
+    /**
+     *
+     * @param $file_name
+     *
+     * @return array|bool
+     */
+    function csv2wp_get_csv_info_lines( $file_name, $verify = false ) {
+    
+        $csv_info  = csv2wp_csv_to_array( $file_name, ',', 1, false, true );
+        $delimiter = ( is_array( $csv_info ) && ';' == $csv_info[ 'delimiter' ] ) ? ";" : ",";
+        if ( ";" == $delimiter ) {
+            $csv_info = csv2wp_csv_to_array( $file_name, ";", 1, false, true );
+        }
+        $csv_info[ 'data' ] = csv2wp_csv_to_array( $file_name, $delimiter, 1000, $verify );
+        
+        return $csv_info;
+    
     }
     
     /**
