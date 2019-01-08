@@ -4,7 +4,6 @@
 
 #csv-importer {
     max-width: 100%;
-    /*border: 1px dotted black;*/
 }
 
 #csv-importer p {
@@ -26,7 +25,7 @@
 }
 
 #csv-importer table td:first-child {
-    padding-right: 0;
+    /*padding-right: 0;*/
 }
 
 #csv-importer table th,
@@ -37,11 +36,18 @@
 
 #csv-importer table th {
     border-bottom: 1px solid black;
-    /*padding-bottom: 0.5em;*/
 }
 
 #csv-importer table td {
     border-bottom: 1px solid #CCCCCC;
+}
+
+#csv-importer table tbody tr:first-child td {
+    padding-top: 1em;
+}
+
+#csv-importer table tr:last-child td {
+    border-bottom: 0;
 }
 
 .csv-preview {
