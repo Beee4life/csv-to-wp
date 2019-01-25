@@ -78,8 +78,8 @@
             }
             
             public function csv2wp_create_uploads_directory() {
-                if ( true != is_dir( plugin_dir_path( __FILE__ ) . 'uploads' ) ) {
-                    mkdir( plugin_dir_path( __FILE__ ) . 'uploads', 0755 );
+                if ( true != is_dir( wp_upload_dir()[ 'basedir' ] . '/csv2wp' ) ) {
+                    mkdir( wp_upload_dir()[ 'basedir' ] . '/csv2wp', 0755 );
                 }
             }
             
@@ -268,7 +268,7 @@
                                         
                                         foreach ( $_POST[ 'csv2wp_file_name' ] as $file ) {
                                             // delete file
-                                            unlink( plugin_dir_path( __FILE__ ) . 'uploads/' . $file );
+                                            unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file );
                                         }
                                         do_action( 'csv2wp_successful_csv_import', $line_number );
                                         CSV2WP::csv2wp_errors()->add( 'success_data_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv2wp' ) );
@@ -298,7 +298,7 @@
                             if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
                                 foreach ( $_POST[ 'csv2wp_file_name' ] as $file_name ) {
                                     // delete file
-                                    unlink( plugin_dir_path( __FILE__ ) . 'uploads/' . $file_name );
+                                    unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
                                 }
                                 if ( count( $_POST[ 'csv2wp_file_name' ] ) == 1 ) {
                                     CSV2WP::csv2wp_errors()->add( 'success_file_deleted', __( 'File "' . $file_name . '" successfully deleted.', 'csv2wp' ) );
@@ -323,12 +323,12 @@
                         return;
                     } else {
                         
-                        if ( true != is_dir( plugin_dir_path( __FILE__ ) . 'uploads' ) ) {
-                            mkdir( plugin_dir_path( __FILE__ ) . 'uploads', 0755 );
+                        if ( true != is_dir( wp_upload_dir()[ 'basedir' ] . '/csv2wp' ) ) {
+                            mkdir( wp_upload_dir()[ 'basedir' ] . '/csv2wp', 0755 );
                         }
-                        $target_file = plugin_dir_path( __FILE__ ) . 'uploads/' . basename( $_FILES[ 'csv_uploaded_file' ][ 'name' ] );
+                        $target_file = wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . basename( $_FILES[ 'csv_uploaded_file' ][ 'name' ] );
                         
-                        if ( move_uploaded_file( $_FILES[ 'csv_uploaded_file' ][ 'tmp_name' ], '/' . $target_file ) ) {
+                        if ( move_uploaded_file( $_FILES[ 'csv_uploaded_file' ][ 'tmp_name' ], $target_file ) ) {
                             // file uploaded succeeded
                             do_action( 'csv2wp_successful_csv_upload' );
                             CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_uploaded_file' ][ 'name' ] . '" is successfully uploaded and now shows under \'Select files to import\'.', 'csv2wp' ) );

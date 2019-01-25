@@ -68,7 +68,7 @@
      */
     function csv2wp_check_if_files() {
         
-        $target_dir = plugin_dir_path( __FILE__ ) . '../uploads/';
+        $target_dir = wp_upload_dir()[ 'basedir' ] . '/csv2wp';
         $file_index = scandir( $target_dir );
         
         if ( is_array( $file_index ) ) {
@@ -99,7 +99,7 @@
         
         // read file
         $csv_array = array();
-        if ( ( $handle = fopen( plugin_dir_path( __FILE__ ) . '../uploads/' . $file_name, "r" ) ) !== false ) {
+        if ( ( $handle = fopen( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name, "r" ) ) !== false ) {
             $line_number      = 0;
             $column_benchmark = 0;
             while ( ( $csv_line = fgetcsv( $handle, 1000, "{$delimiter}" ) ) !== false ) {
@@ -153,7 +153,7 @@
                     }
                     foreach ( $_POST[ 'csv2wp_file_name' ] as $file_name ) {
                         // delete file
-                        unlink( plugin_dir_path( __FILE__ ) . '../uploads/' . $file_name );
+                        unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
                     }
                     
                     return false;
