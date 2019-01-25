@@ -62,41 +62,53 @@
                     if ( $file_name ) {
                         $show_header = false;
                         $header_row  = array();
-                        // $csv_data = csv2wp_get_csv_info_lines( $file_name );
-                        $csv_data['data'] = csv2wp_csv_to_array( $file_name,',', 1000 );
-
-                        if ( isset( $_POST[ 'csv2wp_header_row' ] ) && count( $csv_data[ 'data' ] ) > 1 ) {
-                            $show_header = true;
-                            $header_row  = $csv_data[ 'column_names' ];
-                        }
-                        if ( false != $csv_data[ 'data' ] ) {
-                            echo '<h2>CSV contents</h2>';
-                            echo '<table class="csv-preview" cellpadding="0" cellspacing="0" border="0">';
-                            if ( $show_header && is_array( $header_row ) ) {
-                                echo '<thead>';
-                                echo '<tr>';
-                                foreach ( $header_row as $column ) {
-                                    echo '<th>' . $column . '</th>';
-                                }
-                                echo '</tr>';
-                                echo '</thead>';
+    
+                        // get first row of csv
+                        $csv_info = csv2wp_csv_to_array( $file_name,",", 1, true );
+                        if ( is_array( $csv_info ) && isset( $csv_info[ 'delimiter' ] ) && ';' == $csv_info[ 'delimiter' ] ) {
+                            // if delimiter returns as ;, throw error
+                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_delimiter', __( 'You can only use comma separated files. Semi-colon separated files are not permitted (right now).', 'csv2wp' ) );
+                            
+                            CSV2WP::csv2wp_show_admin_notices();
+                            
+                        } else {
+    
+                            $csv_info[ 'data' ] = csv2wp_csv_to_array( $file_name,",", 1, false );
+                            
+                            if ( isset( $_POST[ 'csv2wp_header_row' ] ) && count( $csv_info[ 'data' ] ) > 1 ) {
+                                $show_header = true;
+                                $header_row  = $csv_info[ 'column_names' ];
                             }
-                            echo '<tbody>';
-                            $line_number = 0;
-                            foreach ( $csv_data[ 'data' ] as $line ) {
-                                $line_number++;
-                                if ( $show_header && '1' == $line_number ) {
-                                    // do nothing
-                                } else {
+                            if ( false != $csv_info[ 'data' ] ) {
+                                echo '<h2>CSV contents</h2>';
+                                echo '<table class="csv-preview" cellpadding="0" cellspacing="0" border="0">';
+                                if ( $show_header && is_array( $header_row ) ) {
+                                    echo '<thead>';
                                     echo '<tr>';
-                                    foreach ( $line as $column ) {
-                                        echo '<td>' . $column . '</td>';
+                                    foreach ( $header_row as $column ) {
+                                        echo '<th>' . $column . '</th>';
                                     }
                                     echo '</tr>';
+                                    echo '</thead>';
                                 }
+                                echo '<tbody>';
+                                $line_number = 0;
+                                foreach ( $csv_info[ 'data' ] as $line ) {
+                                    $line_number++;
+                                    if ( $show_header && '1' == $line_number ) {
+                                        // do nothing
+                                    } else {
+                                        echo '<tr>';
+                                        foreach ( $line as $column ) {
+                                            echo '<td>' . $column . '</td>';
+                                        }
+                                        echo '</tr>';
+                                    }
+                                }
+                                echo '</tbody>';
+                                echo '</table>';
                             }
-                            echo '</tbody>';
-                            echo '</table>';
+
                         }
                     }
                 ?>
