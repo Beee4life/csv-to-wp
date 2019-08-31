@@ -90,99 +90,106 @@
     /**
      * Read a CSV file, check for correct amount of columns and returns it as an array
      *
-     * @param $handle
-     * @param $verify
-     *
-     * @return array|bool
+     * @param        $file_name
+     * @param string $delimiter
+     * @param bool   $verify
+     * @param bool   $has_header
+     * @param bool   $preview
      */
-    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $first_row = false, $has_header = false ) {
+    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $has_header = false, $preview = false ) {
 
         // read file
-        $new_array = array();
+        $csv_array   = array();
+        $delete_file = false;
+        $empty_array = false;
+        $new_array   = array();
         if ( ( $handle = fopen( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name, "r" ) ) !== false ) {
-            $line_number      = 0;
-            $column_benchmark = 0;
+            $line_number = 0;
             while ( ( $csv_line = fgetcsv( $handle, 1000, "{$delimiter}" ) ) !== false ) {
                 $line_number++;
+                $csv_array[ 'delimiter' ] = $delimiter;
                 
-                // if line is 1, count columns (to set benchmark)
+                // if line is 1 and has header == true, count columns (to set benchmark)
                 if ( 1 == $line_number ) {
-                    // count columns to compare with other lines
-                    $column_benchmark = count( $csv_line );
-                    if ( $first_row ) {
-                        $csv_info[ 'delimiter' ]    = $delimiter;
-                        if ( count( $csv_line ) == 1 ) {
-                            $csv_info[ 'column_count' ] = false;
-                        } elseif ( count( $csv_line ) > 1 ) {
-                            $csv_info[ 'column_count' ] = count( $csv_line );
-        
-                            foreach ( $csv_line as $column ) {
-                                $csv_info[ 'column_names' ][] = $column;
-                            }
+                    if ( $has_header ) {
+                        foreach ( $csv_line as $column ) {
+                            $csv_array[ 'column_names' ][] = $column;
                         }
-                        return $csv_info;
+                    } else {
+                        // @TODO: check if meta is imported
                     }
-    
-                    foreach ( $csv_line as $column ) {
-                        $column_names[] = $column;
-                    }
+                    $csv_array[ 'column_count' ] = count( $csv_line );
                 }
     
                 // if column count doesn't match benchmark
-                if ( count( $csv_line ) != $column_benchmark ) {
+                if ( count( $csv_line ) != $csv_array[ 'column_count' ] ) {
                     // if column count < benchmark
-                    if ( count( $csv_line ) < $column_benchmark ) {
-                        if ( false != $verify ) {
-                            $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
-                        } else {
+                    if ( count( $csv_line ) < $csv_array[ 'column_count' ] ) {
+                        $delete_file   = true;
+                        $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
+                        if ( true == $verify ) {
+                        } elseif ( true != $preview ) {
+                            // for real
                             $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                         }
                         CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
-                        
-                    } elseif ( count( $csv_line ) > $column_benchmark ) {
+
+                    } elseif ( count( $csv_line ) > $csv_array[ 'column_count' ] ) {
                         // if column count > benchmark
-                        if ( false != $verify ) {
-                            $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
-                        } else {
+                        $delete_file   = true;
+                        $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
+                        if ( true == $verify ) {
+                        } elseif ( true != $preview ) {
+                            // for real
                             $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                         }
                         CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
                     }
-                    foreach ( $_POST[ 'csv2wp_file_name' ] as $file_name ) {
+                    if ( true == $delete_file ) {
                         // delete file
                         unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
                     }
-                    
-                    return false;
+    
                 }
-                
-                // create a new array for each row
-                $new_line   = array();
-                $item_count = 0;
-                foreach ( $csv_line as $item ) {
-                    
-                    if ( true == $has_header ) {
-                        if ( 1 == $line_number ) {
-                            // headers don't need an array index
-                            $new_line[] = $item;
+    
+                if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
+
+                    $empty_array = true;
+                    $new_array[] = false;
+
+                } else {
+    
+                    // create a new array for each row
+                    $new_line   = array();
+                    $item_count = 0;
+                    foreach ( $csv_line as $item ) {
+        
+                        if ( true == $has_header ) {
+                            if ( 1 == $line_number ) {
+                                // do nothing, headers don't need to be added
+                            } else {
+                                $new_line[ $csv_array[ 'column_names' ][ $item_count ] ] = $item;
+                            }
                         } else {
-                            $new_line[ $column_names[ $item_count ] ] = $item;
+                            $new_line[] = $item;
                         }
-                    } else {
-                        $new_line[] = $item;
+        
+                        $item_count++;
                     }
-                    
-                    $item_count++;
+                    if ( ! empty( $new_line ) ) {
+                        $new_array[] = $new_line;
+                    }
                 }
-                $new_array[] = $new_line;
-                
             }
             fclose( $handle );
     
-            if ( true == $has_header ) {
-                unset( $new_array[ 0 ] );
+            /**
+             * Don't add data if there are any errors. This to prevent rows which had no error from outputting
+             * on the preview page.
+             */
+            if ( ! empty( $new_array ) && false == $empty_array ) {
+                $csv_array[ 'data' ] = array_values( $new_array );
             }
-            $csv_array = array_values( $new_array );
     
         }
 

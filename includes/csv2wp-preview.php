@@ -61,21 +61,14 @@
                 <?php
                     if ( $file_name ) {
                         $delimiter  = ";"; // @TODO: make dynamic
-                        $has_header = false;
-                        $header_row = array();
-    
-                        if ( isset( $_POST[ 'csv2wp_header_row' ] ) ) {
-                            // get first row of csv
-                            $has_header = true;
-                            $csv_info   = csv2wp_csv_to_array( $file_name, $delimiter, true, true, $has_header );
-                            $header_row = $csv_info[ 'column_names' ];
-                        }
-                        $csv_info[ 'data' ] = csv2wp_csv_to_array( $file_name,$delimiter, true, false );
+                        $has_header = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
+                        $csv_info   = csv2wp_csv_to_array( $file_name, $delimiter, true, $has_header, true );
+                        $header_row = ( isset( $csv_info[ 'column_names' ] ) ) ? $csv_info[ 'column_names' ] : [];
                         
-                        if ( false != $csv_info[ 'data' ] ) {
+                        if ( isset( $csv_info[ 'data' ] ) && ! empty( $csv_info[ 'data' ] ) ) {
                             echo '<h2>CSV contents</h2>';
                             echo '<table class="csv-preview">';
-                            if ( $has_header && is_array( $header_row ) ) {
+                            if ( $has_header && ! empty( $header_row ) ) {
                                 echo '<thead>';
                                 echo '<tr>';
                                 foreach ( $header_row as $column ) {
@@ -100,11 +93,13 @@
                             }
                             echo '</tbody>';
                             echo '</table>';
+                        } else {
+                            echo '<p class="error_notice">';
+                            echo sprintf( __( 'You either have errors in your CSV or there is no data. Verify this file on the <a href="%s">dashboard</a>.', 'csv2wp' ), admin_url() . 'admin.php?page=csv2wp-dashboard' );
+                            echo '</p>';
                         }
-
                     }
                 ?>
-
             </div><!-- end #csv-importer -->
 
         </div><!-- end .wrap -->
