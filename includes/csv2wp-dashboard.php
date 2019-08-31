@@ -37,7 +37,6 @@
                 
                 <?php $file_index = csv2wp_check_if_files(); ?>
                 <?php if ( $file_index ) { ?>
-                        ?>
                         <br/>
                         <h2>
                             <?php esc_html_e( "Handle a CSV file", "csv2wp" ); ?>
