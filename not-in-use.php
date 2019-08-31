@@ -6,7 +6,7 @@
         
         if ( current_user_can( 'manage_options' ) && isset( $_POST[ "nuke_all_nonce" ] ) ) {
             if ( ! wp_verify_nonce( $_POST[ "nuke_all_nonce" ], 'nuke-all-nonce' ) ) {
-                CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'rankings-import' ) );
+                CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv2wp' ) );
                 
                 return;
             } else {
@@ -29,9 +29,9 @@
                         }
                     }
                     if ( class_exists( 'ActionLogger' ) ) {
-                        ActionLogger::al_log_user_action( 'nuke_all', 'rankings-import', ' nuked all rankings' );
+                        ActionLogger::al_log_user_action( 'nuke_all', 'csv2wp', ' nuked all rankings' );
                     }
-                    CSV2WP::csv2wp_errors()->add( 'success_all_nuked', __( 'AAAAAAAAAND it\'s gone.', 'rankings-import' ) );
+                    CSV2WP::csv2wp_errors()->add( 'success_all_nuked', __( 'AAAAAAAAAND it\'s gone.', 'csv2wp' ) );
                     
                     return;
                 }
@@ -46,7 +46,7 @@
         
         if ( current_user_can( 'manage_options' ) && isset( $_POST[ "remove_ranking_nonce" ] ) ) {
             if ( ! wp_verify_nonce( $_POST[ "remove_ranking_nonce" ], 'remove-ranking-nonce' ) ) {
-                CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'rankings-import' ) );
+                CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv2wp' ) );
                 
                 return;
             } else {
@@ -85,9 +85,9 @@
                             update_user_meta( $user_id, 'race_rankings', $race_rankings );
                         }
                         if ( class_exists( 'ActionLogger' ) ) {
-                            ActionLogger::al_log_user_action( 'individual_ranking_deleted', 'rankings-import', ' deleted ' . count( $value_array ) . ' ranking lines for ' . get_userdata( $user_id )->display_name );
+                            ActionLogger::al_log_user_action( 'individual_ranking_deleted', 'csv2wp', ' deleted ' . count( $value_array ) . ' ranking lines for ' . get_userdata( $user_id )->display_name );
                         }
-                        CSV2WP::csv2wp_errors()->add( 'success_rankings_deleted', __( 'Ranking(s) deleted.', 'rankings-import' ) );
+                        CSV2WP::csv2wp_errors()->add( 'success_rankings_deleted', __( 'Ranking(s) deleted.', 'csv2wp' ) );
                     }
                 }
             }
