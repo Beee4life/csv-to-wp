@@ -1,67 +1,6 @@
 <?php
     
     /**
-     * Verify CSV data
-     *
-     * @param bool $csv_data
-     *
-     * @return array|bool
-     */
-    function csv2wp_verify_raw_csv_data( $csv_data = false ) {
-        
-        if ( false != $csv_data ) {
-            $validated_csv = array();
-            $lines         = explode( "\n", $csv_data );
-            $line_number   = 0;
-            foreach ( $lines as $csv_line ) {
-                $line_number++;
-                
-                if ( strlen( $csv_line ) < 2 ) {
-                    CSV2WP::csv2wp_errors()->add( 'error_in_data', esc_html( __( 'There is an empty line on line ' . $line_number . '.', 'csv2wp' ) ) );
-                    
-                    return false;
-
-                } else {
-    
-                    // if line is 1, count columns (to set benchmark)
-                    if ( 1 == $line_number ) {
-                        // count columns to compare with other lines
-                        $column_count = count( $csv_line );
-                    }
-    
-                    $line_array = str_getcsv( $csv_line );
-                    if ( count( $line_array ) != $column_count ) {
-                        // length of a line if not correct
-                        if ( count( $line_array ) < $column_count ) {
-                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( 'There are too few columns on line ' . $line_number . '.', 'csv2wp' ) ) );
-                        } elseif ( count( $line_array ) > $column_count ) {
-                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( 'There are too many columns on line ' . $line_number . '.', 'csv2wp' ) ) );
-                        }
-                        
-                        return false;
-                        
-                    } else {
-                        
-                        // why did I need this again ???
-                        $element_counter = 0;
-                        foreach ( $line_array as $element ) {
-                            $element_counter++;
-                        }
-                        
-                        // all good
-                        $validated_csv[] = $line_array;
-                    }
-                }
-            }
-            
-            return $validated_csv;
-        }
-        
-        return false;
-    }
-    
-    
-    /**
      * Check if files are uploaded
      *
      * @return array
@@ -87,6 +26,7 @@
         
     }
     
+
     /**
      * Read a CSV file, check for correct amount of columns and returns it as an array
      *
@@ -168,7 +108,6 @@
                         } else {
                             $new_line[] = $item;
                         }
-        
                         $item_count++;
                     }
                     if ( ! empty( $new_line ) ) {
@@ -185,14 +124,74 @@
             if ( ! empty( $new_array ) && false == $empty_array ) {
                 $csv_array[ 'data' ] = array_values( $new_array );
             }
-    
         }
 
         return $csv_array;
     }
     
     /**
-     * Get pagination for
+     * Verify raw CSV data
+     *
+     * @param bool $csv_data
+     *
+     * @return array|bool
+     */
+    function csv2wp_verify_raw_csv_data( $csv_data = false ) {
+        
+        if ( false != $csv_data ) {
+            $validated_csv = array();
+            $lines         = explode( "\n", $csv_data );
+            $line_number   = 0;
+            foreach ( $lines as $csv_line ) {
+                $line_number++;
+                
+                if ( strlen( $csv_line ) < 2 ) {
+                    CSV2WP::csv2wp_errors()->add( 'error_in_data', esc_html( __( 'There is an empty line on line ' . $line_number . '.', 'csv2wp' ) ) );
+                    
+                    return false;
+                    
+                } else {
+                    
+                    // if line is 1, count columns (to set benchmark)
+                    if ( 1 == $line_number ) {
+                        // count columns to compare with other lines
+                        $column_count = count( $csv_line );
+                    }
+                    
+                    $line_array = str_getcsv( $csv_line );
+                    if ( count( $line_array ) != $column_count ) {
+                        // length of a line if not correct
+                        if ( count( $line_array ) < $column_count ) {
+                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( 'There are too few columns on line ' . $line_number . '.', 'csv2wp' ) ) );
+                        } elseif ( count( $line_array ) > $column_count ) {
+                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( 'There are too many columns on line ' . $line_number . '.', 'csv2wp' ) ) );
+                        }
+                        
+                        return false;
+                        
+                    } else {
+                        
+                        // why did I need this again ???
+                        $element_counter = 0;
+                        foreach ( $line_array as $element ) {
+                            $element_counter++;
+                        }
+                        
+                        // all good
+                        $validated_csv[] = $line_array;
+                    }
+                }
+            }
+            
+            return $validated_csv;
+        }
+        
+        return false;
+    }
+    
+    
+    /**
+     * Get pagination (if needed)
      *
      * @param $pages
      * @param $page_number

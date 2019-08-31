@@ -56,9 +56,9 @@
                 <?php } else { ?>
                     <p><?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?></p>
                 <?php } ?>
-
-                <!--Get imported data-->
+                
                 <?php
+                    // Get imported data
                     if ( $file_name ) {
                         $delimiter  = ";"; // @TODO: make dynamic
                         $has_header = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;

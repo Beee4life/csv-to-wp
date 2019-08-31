@@ -28,7 +28,7 @@
                 </p>
 
                 <form name="settings-form" id="settings-form" action="" method="post">
-                    <input name="active_logs_nonce" type="hidden" value="<?php echo wp_create_nonce( 'active-logs-nonce' ); ?>"/>
+                    <input name="store_settings_nonce" type="hidden" value="<?php echo wp_create_nonce( 'store-settings-nonce' ); ?>"/>
                     <?php
                         $all_capabilities = get_role( 'administrator' )->capabilities;
                         $logs_user_role   = get_option( 'csv2wp_import_role' );

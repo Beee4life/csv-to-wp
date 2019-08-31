@@ -37,96 +37,96 @@
                 
                 <?php $file_index = csv2wp_check_if_files(); ?>
                 <?php if ( $file_index ) { ?>
-                        <br/>
-                        <h2>
-                            <?php esc_html_e( "Handle a CSV file", "csv2wp" ); ?>
-                        </h2>
-                        <p>
-                            <?php esc_html_e( 'Select a file, select where to import it, whether the file has a header row and if you want to limit the amount of lines.', 'csv2wp' ); ?>
-                        </p>
-                        
-                        <?php if ( ! empty( $file_index ) ) { ?>
-                            <?php global $wpdb; ?>
-                            <form method="POST">
-                                <input name="select_file_nonce" type="hidden" value="<?php echo wp_create_nonce( 'select-file-nonce' ); ?>"/>
-                                <table class="uploaded_files">
-                                    <thead>
-                                        <tr>
-                                            <th>&nbsp;</th>
-                                            <th><?php echo __( 'File name', 'csv2wp' ); ?></th>
-                                            <th><?php echo __( 'Import in', 'csv2wp' ); ?></th>
-                                            <th><?php echo __( 'Has header', 'csv2wp' ); ?></th>
-                                            <th><?php echo __( 'Table', 'csv2wp' ); ?></th>
-                                            <th><?php echo __( 'Delimiter', 'csv2wp' ); ?></th>
-                                            <th><?php echo __( 'Max. lines', 'csv2wp' ); ?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php $row_id = 0; ?>
-                                    <?php foreach ( $file_index as $file ) { ?>
-                                        <tr>
-                                            <td>
-                                                <label for="csv2wp_row_id" class="screen-reader-text"><?php echo __( 'File name', 'csv2wp' ); ?></label>
-                                                <input id="csv2wp_row_id" name="csv2wp_row_id" type="radio" value="<?php echo $row_id; ?>">
-                                                <input id="csv2wp_file_name-<?php echo $row_id; ?>" name="csv2wp_file_name-<?php echo $row_id; ?>" type="hidden" value="<?php echo $file; ?>">
-                                            </td>
-                                            <td><?php echo $file; ?></td>
-                                            <td>
-                                                <label for="csv2wp_import_in-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Import in', 'csv2wp' ); ?></label>
-                                                <select name="csv2wp_import_in-<?php echo $row_id; ?>" class="csv2wp_import_in" id="csv2wp_import_in-<?php echo $row_id; ?>">
-                                                    <option value="table"><?php echo __( 'Database table', 'csv2wp' ); ?></option>
-                                                    <option value="postmeta"><?php echo __( 'Post meta', 'csv2wp' ); ?></option>
-                                                    <option value="usermeta"><?php echo __( 'User meta', 'csv2wp' ); ?></option>
-                                                </select>
-                                            </td>
-                                            <td class="header">
-                                                <span class="csv2wp_header-<?php echo $row_id; ?>">
-                                                    <label for="csv2wp_header-<?php echo $row_id; ?>" class="screen-reader-text"><?php esc_html_e( 'Yes', 'csv2wp' ); ?></label>
-                                                    <input id="csv2wp_header-<?php echo $row_id; ?>" class="" name="csv2wp_header-<?php echo $row_id; ?>" type="checkbox" value="1" checked="checked"> Yes
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <label>
-                                                    <input id="csv2wp_key_table-<?php echo $row_id; ?>" class="csv2wp_key csv2wp_key-<?php echo $row_id; ?> table" name="csv2wp_table-<?php echo $row_id; ?>" type="text" size="10" value="<?php echo $wpdb->prefix; ?>" placeholder="<?php echo $wpdb->prefix; ?>">
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label for="csv2wp_delimiter-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Delimiter', 'csv2wp' ); ?></label>
-                                                <select name="csv2wp_delimiter-<?php echo $row_id; ?>" id="csv2wp_delimiter-<?php echo $row_id; ?>">
-                                                    <option value=",">,</option>
-                                                    <option value=";">;</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <label for="csv2wp_max_lines-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Limit lines', 'csv2wp' ); ?></label>
-                                                <select name="csv2wp_max_lines-<?php echo $row_id; ?>" id="csv2wp_max_lines-<?php echo $row_id; ?>">
-                                                    <option value=""><?php esc_html_e( 'All', 'csv2wp' ); ?></option>
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                    <option value="250">250</option>
-                                                    <option value="500">500</option>
-                                                    <option value="1000">1000</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <?php $row_id++; ?>
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
-                                <br/>
-                                <input name="csv2wp_verify" type="submit" value="<?php esc_html_e( 'Verify selected file(s)', 'csv2wp' ); ?>"/>
-                                <input name="csv2wp_import" type="submit" value="<?php esc_html_e( 'Import selected file(s)', 'csv2wp' ); ?>"/>
-                                <input name="csv2wp_remove" type="submit" value="<?php esc_html_e( 'Remove selected file(s)', 'csv2wp' ); ?>"/>
-                            </form>
-                        
-                        <?php } ?>
-                        
-                    <?php } else { ?>
-                        <p><?php esc_html_e( 'No files uploaded', 'csv2wp' ); ?></p>
+                    <br/>
+                    <h2>
+                        <?php esc_html_e( "Handle a CSV file", "csv2wp" ); ?>
+                    </h2>
+                    <p>
+                        <?php esc_html_e( 'Select a file, select where to import it, whether the file has a header row and if you want to limit the amount of lines.', 'csv2wp' ); ?>
+                    </p>
+                    
+                    <?php if ( ! empty( $file_index ) ) { ?>
+                        <?php global $wpdb; ?>
+                        <form method="POST">
+                            <input name="select_file_nonce" type="hidden" value="<?php echo wp_create_nonce( 'select-file-nonce' ); ?>"/>
+                            <table class="uploaded_files">
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th><?php echo __( 'File name', 'csv2wp' ); ?></th>
+                                        <th><?php echo __( 'Import in', 'csv2wp' ); ?></th>
+                                        <th><?php echo __( 'Has header', 'csv2wp' ); ?></th>
+                                        <th><?php echo __( 'Table', 'csv2wp' ); ?></th>
+                                        <th><?php echo __( 'Delimiter', 'csv2wp' ); ?></th>
+                                        <th><?php echo __( 'Max. lines', 'csv2wp' ); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php $row_id = 0; ?>
+                                <?php foreach ( $file_index as $file ) { ?>
+                                    <tr>
+                                        <td>
+                                            <label for="csv2wp_row_id" class="screen-reader-text"><?php echo __( 'File name', 'csv2wp' ); ?></label>
+                                            <input id="csv2wp_row_id" name="csv2wp_row_id" type="radio" value="<?php echo $row_id; ?>">
+                                            <input id="csv2wp_file_name-<?php echo $row_id; ?>" name="csv2wp_file_name-<?php echo $row_id; ?>" type="hidden" value="<?php echo $file; ?>">
+                                        </td>
+                                        <td><?php echo $file; ?></td>
+                                        <td>
+                                            <label for="csv2wp_import_in-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Import in', 'csv2wp' ); ?></label>
+                                            <select name="csv2wp_import_in-<?php echo $row_id; ?>" class="csv2wp_import_in" id="csv2wp_import_in-<?php echo $row_id; ?>">
+                                                <option value="table"><?php echo __( 'Database table', 'csv2wp' ); ?></option>
+                                                <option value="postmeta"><?php echo __( 'Post meta', 'csv2wp' ); ?></option>
+                                                <option value="usermeta"><?php echo __( 'User meta', 'csv2wp' ); ?></option>
+                                            </select>
+                                        </td>
+                                        <td class="header">
+                                            <span class="csv2wp_header-<?php echo $row_id; ?>">
+                                                <label for="csv2wp_header-<?php echo $row_id; ?>" class="screen-reader-text"><?php esc_html_e( 'Yes', 'csv2wp' ); ?></label>
+                                                <input id="csv2wp_header-<?php echo $row_id; ?>" class="" name="csv2wp_header-<?php echo $row_id; ?>" type="checkbox" value="1" checked="checked"> Yes
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                <input id="csv2wp_key_table-<?php echo $row_id; ?>" class="csv2wp_key csv2wp_key-<?php echo $row_id; ?> table" name="csv2wp_table-<?php echo $row_id; ?>" type="text" size="10" value="<?php echo $wpdb->prefix; ?>" placeholder="<?php echo $wpdb->prefix; ?>">
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label for="csv2wp_delimiter-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Delimiter', 'csv2wp' ); ?></label>
+                                            <select name="csv2wp_delimiter-<?php echo $row_id; ?>" id="csv2wp_delimiter-<?php echo $row_id; ?>">
+                                                <option value=",">,</option>
+                                                <option value=";">;</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label for="csv2wp_max_lines-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Limit lines', 'csv2wp' ); ?></label>
+                                            <select name="csv2wp_max_lines-<?php echo $row_id; ?>" id="csv2wp_max_lines-<?php echo $row_id; ?>">
+                                                <option value=""><?php esc_html_e( 'All', 'csv2wp' ); ?></option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <?php $row_id++; ?>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <input name="csv2wp_verify" type="submit" value="<?php esc_html_e( 'Verify selected file(s)', 'csv2wp' ); ?>"/>
+                            <input name="csv2wp_import" type="submit" value="<?php esc_html_e( 'Import selected file(s)', 'csv2wp' ); ?>"/>
+                            <input name="csv2wp_remove" type="submit" value="<?php esc_html_e( 'Remove selected file(s)', 'csv2wp' ); ?>"/>
+                        </form>
+                    
                     <?php } ?>
+                    
+                <?php } else { ?>
+                    <p><?php esc_html_e( 'No files uploaded', 'csv2wp' ); ?></p>
+                <?php } ?>
                 
                 <?php if ( $show_raw ) { ?>
                     <br/>
@@ -145,7 +145,7 @@
                     <?php } ?>
                     <form method="POST">
                         <input name="import_raw_rankings_nonce" type="hidden" value="<?php echo wp_create_nonce( 'import-raw-rankings-nonce' ); ?>"/>
-                        <label for="raw-import"></label>
+                        <label for="raw-import" class="screen-reader-text"></label>
                         <textarea name="raw_csv_import" id="raw-import" type="textarea" rows="5" cols="50" placeholder=""><?php echo $submitted_raw_data; ?></textarea>
                         <br/>
                         <input name="verify" type="submit" value="<?php esc_html_e( 'Verify data', 'csv2wp' ); ?>"/>
