@@ -1,14 +1,14 @@
 <?php
-    
+    /**
+     * Output for dashboard page
+     */
     function csv2wp_dashboard_page() {
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_die( esc_html( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) ) );
         }
-        
         $show_search = false;
         $show_raw    = false;
         $show_nuke   = false;
-        
         ?>
 
         <div class="wrap">
@@ -35,9 +35,8 @@
                     <input type="submit" value="<?php esc_html_e( 'Upload file', 'csv2wp' ); ?>"/>
                 </form>
                 
-                <?php
-                    $file_index = csv2wp_check_if_files();
-                    if ( $file_index ) {
+                <?php $file_index = csv2wp_check_if_files(); ?>
+                <?php if ( $file_index ) { ?>
                         ?>
                         <br/>
                         <h2>
@@ -64,10 +63,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                        $row_id = 0;
-                                        foreach ( $file_index as $file ) {
-                                        ?>
+                                    <?php $row_id = 0; ?>
+                                    <?php foreach ( $file_index as $file ) { ?>
                                         <tr>
                                             <td>
                                                 <label for="csv2wp_row_id" class="screen-reader-text">File name</label>
@@ -143,10 +140,10 @@
                         <?php esc_html_e( 'This is seen as a new entry and creates an error !!!', 'csv2wp' ); ?>
                     </p>
     
-                    <?php $submitted_raw_data = false;
-                    if ( isset( $_POST[ 'raw_csv_import' ] ) ) {
-                        $submitted_raw_data = $_POST[ 'raw_csv_import' ];
-                    } ?>
+                    <?php $submitted_raw_data = false; ?>
+                    <?php if ( isset( $_POST[ 'raw_csv_import' ] ) ) { ?>
+                        <?php $submitted_raw_data = $_POST[ 'raw_csv_import' ]; ?>
+                    <?php } ?>
                     <form method="POST">
                         <input name="import_raw_rankings_nonce" type="hidden" value="<?php echo wp_create_nonce( 'import-raw-rankings-nonce' ); ?>"/>
                         <label for="raw-import"></label>
@@ -160,5 +157,4 @@
             </div>
         </div>
         
-        <?php
-    } // end race_overview - content for settings page
+<?php } // end race_overview - content for settings page
