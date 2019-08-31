@@ -54,62 +54,54 @@
                         <input type="submit" class="admin-button admin-button-small" value="<?php esc_html_e( 'Preview this file', 'csv2wp' ); ?>"/>
                     </form>
                 <?php } else { ?>
-                    <p><?php esc_html_e( 'You have no uploaded csv files to preview.', 'csv2wp' ); ?></p>
+                    <p><?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?></p>
                 <?php } ?>
 
                 <!--Get imported data-->
                 <?php
                     if ( $file_name ) {
-                        $show_header = false;
-                        $header_row  = array();
+                        $delimiter  = ";"; // @TODO: make dynamic
+                        $has_header = false;
+                        $header_row = array();
     
-                        // get first row of csv
-                        $csv_info = csv2wp_csv_to_array( $file_name,",", 1, true );
-                        if ( is_array( $csv_info ) && isset( $csv_info[ 'delimiter' ] ) && ';' == $csv_info[ 'delimiter' ] ) {
-                            // if delimiter returns as ;, throw error
-                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_delimiter', __( 'You can only use comma separated files. Semi-colon separated files are not permitted (right now).', 'csv2wp' ) );
-                            
-                            CSV2WP::csv2wp_show_admin_notices();
-                            
-                        } else {
-    
-                            $csv_info[ 'data' ] = csv2wp_csv_to_array( $file_name,",", 1, false );
-                            
-                            if ( isset( $_POST[ 'csv2wp_header_row' ] ) && count( $csv_info[ 'data' ] ) > 1 ) {
-                                $show_header = true;
-                                $header_row  = $csv_info[ 'column_names' ];
+                        if ( isset( $_POST[ 'csv2wp_header_row' ] ) ) {
+                            // get first row of csv
+                            $has_header = true;
+                            $csv_info   = csv2wp_csv_to_array( $file_name, $delimiter, true, true, $has_header );
+                            $header_row = $csv_info[ 'column_names' ];
+                        }
+                        $csv_info[ 'data' ] = csv2wp_csv_to_array( $file_name,$delimiter, true, false );
+                        
+                        if ( false != $csv_info[ 'data' ] ) {
+                            echo '<h2>CSV contents</h2>';
+                            echo '<table class="csv-preview">';
+                            if ( $has_header && is_array( $header_row ) ) {
+                                echo '<thead>';
+                                echo '<tr>';
+                                foreach ( $header_row as $column ) {
+                                    echo '<th>' . $column . '</th>';
+                                }
+                                echo '</tr>';
+                                echo '</thead>';
                             }
-                            if ( false != $csv_info[ 'data' ] ) {
-                                echo '<h2>CSV contents</h2>';
-                                echo '<table class="csv-preview" cellpadding="0" cellspacing="0" border="0">';
-                                if ( $show_header && is_array( $header_row ) ) {
-                                    echo '<thead>';
+                            echo '<tbody>';
+                            $line_number = 0;
+                            foreach ( $csv_info[ 'data' ] as $line ) {
+                                $line_number++;
+                                if ( $has_header && '1' == $line_number ) {
+                                    // do nothing
+                                } else {
                                     echo '<tr>';
-                                    foreach ( $header_row as $column ) {
-                                        echo '<th>' . $column . '</th>';
+                                    foreach ( $line as $column ) {
+                                        echo '<td>' . $column . '</td>';
                                     }
                                     echo '</tr>';
-                                    echo '</thead>';
                                 }
-                                echo '<tbody>';
-                                $line_number = 0;
-                                foreach ( $csv_info[ 'data' ] as $line ) {
-                                    $line_number++;
-                                    if ( $show_header && '1' == $line_number ) {
-                                        // do nothing
-                                    } else {
-                                        echo '<tr>';
-                                        foreach ( $line as $column ) {
-                                            echo '<td>' . $column . '</td>';
-                                        }
-                                        echo '</tr>';
-                                    }
-                                }
-                                echo '</tbody>';
-                                echo '</table>';
                             }
-
+                            echo '</tbody>';
+                            echo '</table>';
                         }
+
                     }
                 ?>
 

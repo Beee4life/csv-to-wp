@@ -56,7 +56,7 @@
                         <input type="submit" class="admin-button admin-button-small" value="<?php esc_html_e( 'Preview this file', 'csv2wp' ); ?>"/>
                     </form>
                 <?php } else { ?>
-                    <p><?php esc_html_e( 'You have no uploaded csv files to preview.', 'csv2wp' ); ?></p>
+                    <p><?php esc_html_e( 'You have no files to map.', 'csv2wp' ); ?></p>
                 <?php } ?>
 
                 <!--Get imported data-->
@@ -72,7 +72,7 @@
                         if ( false != $csv_array ) {
                             $column_count = count( $csv_array[ 0 ] );
                             echo '<h2>CSV contents</h2>';
-                            echo '<table class="csv-preview" cellpadding="0" cellspacing="0" border="0">';
+                            echo '<table class="csv-preview">';
                             echo '<thead>';
                             echo '<tr>';
                             foreach ( $header_row as $column ) {

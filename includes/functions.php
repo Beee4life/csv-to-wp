@@ -95,10 +95,10 @@
      *
      * @return array|bool
      */
-    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $first_row = false ) {
-        
+    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $first_row = false, $has_header = false ) {
+
         // read file
-        $csv_array = array();
+        $new_array = array();
         if ( ( $handle = fopen( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name, "r" ) ) !== false ) {
             $line_number      = 0;
             $column_benchmark = 0;
@@ -109,20 +109,17 @@
                 if ( 1 == $line_number ) {
                     // count columns to compare with other lines
                     $column_benchmark = count( $csv_line );
-    
                     if ( $first_row ) {
+                        $csv_info[ 'delimiter' ]    = $delimiter;
                         if ( count( $csv_line ) == 1 ) {
                             $csv_info[ 'column_count' ] = false;
-                            $csv_info[ 'delimiter' ]    = ';';
                         } elseif ( count( $csv_line ) > 1 ) {
                             $csv_info[ 'column_count' ] = count( $csv_line );
-                            $csv_info[ 'delimiter' ]    = ',';
         
                             foreach ( $csv_line as $column ) {
                                 $csv_info[ 'column_names' ][] = $column;
                             }
                         }
-                        
                         return $csv_info;
                     }
     
@@ -163,21 +160,32 @@
                 $new_line   = array();
                 $item_count = 0;
                 foreach ( $csv_line as $item ) {
-                    if ( 1 == $line_number ) {
-                        // headers don't need an array index
-                        $new_line[] = $item;
+                    
+                    if ( true == $has_header ) {
+                        if ( 1 == $line_number ) {
+                            // headers don't need an array index
+                            $new_line[] = $item;
+                        } else {
+                            $new_line[ $column_names[ $item_count ] ] = $item;
+                        }
                     } else {
-                        $new_line[ $column_names[ $item_count ] ] = $item;
+                        $new_line[] = $item;
                     }
+                    
                     $item_count++;
                 }
-                $csv_array[] = $new_line;
+                $new_array[] = $new_line;
                 
             }
             fclose( $handle );
-            
+    
+            if ( true == $has_header ) {
+                unset( $new_array[ 0 ] );
+            }
+            $csv_array = array_values( $new_array );
+    
         }
-        
+
         return $csv_array;
     }
     

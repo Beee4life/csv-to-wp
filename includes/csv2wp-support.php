@@ -30,7 +30,7 @@
 
                 <h2><?php esc_html_e( 'About the author', 'csv2wp' ); ?></h2>
                 <p>
-                    This plugin is created by <a href="http://www.berryplasman.com">Beee</a>, a Wordpress developer from Amsterdam.
+                    <?php echo sprintf( __( 'This plugin is created by <a href="%s">Beee</a>, a Wordpress developer from Amsterdam.', 'csv2wp' ), 'https://www.berryplasman.com' ); ?>
                 </p>
 
             </div><!-- end #csv-importer -->

@@ -5,7 +5,7 @@
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import an verify CSV data and imports it to your WordPress database.
     Author: Beee
-    Author URI: http://berryplasman.com
+    Author URI: https://berryplasman.com
     Text-domain: csv2wp
     License: GPL2
        ___  ____ ____ ____
@@ -29,22 +29,17 @@
                     'path'    => trailingslashit( dirname( __FILE__ ) ),
                     'version' => '0.1',
                 );
-                
+
                 // (de)activation hooks
                 register_activation_hook( __FILE__,     array( $this, 'csv2wp_plugin_activation' ) );
                 register_deactivation_hook( __FILE__,   array( $this, 'csv2wp_plugin_deactivation' ) );
                 
-                // add settings link to plugin
-                add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array(
-                    $this,
-                    'csv2wp_plugin_link'
-                ) );
-                
                 // actions
                 add_action( 'admin_menu',               array( $this, 'csv2wp_add_admin_pages' ) );
-                add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_css' ) );
+                add_action( 'admin_enqueue_scripts',    array( $this, 'csv2wp_enqueue_scripts' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_errors' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_admin_menu' ) );
+                add_action( 'plugins_loaded',           array( $this, 'csv2wp_load_textdomain' ) );
                 
                 // csv actions
                 add_action( 'admin_init',               array( $this, 'csv2wp_upload_functions' ) );
@@ -52,15 +47,36 @@
                 add_action( 'admin_init',               array( $this, 'csv2wp_create_uploads_directory' ) );
                 // add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
                 
-                
+                // add settings link to plugin
+                add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'csv2wp_plugin_link' ) );
+    
                 include( 'includes/functions.php' );
                 include( 'includes/csv2wp-help-tabs.php' );
                 
                 $this->csv2wp_create_uploads_directory();
                 
+                // add_action( 'admin_menu', array( $this, 'test_this' ) );
+                
             }
             
-            // @TODO: preview raw imported data
+            public function test_this() {
+    
+                $row_id       = "0";
+                $delimiter    = ';';
+                $file_name    = 'postmeta-rows.csv';
+                $has_header   = false;
+                $import_where = '';
+                $import       = false;
+                $remove       = false;
+                $verify       = false;
+    
+                if ( true == $has_header ) {
+                    $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, true, $has_header );
+                }
+                $csv_array[ 'data' ] = csv2wp_csv_to_array( $file_name, $delimiter, $verify, false, $has_header );
+                
+                echo '<pre>'; var_dump($csv_array); echo '</pre>'; exit;
+            }
             
             
             /**
@@ -89,7 +105,12 @@
             public function csv2wp_store_default_values() {
                 update_option( 'csv2wp_import_role', 'manage_options' );
             }
-            
+    
+            public function csv2wp_load_textdomain() {
+                // set text domain
+                load_plugin_textdomain( 'csv2wp', false, basename( dirname( plugin_basename( __FILE__ ) ) ) . '/languages' );
+            }
+    
             /**
              * @return WP_Error
              */
@@ -172,7 +193,7 @@
                                         // do something with $csv_line
                                         $count++;
                                     }
-                                    CSV2WP::csv2wp_errors()->add( 'success_raw_data_imported', __( $count . ' lines imported through raw import.', 'csv2wp' ) );
+                                    CSV2WP::csv2wp_errors()->add( 'success_raw_data_imported', sprintf( __( '%d lines imported through raw import.', 'csv2wp' ), $count ) );
                                 }
                             }
                         }
@@ -194,117 +215,204 @@
                     } else {
                         // nonce ok + verified
                         
-                        if ( ! isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                            CSV2WP::csv2wp_errors()->add( "error_no_file_selected", __( "You didn't select a file.", "csv2wp" ) );
+                        // echo '<pre>'; var_dump($_POST); echo '</pre>'; exit;
+
+                        if ( ! isset( $_POST[ 'csv2wp_row_id' ] ) ) {
+                            CSV2WP::csv2wp_errors()->add( "error_no_file_selected", __( "You didn't select a file to handle.", "csv2wp" ) );
                             
                             return;
                         }
-                        
-                        $remove    = ! empty( $_POST[ 'csv2wp_remove' ] ) ? $_POST[ 'csv2wp_remove' ] : false;
-                        $verify    = ! empty( $_POST[ 'csv2wp_verify' ] ) ? $_POST[ 'csv2wp_verify' ] : false;
-                        $file_name = ! empty( $_POST[ 'csv2wp_file_name' ] ) ? $_POST[ 'csv2wp_file_name' ] : false;
+                        $row_id       = $_POST[ 'csv2wp_row_id' ];
+                        $delimiter    = ! empty( $_POST[ 'csv2wp_delimiter-' . $row_id ] ) ? $_POST[ 'csv2wp_delimiter-' . $row_id ] : ',';
+                        $file_name    = ! empty( $_POST[ 'csv2wp_file_name-' . $row_id ] ) ? $_POST[ 'csv2wp_file_name-' . $row_id ] : false;
+                        $has_header   = isset( $_POST[ 'csv2wp_header-' . $row_id ] ) ? true : false;
+                        // echo '<pre>'; var_dump($has_header); echo '</pre>'; exit;
+                        $import_where = $_POST[ 'csv2wp_import_in-' . $row_id ];
+                        $remove       = ! empty( $_POST[ 'csv2wp_remove' ] ) ? true : false;
+                        $verify       = ! empty( $_POST[ 'csv2wp_verify' ] ) ? true : false;
                         
                         if ( false == $remove ) {
                             
-                            if ( count( $_POST[ 'csv2wp_file_name' ] ) > 1 ) {
-                                CSV2WP::csv2wp_errors()->add( "error_too_many_files", __( "Only 1 file at a time please, otherwise the error messages can be off. And yes, it's already on the todo list.", "csv2wp" ) );
-                                
-                                return;
+                            // Get array with specs and and all csv data (in 2 steps)
+                            // @TODO: place into 1 array
+                            if ( true == $has_header ) {
+                                $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, true, $has_header );
                             }
-    
-                            // Get array with all csv data
-                            // $csv_array = csv2wp_get_csv_info_lines( $file_name[ 0 ], $verify );
-                            $csv_array = csv2wp_csv_to_array( $file_name[0], ',', 1000, $verify );
+                            $csv_array[ 'data' ] = csv2wp_csv_to_array( $file_name, $delimiter, $verify, false, $has_header );
                             
-                            // import data or delete file
-                            if ( false == $verify ) {
-                                
-                                if ( ! isset( $_POST[ 'csv2wp_import_in' ] ) ) {
-                                    CSV2WP::csv2wp_errors()->add( "error_no_type_selected", __( "You didn't select where to import it.", "csv2wp" ) );
-        
+                            // import data or verify file
+                            if ( false === $verify ) {
+    
+                                if ( 'table' == $import_where && empty( $_POST[ 'csv2wp_table-' . $row_id ] ) ) {
+                                    CSV2WP::csv2wp_errors()->add( "error_no_table_entered", __( "You didn't enter a table, where to import it.", "csv2wp" ) );
+    
                                     return;
-                                } else {
     
-                                    if ( empty( $_POST[ 'csv2wp_meta_key' ] ) ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_no_key_entered", __( "You didn't enter a meta key, where to import it.", "csv2wp" ) );
-        
-                                        return;
-                                    } else {
-                                        // verify = false, so this is for real, this is no verification, there are no (more) errors, so files can be processed
-                                        $import_where = $_POST[ 'csv2wp_import_in' ];
-                                        $meta_key     = $_POST[ 'csv2wp_meta_key' ];
-                                        $line_limit   = ( $_POST[ 'csv2wp_max_lines' ] ) ? $_POST[ 'csv2wp_max_lines' ] : false;
+                                } elseif ( 'table' == $import_where && empty( $_POST[ 'csv2wp_header-' . $row_id ] ) ) {
+                                    CSV2WP::csv2wp_errors()->add( "error_no_header", __( "You unchecked whether the file has a header row. For insert into table, you must have a header row.", "csv2wp" ) );
     
-                                        // @TODO: do something with the data ($csv_array) here
-                                        if ( is_array( $csv_array[ 'data' ] ) ) {
-                                            $header_row = false;
-                                            if ( isset( $_POST[ 'csv2wp_has_header' ] ) ) {
-                                                $header_row = $csv_array[ 'column_names' ];
-                                            }
-    
-                                            $line_number = 1;
-                                            foreach( $csv_array[ 'data' ] as $line ) {
-                                                if ( $header_row && $line_number == 1 ) {
-                                                    // do nothing
-                                                } else {
-                                                    $new_values = array();
-                                                    foreach( $line as $column ) {
-                                                        $new_values[] = (string)$column;
-                                                    }
+                                    return;
 
-                                                    // do something with the data
-                                                    $user_id = $new_values[0];
-                                                }
-                                                $line_number++;
+                                // } elseif ( 'postmeta' == $import_where && empty( $_POST[ 'csv2wp_post_meta-' . $row_id ] ) && ! $has_header ) {
+                                //     CSV2WP::csv2wp_errors()->add( "error_no_meta_entered", __( "You didn't enter a post_meta key, in which to import it.", "csv2wp" ) );
+                                //
+                                //     return;
+                                
+                                // } elseif ( 'usermeta' == $import_where && empty( $_POST[ 'csv2wp_user_meta-' . $row_id ] ) && ! $has_header ) {
+                                //     CSV2WP::csv2wp_errors()->add( "error_no_meta_entered", __( "You didn't enter a user_meta key, in which to import it.", "csv2wp" ) );
+                                //
+                                //     return;
+                                
+                                } else {
+                                    
+                                    // There are no (more) errors, so files can be processed
+                                    // $verify = false, so this is for real, this is no verification (aready done in csv2wp_csv_to_array)
     
-                                                if ( 'post' == $import_where ) {
-                                                    update_post_meta( '', $meta_key, '' );
-                                                } elseif ( 'user' == $import_where ) {
-                                                    update_user_meta( '', $meta_key, '' );
+                                    $line_limit = ( ! empty( $_POST[ 'csv2wp_max_lines-' . $row_id ] ) ) ? $_POST[ 'csv2wp_max_lines-' . $row_id ] : false;
+                                    $postmeta   = $_POST[ 'csv2wp_post_meta-' . $row_id ];
+                                    $success    = false;
+                                    $table      = $_POST[ 'csv2wp_table-' . $row_id ];
+                                    $user_id    = get_current_user_id();
+                                    $usermeta   = $_POST[ 'csv2wp_user_meta-' . $row_id ];
+                                    
+                                    if ( is_array( $csv_array[ 'data' ] ) ) {
+                                        // echo '<pre>'; var_dump($csv_array[ 'data' ]); echo '</pre>'; exit;
+                                        $line_number = 0;
+            
+                                        if ( 'table' == $import_where ) {
+                                            global $wpdb;
+                                            foreach( $csv_array[ 'data' ] as $line ) {
+                                                $data_line = [];
+                                                foreach( $line as $column_name => $value ) {
+                                                    $data_line[ 'user_id' ] = $user_id;
+                                                    $data_line[ 'added' ]   = date( 'U', current_time( 'timestamp' ) );
+                                                    if ( 'type' == $column_name ) {
+                                                        $data_line[ strtolower( $column_name ) ] = strtolower( $value );
+                                                    } else {
+                                                        $data_line[ strtolower( $column_name ) ] = $value;
+                                                    }
+                                                }
+                                                $result = $wpdb->insert( $table, $data_line );
+                                                if ( 1 == $result ) {
+                                                    $line_number++;
+                                                }
+                                                if ( false !== $line_limit && $line_limit == $line_number ) {
+                                                    break;
+                                                }
+                                            }
+                                            
+                                            $success = true;
+                                            
+                                        } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
+    
+                                            foreach( $csv_array[ 'data' ] as $line ) {
+                                                $header_row = [];
+                                                $post_id    = false;
+                                                $user_id    = false;
+                                                
+                                                if ( true == $has_header ) {
+                                                    $header_row = $csv_array[ 'column_names' ];
+                                                    // echo '<pre>'; var_dump($header_row); echo '</pre>'; exit;
+                                                }
+        
+                                                if ( 'postmeta' == $import_where ) {
+                                                    if ( ! empty( $header_row ) ) {
+                                                        if ( ! in_array( 'post_id', $header_row ) ) {
+                                                            CSV2WP::csv2wp_errors()->add( "error_no_postid", sprintf( __( "%s has no column 'post_id'.", "csv2wp" ), $file_name ) );
+        
+                                                            return;
+                                                        } else {
+                                                            // get key from post id
+                                                            $post_id = $line[ 'post_id' ];
+                                                            unset( $line[ 'post_id' ] );
+                                                        }
+                                                    }
+                                                } elseif ( 'usermeta' == $import_where ) {
+                                                    if ( ! empty( $header_row ) ) {
+                                                        if ( ! in_array( 'user_id', $header_row ) ) {
+                                                            CSV2WP::csv2wp_errors()->add( "error_no_userid", sprintf( __( "%s has no column 'user_id'.", "csv2wp" ), $file_name ) );
+        
+                                                            return;
+                                                        } else {
+                                                            // get key from user id
+                                                            $user_id = $line[ 'user_id' ];
+                                                            unset( $line[ 'user_id' ] );
+                                                        }
+                                                    }
                                                 }
     
+                                                $result = false;
+                                                if ( ! empty( $header_row ) ) {
+                                                    foreach ( $line as $meta => $value ) {
+                                                        if ( 'postmeta' == $import_where ) {
+                                                            if ( false != $post_id ) {
+                                                                $result = update_post_meta( $post_id, $meta, $value );
+                                                            }
+                                                        } elseif ( 'usermeta' == $import_where ) {
+                                                            if ( false != $user_id ) {
+                                                                $result = update_user_meta( $user_id, $meta, $value );
+                                                            }
+                                                        }
+                                                        if ( false != $result ) {
+                                                            $line_number++;
+                                                            $success = true;
+                                                        }
+                                                    }
+                                                } else {
+                                                    
+                                                    $id         = $line[ 0 ];
+                                                    $meta_key   = $line[ 1 ];
+                                                    $meta_value = $line[ 2 ];
+    
+                                                    if ( false != $id ) {
+                                                        if ( 'postmeta' == $import_where ) {
+                                                            $result = update_post_meta( $id, $meta_key, $meta_value );
+                                                        } elseif ( 'usermeta' == $import_where ) {
+                                                            $result = update_user_meta( $id, $meta_key, $meta_value );
+                                                        }
+                                                        if ( false != $result ) {
+                                                            $line_number++;
+                                                            $success = true;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
-                                        
-                                        foreach ( $_POST[ 'csv2wp_file_name' ] as $file ) {
-                                            // delete file
-                                            unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file );
+                                    }
+    
+                                    if ( true === $success ) {
+                                        // $result = unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
+                                        $result = false;
+                                        if ( true == $result ) {
+                                            CSV2WP::csv2wp_errors()->add( 'success_data_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv2wp' ) );
+                                        } else {
+                                            CSV2WP::csv2wp_errors()->add( 'success_data_imported', __( 'YAY ! ' . $line_number . ' lines are imported but the file is not deleted.', 'csv2wp' ) );
                                         }
                                         do_action( 'csv2wp_successful_csv_import', $line_number );
-                                        CSV2WP::csv2wp_errors()->add( 'success_data_imported', __( 'YAY ! ' . $line_number . ' lines are imported and the file is deleted.', 'csv2wp' ) );
-    
+                                    
                                         return;
-    
                                     }
+    
                                 }
     
                             } else {
                                 // verify == true
     
                                 if ( ! empty( $csv_array[ 'data' ] ) ) {
-                                    do_action( 'csv2wp_successful_csv_validate', $file_name );
                                     CSV2WP::csv2wp_errors()->add( 'success_no_errors_in_csv', esc_html( __( 'Congratulations, there appear to be no errors in your CSV.', 'csv2wp' ) ) );
     
                                     return;
                                     
                                 }
                                 
-                                
                             }
                             
                         } else {
                             // delete file
                             
-                            if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                                foreach ( $_POST[ 'csv2wp_file_name' ] as $file_name ) {
-                                    // delete file
-                                    unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
-                                }
-                                if ( count( $_POST[ 'csv2wp_file_name' ] ) == 1 ) {
-                                    CSV2WP::csv2wp_errors()->add( 'success_file_deleted', __( 'File "' . $file_name . '" successfully deleted.', 'csv2wp' ) );
-                                } else {
-                                    CSV2WP::csv2wp_errors()->add( 'success_files_deleted', esc_html( __( 'Files successfully deleted.', 'csv2wp' ) ) );
-                                }
+                            if ( isset( $_POST[ 'csv2wp_file_name-' . $row_id ] ) ) {
+                                unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
+                                CSV2WP::csv2wp_errors()->add( 'success_file_deleted', __( 'File "' . $file_name . '" successfully deleted.', 'csv2wp' ) );
                             }
                         }
                     }
@@ -331,7 +439,7 @@
                         if ( move_uploaded_file( $_FILES[ 'csv_uploaded_file' ][ 'tmp_name' ], $target_file ) ) {
                             // file uploaded succeeded
                             do_action( 'csv2wp_successful_csv_upload' );
-                            CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_uploaded_file' ][ 'name' ] . '" is successfully uploaded and now shows under \'Select files to import\'.', 'csv2wp' ) );
+                            CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_uploaded_file' ][ 'name' ] . '" is successfully uploaded and now shows under <b>\'Handle a CSV file\'</b>.', 'csv2wp' ) );
                             
                             return;
                             
@@ -397,9 +505,14 @@
             /**
              * Enqueue CSS
              */
-            public function csv2wp_enqueue_css() {
+            public function csv2wp_enqueue_scripts() {
                 wp_register_style( 'csv2wp', plugins_url( 'assets/css/style.css', __FILE__ ), false, '1.0.0' );
                 wp_enqueue_style( 'csv2wp' );
+    
+                $dir = plugin_dir_url( __FILE__ );
+                wp_register_script( 'sdp', "{$dir}assets/js/csv2wp.js", array( 'jquery' ), '' );
+                wp_enqueue_script( 'sdp' );
+    
             }
             
         }
