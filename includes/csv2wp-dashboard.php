@@ -58,14 +58,13 @@
                                             <th><?php echo __( 'File name', 'csv2wp' ); ?></th>
                                             <th><?php echo __( 'Import in', 'csv2wp' ); ?></th>
                                             <th><?php echo __( 'Has header', 'csv2wp' ); ?></th>
-                                            <th><?php echo __( 'Table/meta', 'csv2wp' ); ?></th>
+                                            <th><?php echo __( 'Table', 'csv2wp' ); ?></th>
                                             <th><?php echo __( 'Delimiter', 'csv2wp' ); ?></th>
                                             <th><?php echo __( 'Max. lines', 'csv2wp' ); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                        $has_files = false;
                                         $row_id = 0;
                                         foreach ( $file_index as $file ) {
                                         ?>
@@ -86,15 +85,13 @@
                                             </td>
                                             <td class="header">
                                                 <span class="csv2wp_header-<?php echo $row_id; ?>">
-                                                    <label for="csv2wp_header-<?php echo $row_id; ?>" class="screen-reader-text">Yes</label>
+                                                    <label for="csv2wp_header-<?php echo $row_id; ?>" class="screen-reader-text"><?php esc_html_e( 'Yes', 'csv2wp' ); ?></label>
                                                     <input id="csv2wp_header-<?php echo $row_id; ?>" class="" name="csv2wp_header-<?php echo $row_id; ?>" type="checkbox" value="1" checked="checked"> Yes
                                                 </span>
                                             </td>
                                             <td>
                                                 <label>
-                                                    <input id="csv2wp_key_table-<?php echo $row_id; ?>" class="csv2wp_key csv2wp_key-<?php echo $row_id; ?> table" name="csv2wp_table-<?php echo $row_id; ?>" type="text" size="20" value="<?php echo $wpdb->prefix; ?>" placeholder="<?php echo $wpdb->prefix; ?>">
-                                                    <input id="csv2wp_key_postmeta-<?php echo $row_id; ?>" class="hidden csv2wp_key csv2wp_key-<?php echo $row_id; ?> postmeta" name="csv2wp_post_meta-<?php echo $row_id; ?>" type="text" size="20" value="" placeholder="post_meta key">
-                                                    <input id="csv2wp_key_usermeta-<?php echo $row_id; ?>" class="hidden csv2wp_key csv2wp_key-<?php echo $row_id; ?> usermeta" name="csv2wp_user_meta-<?php echo $row_id; ?>" type="text" size="20" value="" placeholder="user_meta key">
+                                                    <input id="csv2wp_key_table-<?php echo $row_id; ?>" class="csv2wp_key csv2wp_key-<?php echo $row_id; ?> table" name="csv2wp_table-<?php echo $row_id; ?>" type="text" size="10" value="<?php echo $wpdb->prefix; ?>" placeholder="<?php echo $wpdb->prefix; ?>">
                                                 </label>
                                             </td>
                                             <td>

@@ -253,16 +253,6 @@
     
                                     return;
 
-                                // } elseif ( 'postmeta' == $import_where && empty( $_POST[ 'csv2wp_post_meta-' . $row_id ] ) && ! $has_header ) {
-                                //     CSV2WP::csv2wp_errors()->add( "error_no_meta_entered", __( "You didn't enter a post_meta key, in which to import it.", "csv2wp" ) );
-                                //
-                                //     return;
-                                
-                                // } elseif ( 'usermeta' == $import_where && empty( $_POST[ 'csv2wp_user_meta-' . $row_id ] ) && ! $has_header ) {
-                                //     CSV2WP::csv2wp_errors()->add( "error_no_meta_entered", __( "You didn't enter a user_meta key, in which to import it.", "csv2wp" ) );
-                                //
-                                //     return;
-                                
                                 } else {
                                     
                                     // There are no (more) errors, so files can be processed
