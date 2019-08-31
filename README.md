@@ -16,7 +16,8 @@ This plugin gives you the option to import CSV data through file import or raw i
 
 ## Usage
 
-* Upload CSV data through file upload or raw import
+* Upload CSV data through file upload
+* Verify it
 * Preview it
 * Import it
 
