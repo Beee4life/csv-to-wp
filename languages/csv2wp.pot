@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CSV to WP\n"
-"POT-Creation-Date: 2019-08-31 19:22+0200\n"
+"POT-Creation-Date: 2019-08-31 23:17+0200\n"
 "PO-Revision-Date: 2017-09-19 00:41+0200\n"
 "Last-Translator: Beee\n"
 "Language-Team: \n"
@@ -129,43 +129,67 @@ msgstr ""
 msgid "Select a file, select where to import it, whether the file has a header row and if you want to limit the amount of lines."
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:111
+#: includes/csv2wp-dashboard.php:58
+msgid "File name"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:59
+msgid "Import in"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:60
+msgid "Has header"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:61
+msgid "Table/meta"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:62
+msgid "Delimiter"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:63
+msgid "Max. regels"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:110
 msgid "All"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:125
+#: includes/csv2wp-dashboard.php:127
 msgid "Verify selected file(s)"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:126
+#: includes/csv2wp-dashboard.php:128
 msgid "Import selected file(s)"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:127
+#: includes/csv2wp-dashboard.php:129
 msgid "Remove selected file(s)"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:133
+#: includes/csv2wp-dashboard.php:135
 msgid "No files uploaded"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:139
+#: includes/csv2wp-dashboard.php:141
 msgid "Import raw CSV data"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:142
+#: includes/csv2wp-dashboard.php:144
 msgid "Make sure the cursor is ON the last line (after the last character), NOT on a new line."
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:144
+#: includes/csv2wp-dashboard.php:146
 msgid "This is seen as a new entry and creates an error !!!"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:156
+#: includes/csv2wp-dashboard.php:158
 msgid "Verify data"
 msgstr ""
 
-#: includes/csv2wp-dashboard.php:157
+#: includes/csv2wp-dashboard.php:159
 msgid "Import data"
 msgstr ""
 

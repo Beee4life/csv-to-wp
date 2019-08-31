@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CSV to WP\n"
-"POT-Creation-Date: 2019-08-31 19:28+0200\n"
-"PO-Revision-Date: 2019-08-31 19:28+0200\n"
+"POT-Creation-Date: 2019-08-31 23:16+0200\n"
+"PO-Revision-Date: 2019-08-31 23:18+0200\n"
 "Last-Translator: Beee\n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -19,40 +19,40 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: uploads\n"
 "X-Poedit-SearchPathExcluded-3: not-in-use.php\n"
 
-#: CSV2WP.php:140
+#: CSV2WP.php:124
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: CSV2WP.php:147
+#: CSV2WP.php:131
 msgid "Error"
 msgstr "Fout"
 
-#: CSV2WP.php:159
+#: CSV2WP.php:143
 msgid "Dismiss this notice"
 msgstr "Verberg deze melding"
 
-#: CSV2WP.php:173 CSV2WP.php:212 CSV2WP.php:429
+#: CSV2WP.php:157 CSV2WP.php:196 CSV2WP.php:383
 msgid "Something went wrong. Please try again."
 msgstr "Er ging iets fout, probeer het aub nog een keer."
 
-#: CSV2WP.php:186 CSV2WP.php:402
+#: CSV2WP.php:170 CSV2WP.php:358
 msgid "Congratulations, there appear to be no errors in your CSV."
 msgstr "Gefeliciteerd, er zijn geen errors gevonden in je CSV."
 
-#: CSV2WP.php:196
+#: CSV2WP.php:180
 #, php-format
 msgid "%d lines imported through raw import."
 msgstr "%d regels geïmporteerd via raw import."
 
-#: CSV2WP.php:221
+#: CSV2WP.php:203
 msgid "You didn't select a file to handle."
 msgstr "Je hebt geen bestand geselecteerd om te verwerken."
 
-#: CSV2WP.php:247
+#: CSV2WP.php:222
 msgid "You didn't enter a table, where to import it."
 msgstr "Je hebt geen tabel ingevuld waar het geïmporteerd moet worden."
 
-#: CSV2WP.php:252
+#: CSV2WP.php:227
 msgid ""
 "You unchecked whether the file has a header row. For insert into table, you "
 "must have a header row."
@@ -60,45 +60,45 @@ msgstr ""
 "Je hebt gedeselecteerd dat het bestand een 'header regel' heeft. Bij "
 "importeren in een tabel, moet je een 'header regel' hebben."
 
-#: CSV2WP.php:321
+#: CSV2WP.php:278
 #, php-format
 msgid "%s has no column 'post_id'."
 msgstr "%s heeft geen kolom 'post_id'."
 
-#: CSV2WP.php:333
+#: CSV2WP.php:290
 #, php-format
 msgid "%s has no column 'user_id'."
 msgstr "%s heeft geen kolom 'user_id'."
 
-#: CSV2WP.php:387 CSV2WP.php:389
+#: CSV2WP.php:344 CSV2WP.php:346
 msgid "YAY ! "
 msgstr "Yay ! "
 
-#: CSV2WP.php:415 CSV2WP.php:442
+#: CSV2WP.php:369 CSV2WP.php:396
 msgid "File \""
 msgstr "Bestand “"
 
-#: CSV2WP.php:448
+#: CSV2WP.php:402
 msgid "Upload failed. Please try again."
 msgstr "Fout bij upload. Probeer aub opnieuw."
 
-#: CSV2WP.php:477
+#: CSV2WP.php:431
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: CSV2WP.php:479
+#: CSV2WP.php:433
 msgid "Preview file"
 msgstr "Preview bestand"
 
-#: CSV2WP.php:482
+#: CSV2WP.php:436
 msgid "Settings"
 msgstr "Instellingen"
 
-#: CSV2WP.php:483 includes/csv2wp-support.php:24
+#: CSV2WP.php:437 includes/csv2wp-support.php:24
 msgid "Support"
 msgstr "Ondersteuning"
 
-#: includes/csv2wp-dashboard.php:5 includes/csv2wp-mapping.php:9
+#: includes/csv2wp-dashboard.php:7 includes/csv2wp-mapping.php:9
 #: includes/csv2wp-preview.php:9 includes/csv2wp-settings.php:9
 #: includes/csv2wp-support.php:9
 msgid "Sorry, you do not have sufficient permissions to access this page."
@@ -125,11 +125,11 @@ msgstr "Kies een (csv) bestand om te uploaden"
 msgid "Upload file"
 msgstr "Upload bestand"
 
-#: includes/csv2wp-dashboard.php:44 includes/csv2wp-help-tabs.php:56
+#: includes/csv2wp-dashboard.php:42 includes/csv2wp-help-tabs.php:56
 msgid "Handle a CSV file"
 msgstr "Verwerk een CSV bestand"
 
-#: includes/csv2wp-dashboard.php:47
+#: includes/csv2wp-dashboard.php:45
 msgid ""
 "Select a file, select where to import it, whether the file has a header row "
 "and if you want to limit the amount of lines."
@@ -137,55 +137,75 @@ msgstr ""
 "Selecteer een bestand, kies waar het geïmporteerd moet worden, of het "
 "bestand een 'header regel' heeft en of je het aantal regels wilt beperken."
 
-#: includes/csv2wp-dashboard.php:58
+#: includes/csv2wp-dashboard.php:56 includes/csv2wp-dashboard.php:69
 msgid "File name"
 msgstr "Bestandsnaam"
 
-#: includes/csv2wp-dashboard.php:59
+#: includes/csv2wp-dashboard.php:57 includes/csv2wp-dashboard.php:75
 msgid "Import in"
 msgstr "Importeer in"
 
-#: includes/csv2wp-dashboard.php:60
+#: includes/csv2wp-dashboard.php:58
 msgid "Has header"
 msgstr "Heeft header"
 
-#: includes/csv2wp-dashboard.php:61
-msgid "Table/meta"
-msgstr "Tabel/meta"
+#: includes/csv2wp-dashboard.php:59
+msgid "Table"
+msgstr "Tabel"
 
-#: includes/csv2wp-dashboard.php:62
+#: includes/csv2wp-dashboard.php:60 includes/csv2wp-dashboard.php:94
 msgid "Delimiter"
 msgstr "Scheidingsteken"
 
-#: includes/csv2wp-dashboard.php:63
+#: includes/csv2wp-dashboard.php:61
 msgid "Max. lines"
 msgstr "Max. regels"
 
-#: includes/csv2wp-dashboard.php:110
+#: includes/csv2wp-dashboard.php:77
+msgid "Database table"
+msgstr "Database tabel"
+
+#: includes/csv2wp-dashboard.php:78
+msgid "Post meta"
+msgstr "Post meta"
+
+#: includes/csv2wp-dashboard.php:79
+msgid "User meta"
+msgstr "User meta"
+
+#: includes/csv2wp-dashboard.php:84
+msgid "Yes"
+msgstr "Ja"
+
+#: includes/csv2wp-dashboard.php:101
+msgid "Limit lines"
+msgstr "Beperk regels"
+
+#: includes/csv2wp-dashboard.php:103
 msgid "All"
 msgstr "Alle"
 
-#: includes/csv2wp-dashboard.php:127
+#: includes/csv2wp-dashboard.php:120
 msgid "Verify selected file(s)"
 msgstr "Verifieer geselecteerde bestanden"
 
-#: includes/csv2wp-dashboard.php:128
+#: includes/csv2wp-dashboard.php:121
 msgid "Import selected file(s)"
 msgstr "Importeer geselecteerde bestanden"
 
-#: includes/csv2wp-dashboard.php:129
+#: includes/csv2wp-dashboard.php:122
 msgid "Remove selected file(s)"
 msgstr "Verwijder geselecteerde bestanden"
 
-#: includes/csv2wp-dashboard.php:135
+#: includes/csv2wp-dashboard.php:128
 msgid "No files uploaded"
 msgstr "Geen bestanden ge-upload"
 
-#: includes/csv2wp-dashboard.php:141
+#: includes/csv2wp-dashboard.php:134
 msgid "Import raw CSV data"
 msgstr "Importeer ruwe CSV data"
 
-#: includes/csv2wp-dashboard.php:144
+#: includes/csv2wp-dashboard.php:137
 msgid ""
 "Make sure the cursor is ON the last line (after the last character), NOT on "
 "a new line."
@@ -193,15 +213,15 @@ msgstr ""
 "Zorg ervoor dat de cursus OP de laatste regel (na het laatste karakter), "
 "NIET op een nieuwe regel."
 
-#: includes/csv2wp-dashboard.php:146
+#: includes/csv2wp-dashboard.php:139
 msgid "This is seen as a new entry and creates an error !!!"
 msgstr "Dit wordt gezien als een nieuwe regel en genereert een fout !"
 
-#: includes/csv2wp-dashboard.php:158
+#: includes/csv2wp-dashboard.php:151
 msgid "Verify data"
 msgstr "Verifieer data"
 
-#: includes/csv2wp-dashboard.php:159
+#: includes/csv2wp-dashboard.php:152
 msgid "Import data"
 msgstr "Importeer data"
 
@@ -301,6 +321,15 @@ msgstr ""
 msgid "You have no files to preview."
 msgstr "Je hebt geen bestanden om te previewen."
 
+#: includes/csv2wp-preview.php:98
+#, php-format
+msgid ""
+"You either have errors in your CSV or there is no data. Verify this file on "
+"the <a href=\"%s\">dashboard</a>."
+msgstr ""
+"Of er zijn errors in je CSV of er is geen data. Verifieer dit bestand op het "
+"<a href=\"%s\">dashboard</a>."
+
 #: includes/csv2wp-settings.php:24
 msgid "Who can import CSV data ?"
 msgstr "Wie kan CSV data importeren ?"
@@ -366,25 +395,25 @@ msgstr "Er zijn te weinig kolommen op regel "
 msgid "There are too many columns on line "
 msgstr "Er zijn teveel kolommen op regel "
 
-#: includes/functions.php:136 includes/functions.php:145
+#: includes/functions.php:127 includes/functions.php:137
 msgid "Since your file is not accurate anymore, the file is deleted."
 msgstr "Aangezien je bestand niet meer correct is, is het verwijderd."
 
-#: includes/functions.php:140
+#: includes/functions.php:133
 #, php-format
 msgid "There are too few columns on line %d. %s"
 msgstr "Er zijn te weinig kolommen op regel %d. %s"
 
-#: includes/functions.php:149
+#: includes/functions.php:143
 #, php-format
 msgid "There are too many columns on line %d. %s"
 msgstr "Er zijn teveel kolommen op regel %d. %s"
 
-#: includes/functions.php:219
+#: includes/functions.php:221
 msgid "&laquo; Previous"
 msgstr "&laquo; Vorige"
 
-#: includes/functions.php:220
+#: includes/functions.php:222
 msgid "Next &raquo;"
 msgstr "Volgende &raquo;"
 
