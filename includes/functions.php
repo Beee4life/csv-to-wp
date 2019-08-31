@@ -100,7 +100,6 @@
 
         // read file
         $csv_array   = array();
-        $delete_file = false;
         $empty_array = false;
         $new_array   = array();
         if ( ( $handle = fopen( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name, "r" ) ) !== false ) {
@@ -125,7 +124,6 @@
                 if ( count( $csv_line ) != $csv_array[ 'column_count' ] ) {
                     // if column count < benchmark
                     if ( count( $csv_line ) < $csv_array[ 'column_count' ] ) {
-                        $delete_file   = true;
                         $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
                         if ( true == $verify ) {
                         } elseif ( true != $preview ) {
@@ -136,7 +134,6 @@
 
                     } elseif ( count( $csv_line ) > $csv_array[ 'column_count' ] ) {
                         // if column count > benchmark
-                        $delete_file   = true;
                         $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
                         if ( true == $verify ) {
                         } elseif ( true != $preview ) {
@@ -145,10 +142,8 @@
                         }
                         CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
                     }
-                    if ( true == $delete_file ) {
-                        // delete file
-                        unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
-                    }
+                    // delete file
+                    unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
     
                 }
     
