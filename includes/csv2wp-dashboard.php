@@ -66,17 +66,17 @@
                                     <?php foreach ( $file_index as $file ) { ?>
                                         <tr>
                                             <td>
-                                                <label for="csv2wp_row_id" class="screen-reader-text">File name</label>
+                                                <label for="csv2wp_row_id" class="screen-reader-text"><?php echo __( 'File name', 'csv2wp' ); ?></label>
                                                 <input id="csv2wp_row_id" name="csv2wp_row_id" type="radio" value="<?php echo $row_id; ?>">
                                                 <input id="csv2wp_file_name-<?php echo $row_id; ?>" name="csv2wp_file_name-<?php echo $row_id; ?>" type="hidden" value="<?php echo $file; ?>">
                                             </td>
                                             <td><?php echo $file; ?></td>
                                             <td>
-                                                <label for="csv2wp_import_in-<?php echo $row_id; ?>" class="screen-reader-text">Import in</label>
+                                                <label for="csv2wp_import_in-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Import in', 'csv2wp' ); ?></label>
                                                 <select name="csv2wp_import_in-<?php echo $row_id; ?>" class="csv2wp_import_in" id="csv2wp_import_in-<?php echo $row_id; ?>">
-                                                    <option value="table">Database table</option>
-                                                    <option value="postmeta">Post meta</option>
-                                                    <option value="usermeta">User meta</option>
+                                                    <option value="table"><?php echo __( 'Database table', 'csv2wp' ); ?></option>
+                                                    <option value="postmeta"><?php echo __( 'Post meta', 'csv2wp' ); ?></option>
+                                                    <option value="usermeta"><?php echo __( 'User meta', 'csv2wp' ); ?></option>
                                                 </select>
                                             </td>
                                             <td class="header">
@@ -91,14 +91,14 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <label for="csv2wp_delimiter-<?php echo $row_id; ?>" class="screen-reader-text">Delimiter</label>
+                                                <label for="csv2wp_delimiter-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Delimiter', 'csv2wp' ); ?></label>
                                                 <select name="csv2wp_delimiter-<?php echo $row_id; ?>" id="csv2wp_delimiter-<?php echo $row_id; ?>">
                                                     <option value=",">,</option>
                                                     <option value=";">;</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <label for="csv2wp_max_lines-<?php echo $row_id; ?>" class="screen-reader-text">Limit lines</label>
+                                                <label for="csv2wp_max_lines-<?php echo $row_id; ?>" class="screen-reader-text"><?php echo __( 'Limit lines', 'csv2wp' ); ?></label>
                                                 <select name="csv2wp_max_lines-<?php echo $row_id; ?>" id="csv2wp_max_lines-<?php echo $row_id; ?>">
                                                     <option value=""><?php esc_html_e( 'All', 'csv2wp' ); ?></option>
                                                     <option value="5">5</option>
