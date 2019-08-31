@@ -1,6 +1,6 @@
 # CSV Importer
 
-Welcome to the CSV importer plugin for [Wordpress](http://wordpress.org). I built this initially for the IDF ([International Downhill Federation](https://internationaldownhillfederation.org)), to import rankings to user profiles, but I thought there's more that can be done with it.
+Welcome to the CSV importer plugin for [Wordpress](https://wordpress.org). I built this initially for the IDF ([International Downhill Federation](https://internationaldownhillfederation.org)), to import rankings to user profiles, but I thought there's more that can be done with it.
 
 It is still under development, although the upload, verification and remove parts work.
 
