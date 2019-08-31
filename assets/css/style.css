@@ -10,6 +10,13 @@
     max-width: 60%;
 }
 
+#csv-importer table {
+    border:          0;
+    border-spacing:  0;
+    border-collapse: collapse;
+    /*width:           100%;*/
+}
+
 #csv-importer .screen-reader-text {
     position: absolute !important;
     left:     -999em;
@@ -34,6 +41,11 @@
     padding:        0.5em 3em 0.5em 0;
 }
 
+#csv-importer table th:first-child,
+#csv-importer table td:first-child {
+    padding-right: 1em;
+}
+
 #csv-importer table th {
     border-bottom: 1px solid black;
 }
@@ -52,4 +64,8 @@
 
 .csv-preview {
     margin-top: 1em;
+}
+
+input.hidden {
+    display: none;
 }
