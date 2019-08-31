@@ -1,0 +1,314 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSV to WP\n"
+"POT-Creation-Date: 2019-08-31 19:22+0200\n"
+"PO-Revision-Date: 2017-09-19 00:41+0200\n"
+"Last-Translator: Beee\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl_NL\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: languages\n"
+"X-Poedit-SearchPathExcluded-1: test data\n"
+"X-Poedit-SearchPathExcluded-2: uploads\n"
+"X-Poedit-SearchPathExcluded-3: not-in-use.php\n"
+
+#: CSV2WP.php:140
+msgid "Warning"
+msgstr ""
+
+#: CSV2WP.php:147
+msgid "Error"
+msgstr ""
+
+#: CSV2WP.php:159
+msgid "Dismiss this notice"
+msgstr ""
+
+#: CSV2WP.php:173 CSV2WP.php:212 CSV2WP.php:429
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: CSV2WP.php:186 CSV2WP.php:402
+msgid "Congratulations, there appear to be no errors in your CSV."
+msgstr ""
+
+#: CSV2WP.php:196
+#, php-format
+msgid "%d lines imported through raw import."
+msgstr ""
+
+#: CSV2WP.php:221
+msgid "You didn't select a file to handle."
+msgstr ""
+
+#: CSV2WP.php:247
+msgid "You didn't enter a table, where to import it."
+msgstr ""
+
+#: CSV2WP.php:252
+msgid "You unchecked whether the file has a header row. For insert into table, you must have a header row."
+msgstr ""
+
+#: CSV2WP.php:321
+#, php-format
+msgid "%s has no column 'post_id'."
+msgstr ""
+
+#: CSV2WP.php:333
+#, php-format
+msgid "%s has no column 'user_id'."
+msgstr ""
+
+#: CSV2WP.php:387 CSV2WP.php:389
+msgid "YAY ! "
+msgstr ""
+
+#: CSV2WP.php:415 CSV2WP.php:442
+msgid "File \""
+msgstr ""
+
+#: CSV2WP.php:448
+msgid "Upload failed. Please try again."
+msgstr ""
+
+#: CSV2WP.php:477
+msgid "Dashboard"
+msgstr ""
+
+#: CSV2WP.php:479
+msgid "Preview file"
+msgstr ""
+
+#: CSV2WP.php:482
+msgid "Settings"
+msgstr ""
+
+#: CSV2WP.php:483 includes/csv2wp-support.php:24
+msgid "Support"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:5 includes/csv2wp-mapping.php:9
+#: includes/csv2wp-preview.php:9 includes/csv2wp-settings.php:9
+#: includes/csv2wp-support.php:9
+msgid "Sorry, you do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:25
+msgid "This page allows you to import a csv into your database."
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:26
+msgid "See the help tab for more explanation."
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:28 includes/csv2wp-help-tabs.php:29
+msgid "Upload a CSV file"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:32
+msgid "Choose a (csv) file to upload"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:35
+msgid "Upload file"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:44 includes/csv2wp-help-tabs.php:56
+msgid "Handle a CSV file"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:47
+msgid "Select a file, select where to import it, whether the file has a header row and if you want to limit the amount of lines."
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:111
+msgid "All"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:125
+msgid "Verify selected file(s)"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:126
+msgid "Import selected file(s)"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:127
+msgid "Remove selected file(s)"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:133
+msgid "No files uploaded"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:139
+msgid "Import raw CSV data"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:142
+msgid "Make sure the cursor is ON the last line (after the last character), NOT on a new line."
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:144
+msgid "This is seen as a new entry and creates an error !!!"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:156
+msgid "Verify data"
+msgstr ""
+
+#: includes/csv2wp-dashboard.php:157
+msgid "Import data"
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:22
+msgid "On this page you can import a CSV fil and process it."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:23
+msgid "You can only upload *.csv files."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:37
+msgid "When a file is uploaded, there are 3 things you can do with it."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:39
+msgid "Verify"
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:40
+msgid "Import"
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:41
+msgid "Remove"
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:44
+msgid "Upon verification, the csv file is checked if every row/line has the same amount of columns."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:45
+msgid "If not, the file is deleted because it can't be used anymore due to the encounterd errors."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:47
+msgid "If you want to import int a table, your CSV must have a header row which is equal to your (table) column names."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:48
+msgid "If you want to import post or user meta without a header row, you must use the following format: \"post/user ID,meta_key,meta_value\"."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:50
+msgid "Goes without saying, removes a file (from the uploads directory)."
+msgstr ""
+
+#: includes/csv2wp-help-tabs.php:60
+msgid "Author's website"
+msgstr ""
+
+#: includes/csv2wp-mapping.php:35
+msgid "Here you can preview your uploaded csv files."
+msgstr ""
+
+#: includes/csv2wp-mapping.php:46 includes/csv2wp-preview.php:44
+msgid "Choose a file"
+msgstr ""
+
+#: includes/csv2wp-mapping.php:56 includes/csv2wp-preview.php:54
+msgid "Preview this file"
+msgstr ""
+
+#: includes/csv2wp-mapping.php:59
+msgid "You have no files to map."
+msgstr ""
+
+#: includes/csv2wp-preview.php:35
+msgid "Here you can preview any uploaded csv files."
+msgstr ""
+
+#: includes/csv2wp-preview.php:36
+msgid "Please keep in mind that all csv files are verified before displaying (and therefor can be deleted, when errors are encountered)."
+msgstr ""
+
+#: includes/csv2wp-preview.php:57
+msgid "You have no files to preview."
+msgstr ""
+
+#: includes/csv2wp-settings.php:24
+msgid "Who can import CSV data ?"
+msgstr ""
+
+#: includes/csv2wp-settings.php:26
+msgid "Here you can select what capability a user needs to import any data. The default setting is \"manage_options\" which belongs to administrator."
+msgstr ""
+
+#: includes/csv2wp-settings.php:27
+msgid "The reason why it's set per capability instead of per user is because two users with the same role can have different capabilities."
+msgstr ""
+
+#: includes/csv2wp-settings.php:46
+msgid "Save settings"
+msgstr ""
+
+#: includes/csv2wp-support.php:25
+#, php-format
+msgid "If you know about this plugin, you probably know me and know where to reach me. If not, please report it on GitHub in the <a href=\"%s\">issues section</a>."
+msgstr ""
+
+#: includes/csv2wp-support.php:27
+msgid "Find more info about the plugin on"
+msgstr ""
+
+#: includes/csv2wp-support.php:31
+msgid "About the author"
+msgstr ""
+
+#: includes/csv2wp-support.php:33
+#, php-format
+msgid "This plugin is created by <a href=\"%s\">Beee</a>, a Wordpress developer from Amsterdam."
+msgstr ""
+
+#: includes/functions.php:20
+msgid "There is an empty line on line "
+msgstr ""
+
+#: includes/functions.php:36
+msgid "There are too few columns on line "
+msgstr ""
+
+#: includes/functions.php:38
+msgid "There are too many columns on line "
+msgstr ""
+
+#: includes/functions.php:136 includes/functions.php:145
+msgid "Since your file is not accurate anymore, the file is deleted."
+msgstr ""
+
+#: includes/functions.php:140
+#, php-format
+msgid "There are too few columns on line %d. %s"
+msgstr ""
+
+#: includes/functions.php:149
+#, php-format
+msgid "There are too many columns on line %d. %s"
+msgstr ""
+
+#: includes/functions.php:219
+msgid "&laquo; Previous"
+msgstr ""
+
+#: includes/functions.php:220
+msgid "Next &raquo;"
+msgstr ""
