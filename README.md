@@ -24,14 +24,7 @@ This plugin gives you the option to import CSV data through file import or raw i
 
 = Can I import posts and other WordPress data with it ? =
 
-No, not right now. There are other plugins which do that like [https://wordpress.org/plugins/wordpress-importer/](WordPress Importer). Maybe in the future but now there are no plans for it.
-
-### To Do
-* [X] - Add setting who can import
-* [X] - Preview data
-* [X] - Read header columns
-* [X] - Count header columns (for column verification)
-* [ ] - Choose to insert where
+No, not right now. There are other plugins which do that like [WordPress Importer](https://wordpress.org/plugins/wordpress-importer/). Maybe in the future but now there are no plans for it.
 
 ## Changelog
 
