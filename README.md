@@ -6,4 +6,4 @@ Welcome to the 'CSV to WP' plugin for [Wordpress](http://wordpress.org). I built
 
 This plugin will give you the option to import CSV data through file import or raw input and stores it in your database.
 
-I am currently working on stripping all the IDF things i had built in it. You can take a peek in the [development branch](https://github.com/Beee4life/csv-importer/tree/develop) on GitHub, if you're interested.
+I am currently working on finetuning it, but you can take a peek in the [development branch](https://github.com/Beee4life/csv-importer/tree/develop), if you're interested. Everything is working.
