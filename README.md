@@ -2,17 +2,17 @@
 
 Welcome to the CSV importer plugin for [Wordpress](https://wordpress.org). I built this initially for the IDF ([International Downhill Federation](https://internationaldownhillfederation.org)), to import rankings to user profiles, but I thought there's more that can be done with it.
 
-It is still under development, although the upload, verification and remove parts work.
+It is still under development, but everything works (afaik).
 
 ## Description 
 
-This plugin gives you the option to import CSV data through file import or raw input and stores it in your database.
+This plugin gives you the option to import CSV data through file import and stores it in a custom table or in post/user meta table.
 
 ## Installation
 
 * Upload the zip through WordPress plugin admin or
 * Upload the files by ftp to `wp-content/plugins`.
-* Activate the plugin `Action Logger` through the plugins page. 
+* Activate the plugin `CSV to WP` through the plugins page. 
 
 ## Usage
 
