@@ -35,9 +35,9 @@
             <h5><?php esc_html_e( 'Handle a CSV file', 'csv2wp' ); ?></h5>
             <p><?php esc_html_e( 'When a file is uploaded, there are 3 things you can do with it.', 'csv2wp' ); ?></p>
             <ul>
-                <li><?php esc_html_e( 'Verify', 'csv2wp' ); ?>: This option verfies if all columns are equally sized.</li>
-                <li><?php esc_html_e( 'Import', 'csv2wp' ); ?>: This option imports the file (which also include a verification).</li>
-                <li><?php esc_html_e( 'Remove', 'csv2wp' ); ?>: This option deletes the file.</li>
+                <li><?php esc_html_e( 'Verify', 'csv2wp' ); ?>: <?php esc_html_e( 'This option verfies if all columns are equally sized.', 'csv2wp' ); ?></li>
+                <li><?php esc_html_e( 'Import', 'csv2wp' ); ?>: <?php esc_html_e( 'This option imports the file (which also include a verification).', 'csv2wp' ); ?></li>
+                <li><?php esc_html_e( 'Remove', 'csv2wp' ); ?>: <?php esc_html_e( 'This option deletes the file.', 'csv2wp' ); ?></li>
             </ul>
             <h5><?php esc_html_e( 'Verify a CSV file', 'csv2wp' ); ?></h5>
             <p><?php esc_html_e( 'Upon verification, the csv file is checked if every row/line has the same amount of columns.', 'csv2wp' ); ?></p>

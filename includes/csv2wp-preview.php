@@ -13,7 +13,7 @@
         <div class="wrap">
             <div id="icon-options-general" class="icon32"><br/></div>
 
-            <h1>CSV Importer overview</h1>
+            <h1>CSV to WP - <?php esc_html_e( 'Preview', 'csv2wp' ); ?></h1>
             
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 
@@ -49,7 +49,7 @@
                         </select>
                         <p>
                             <label for="csv2wp_header_row" class=""></label>
-                            <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="true"/> Does the data contain a header row ?
+                            <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="true"/> <?php esc_html_e( 'Does the data contain a header row ?', 'csv2wp' ); ?>
                         </p>
                         <input type="submit" class="admin-button admin-button-small" value="<?php esc_html_e( 'Preview this file', 'csv2wp' ); ?>"/>
                     </form>
@@ -66,7 +66,7 @@
                         $header_row = ( isset( $csv_info[ 'column_names' ] ) ) ? $csv_info[ 'column_names' ] : [];
                         
                         if ( isset( $csv_info[ 'data' ] ) && ! empty( $csv_info[ 'data' ] ) ) {
-                            echo '<h2>CSV contents</h2>';
+                            echo '<h2>' . esc_html_e( 'CSV contents', 'csv2wp' ) . '</h2>';
                             echo '<table class="csv-preview">';
                             if ( $has_header && ! empty( $header_row ) ) {
                                 echo '<thead>';

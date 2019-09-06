@@ -13,7 +13,7 @@
         <div class="wrap">
             <div id="icon-options-general" class="icon32"><br/></div>
 
-            <h1>CSV Importer settings</h1>
+            <h1>CSV to WP - <?php esc_html_e( 'Settings', 'csv2wp' ); ?></h1>
             
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 

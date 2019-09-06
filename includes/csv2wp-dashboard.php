@@ -14,7 +14,7 @@
         <div class="wrap">
             <div id="icon-options-general" class="icon32"><br/></div>
 
-            <h2>CSV importer dashboard</h2>
+            <h2>CSV to WP - <?php esc_html_e( 'Dashboard', 'csv2wp' ); ?></h2>
             
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 
@@ -29,7 +29,7 @@
 
                 <form enctype="multipart/form-data" method="POST">
                     <input name="upload_file_nonce" type="hidden" value="<?php echo wp_create_nonce( 'upload-file-nonce' ); ?>"/>
-                    <label for="csv_uploaded_file"><?php esc_html_e( 'Choose a (csv) file to upload', 'csv2wp' ); ?></label>
+                    <label for="csv_uploaded_file"><?php esc_html_e( 'Choose a (*.csv) file to upload', 'csv2wp' ); ?></label>
                     <input id="csv_uploaded_file" name="csv_uploaded_file" type="file" accept=".csv"/>
                     <br/><br/>
                     <input type="submit" value="<?php esc_html_e( 'Upload file', 'csv2wp' ); ?>"/>
@@ -63,6 +63,7 @@
                                 </thead>
                                 <tbody>
                                 <?php $row_id = 0; ?>
+                                <?php $count_rows = count($file_index); ?>
                                 <?php foreach ( $file_index as $file ) { ?>
                                     <tr>
                                         <td>
@@ -116,7 +117,7 @@
                                 <?php } ?>
                                 </tbody>
                             </table>
-                            <br/>
+
                             <input name="csv2wp_verify" type="submit" value="<?php esc_html_e( 'Verify selected file(s)', 'csv2wp' ); ?>"/>
                             <input name="csv2wp_import" type="submit" value="<?php esc_html_e( 'Import selected file(s)', 'csv2wp' ); ?>"/>
                             <input name="csv2wp_remove" type="submit" value="<?php esc_html_e( 'Remove selected file(s)', 'csv2wp' ); ?>"/>
