@@ -14,6 +14,7 @@
     border:          0;
     border-spacing:  0;
     border-collapse: collapse;
+    margin-bottom:   1em;
     /*width:           100%;*/
 }
 
@@ -37,8 +38,8 @@
 
 #csv-importer table th,
 #csv-importer table td {
-    text-align:     left;
-    padding:        0.5em 3em 0.5em 0;
+    text-align: left;
+    padding:    0.5em 3em 0.5em 0;
 }
 
 #csv-importer table th:first-child,
