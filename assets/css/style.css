@@ -2,69 +2,53 @@
     Style for CSV Importer plugin
  */
 
-#csv-importer {
+.csv2wp {
     max-width: 100%;
 }
 
-#csv-importer p {
-    max-width: 60%;
+.csv2wp__menu {
+    margin: 1em 0 2em 0;
 }
 
-#csv-importer table {
-    border:          0;
-    border-spacing:  0;
-    border-collapse: collapse;
-    margin-bottom:   1em;
-    /*width:           100%;*/
+.csv2wp__section {
+    margin-bottom: 2em;
 }
 
-#csv-importer .screen-reader-text {
-    position: absolute !important;
-    left:     -999em;
+.csv2wp h2 {
+    margin-top: 0;
 }
 
-.is-dismissible {
+.csv2wp p {
+    margin-top: 0;
+}
+
+.csv2wp__button {
+}
+
+.csv2wp__notice.is-dismissible {
     margin:  5px 0 15px;
     padding: 10px 0 10px 15px;
 }
 
-#csv-importer table td {
-    padding-right: 2em;
+.csv2wp table.csv2wp__table {
+    border:          0;
+    border-spacing:  0;
+    border-collapse: collapse;
+    margin-bottom:   1em;
 }
 
-#csv-importer table td:first-child {
-    /*padding-right: 0;*/
-}
-
-#csv-importer table th,
-#csv-importer table td {
+.csv2wp table.csv2wp__table th,
+.csv2wp table.csv2wp__table td {
     text-align: left;
     padding:    0.5em 3em 0.5em 0;
 }
 
-#csv-importer table th:first-child,
-#csv-importer table td:first-child {
-    padding-right: 1em;
-}
-
-#csv-importer table th {
+.csv2wp table.csv2wp__table th {
     border-bottom: 1px solid black;
 }
 
-#csv-importer table td {
+.csv2wp table.csv2wp__table td {
     border-bottom: 1px solid #CCCCCC;
-}
-
-#csv-importer table tbody tr:first-child td {
-    padding-top: 1em;
-}
-
-#csv-importer table tr:last-child td {
-    border-bottom: 0;
-}
-
-.csv-preview {
-    margin-top: 1em;
 }
 
 input.hidden {

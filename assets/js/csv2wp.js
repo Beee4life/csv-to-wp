@@ -1,23 +1,27 @@
 (function($) {
     $(document).ready(function() {
 
-        var key = '.csv2wp_key';
+        var header_id = 'csv2wp-header';
+        var key = '.csv2wp__key';
+        var table_header = '.csv2wp__th';
 
         $('select.csv2wp_import_in').change(function () {
 
-            const self = this;
-            var row_id = this.id.substr(17);
-            var header = 'td.header span.csv2wp_header-' + row_id;
             var changed_value = $(this).val();
 
-            $('.csv2wp_key-' + row_id).addClass('hidden');
-            $('#csv2wp_key_' + changed_value + '-' + row_id).removeClass('hidden');
-
             if ( 'table' !== changed_value ){
-                document.getElementById("csv2wp_header-" + row_id).checked = false;
+                var changed_value = changed_value.substr(4);
+                document.getElementById(header_id).checked = false;
             } else {
-                document.getElementById("csv2wp_header-" + row_id).checked = true;
+                document.getElementById(header_id).checked = true;
             }
+            console.log(changed_value);
+
+            $(table_header).addClass('hidden');
+            $(key).addClass('hidden');
+            $(table_header + '--' + changed_value).removeClass('hidden');
+            $(key + '--' + changed_value).removeClass('hidden');
+
         });
     });
 })(jQuery);
