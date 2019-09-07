@@ -10,5 +10,3 @@
         $target_folder = wp_upload_dir()[ 'basedir' ] . '/csv2wp';
         rmdir( $target_folder );
     }
-
-?>
