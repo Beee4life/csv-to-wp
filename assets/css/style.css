@@ -1,0 +1,56 @@
+/**
+    Style for CSV Importer plugin
+ */
+
+.csv2wp {
+    max-width: 100%;
+}
+
+.csv2wp__menu {
+    margin: 1em 0 2em 0;
+}
+
+.csv2wp__section {
+    margin-bottom: 2em;
+}
+
+.csv2wp h2 {
+    margin-top: 0;
+}
+
+.csv2wp p {
+    margin-top: 0;
+}
+
+.csv2wp__button {
+}
+
+.csv2wp__notice.is-dismissible {
+    margin:  5px 0 15px;
+    padding: 10px 0 10px 15px;
+}
+
+.csv2wp table.csv2wp__table {
+    border:          0;
+    border-spacing:  0;
+    border-collapse: collapse;
+    margin-bottom:   1em;
+}
+
+.csv2wp table.csv2wp__table th,
+.csv2wp table.csv2wp__table td {
+    text-align: left;
+    padding:    0.5em 3em 0.5em 0;
+}
+
+.csv2wp table.csv2wp__table th {
+    border-bottom: 1px solid black;
+}
+
+.csv2wp table.csv2wp__table td {
+    border-bottom: 1px solid #CCCCCC;
+}
+
+input.hidden {
+    display: none;
+}

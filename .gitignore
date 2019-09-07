@@ -1,0 +1,9 @@
+# Development
+.DS_Store
+.idea/**
+.tmp/**
+*.sublime-*
+*.xlsx
+uploads/**
+
+test-data

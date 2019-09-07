@@ -1,0 +1,659 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CSV to WP\n"
+"POT-Creation-Date: 2019-09-07 13:25+0200\n"
+"PO-Revision-Date: 2019-09-07 13:26+0200\n"
+"Last-Translator: Beee\n"
+"Language-Team: \n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: languages\n"
+"X-Poedit-SearchPathExcluded-1: test data\n"
+"X-Poedit-SearchPathExcluded-2: uploads\n"
+"X-Poedit-SearchPathExcluded-3: not-in-use.php\n"
+
+#: CSV2WP.php:120
+msgid "Warning"
+msgstr "Waarschuwing"
+
+#: CSV2WP.php:127
+msgid "Error"
+msgstr "Fout"
+
+#: CSV2WP.php:139
+msgid "Dismiss this notice"
+msgstr "Verberg deze melding"
+
+#: CSV2WP.php:153 CSV2WP.php:192 CSV2WP.php:435 CSV2WP.php:468
+msgid "Something went wrong. Please try again."
+msgstr "Er ging iets fout, probeer het aub nog een keer."
+
+#: CSV2WP.php:166 CSV2WP.php:380
+msgid "Congratulations, there appear to be no errors in your CSV."
+msgstr "Gefeliciteerd, er zijn geen errors gevonden in je CSV."
+
+#: CSV2WP.php:176
+#, php-format
+msgid "%d lines imported through raw import."
+msgstr "%d regels geïmporteerd via raw import."
+
+#: CSV2WP.php:199
+msgid "You didn't select a file to handle."
+msgstr "Je hebt geen bestand geselecteerd om te verwerken."
+
+#: CSV2WP.php:221
+msgid "You didn't enter a table, where to import it."
+msgstr "Je hebt geen tabel ingevuld waar het geïmporteerd moet worden."
+
+#: CSV2WP.php:225
+msgid "You have a space in your table name."
+msgstr "Je hebt een spatie in je tabel naam."
+
+#: CSV2WP.php:230
+msgid ""
+"You can't have 'has header' and 'meta key' selected at the same time. If you "
+"enter a meta key, your CSV file can't be headers."
+msgstr ""
+"Je kunt niet 'heeft header' en 'meta key' geselecteerd hebben op dezelfde "
+"tijd. Als je een meta key invult, kan je CSV geen headers hebben."
+
+#: CSV2WP.php:234
+msgid ""
+"You unchecked whether the file has a header row. For insert into table, you "
+"must have a header row."
+msgstr ""
+"Je hebt gedeselecteerd dat het bestand een 'header regel' heeft. Bij "
+"importeren in een tabel, moet je een 'header regel' hebben."
+
+#: CSV2WP.php:245
+msgid ""
+"You can't have 'has header' and 'meta key' selected at the same time. If "
+"your CSV has headers, you can't use a meta key."
+msgstr ""
+"Je kunt niet 'heeft header' en 'meta key' geselecteerd hebben op dezelfde "
+"tijd. Als CSV headers heeft kan je geen meta key gebruiken."
+
+#: CSV2WP.php:292
+#, php-format
+msgid "%s has no column 'post_id'."
+msgstr "%s heeft geen kolom 'post_id'."
+
+#: CSV2WP.php:304
+#, php-format
+msgid "%s has no column 'user_id'."
+msgstr "%s heeft geen kolom 'user_id'."
+
+#: CSV2WP.php:365
+#, php-format
+msgid "YAY ! %d lines are imported and the file is deleted."
+msgstr "YAY ! %d regels zijn geïmporteerd en het bestand is verwijderd."
+
+#: CSV2WP.php:367
+#, php-format
+msgid "YAY ! %d lines are imported but the file is not deleted."
+msgstr "YAY ! %d regels zijn geïmporteerd maar het bestand is niet verwijderd."
+
+#: CSV2WP.php:391
+#, php-format
+msgid "File \"%s\" successfully deleted."
+msgstr "Bestand \"%s\" succesvol verwijderd."
+
+#: CSV2WP.php:448
+msgid "File \""
+msgstr "Bestand “"
+
+#: CSV2WP.php:454
+msgid "Upload failed. Please try again."
+msgstr "Fout bij upload. Probeer aub opnieuw."
+
+#: CSV2WP.php:481
+msgid "Settings saved."
+msgstr "Instellingen opgeslagen."
+
+#: CSV2WP.php:496 includes/csv2wp-dashboard.php:127
+#: includes/csv2wp-help-tabs.php:40
+msgid "Import"
+msgstr "Importeer"
+
+#: CSV2WP.php:507 includes/csv2wp-dashboard.php:14
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: CSV2WP.php:509
+msgid "Preview file"
+msgstr "Preview bestand"
+
+#: CSV2WP.php:513 includes/csv2wp-settings.php:16
+msgid "Settings"
+msgstr "Instellingen"
+
+#: CSV2WP.php:515 includes/csv2wp-support.php:16 includes/csv2wp-support.php:24
+msgid "Support"
+msgstr "Ondersteuning"
+
+#: includes/csv2wp-dashboard.php:7 includes/csv2wp-mapping.php:9
+#: includes/csv2wp-preview.php:9 includes/csv2wp-settings.php:9
+#: includes/csv2wp-support.php:9
+msgid "Sorry, you do not have sufficient permissions to access this page."
+msgstr "Sorry, je hebt niet de goede permissie om deze pagina te bekijken."
+
+#: includes/csv2wp-dashboard.php:23
+msgid "This page allows you to import a csv into your database."
+msgstr ""
+"Deze pagina geeft je de mogelijkheid een csv te importeren in je database."
+
+#: includes/csv2wp-dashboard.php:23
+msgid "See the help tab for more explanation."
+msgstr "Zie de help tab voor uitleg."
+
+#: includes/csv2wp-dashboard.php:27 includes/csv2wp-help-tabs.php:22
+#: includes/csv2wp-help-tabs.php:30
+msgid "Upload a CSV file"
+msgstr "Upload een CSV bestand"
+
+#: includes/csv2wp-dashboard.php:31
+msgid "Choose a (*.csv) file to upload"
+msgstr "Kies een (*.csv) bestand om te uploaden"
+
+#: includes/csv2wp-dashboard.php:34
+msgid "Upload file"
+msgstr "Upload bestand"
+
+#: includes/csv2wp-dashboard.php:42 includes/csv2wp-help-tabs.php:36
+#: includes/csv2wp-help-tabs.php:56
+msgid "Handle a CSV file"
+msgstr "Verwerk een CSV bestand"
+
+#: includes/csv2wp-dashboard.php:45
+msgid ""
+"Select a file, select where to import it, whether the file has a header row "
+"and if you want to limit the amount of lines."
+msgstr ""
+"Selecteer een bestand, kies waar het geïmporteerd moet worden, of het "
+"bestand een 'header regel' heeft en of je het aantal regels wilt beperken."
+
+#: includes/csv2wp-dashboard.php:54 includes/csv2wp-preview.php:50
+msgid "File name"
+msgstr "Bestandsnaam"
+
+#: includes/csv2wp-dashboard.php:55
+msgid "Import in"
+msgstr "Importeer in"
+
+#: includes/csv2wp-dashboard.php:56 includes/csv2wp-preview.php:51
+msgid "Delimiter"
+msgstr "Scheidingsteken"
+
+#: includes/csv2wp-dashboard.php:57 includes/csv2wp-preview.php:52
+msgid "Has header"
+msgstr "Heeft header"
+
+#: includes/csv2wp-dashboard.php:58
+msgid "Table"
+msgstr "Tabel"
+
+#: includes/csv2wp-dashboard.php:58
+msgid "Meta key"
+msgstr "Meta key"
+
+#: includes/csv2wp-dashboard.php:59 includes/csv2wp-preview.php:53
+msgid "Max. lines"
+msgstr "Max. regels"
+
+#: includes/csv2wp-dashboard.php:68 includes/csv2wp-preview.php:63
+msgid "Select a file"
+msgstr "Selecteer een bestand"
+
+#: includes/csv2wp-dashboard.php:79
+msgid "Database table"
+msgstr "Database tabel"
+
+#: includes/csv2wp-dashboard.php:80
+msgid "Post meta"
+msgstr "Post meta"
+
+#: includes/csv2wp-dashboard.php:81
+msgid "User meta"
+msgstr "User meta"
+
+#: includes/csv2wp-dashboard.php:97 includes/csv2wp-preview.php:85
+msgid "Yes"
+msgstr "Ja"
+
+#: includes/csv2wp-dashboard.php:110 includes/csv2wp-preview.php:93
+msgid "All"
+msgstr "Alle"
+
+#: includes/csv2wp-dashboard.php:126 includes/csv2wp-help-tabs.php:39
+msgid "Verify"
+msgstr "Verifieer"
+
+#: includes/csv2wp-dashboard.php:128 includes/csv2wp-help-tabs.php:41
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: includes/csv2wp-dashboard.php:132
+msgid "No files uploaded."
+msgstr "Geen bestanden ge-upload."
+
+#: includes/csv2wp-dashboard.php:139
+msgid "Import raw CSV data"
+msgstr "Importeer ruwe CSV data"
+
+#: includes/csv2wp-dashboard.php:142
+msgid ""
+"Make sure the cursor is ON the last line (after the last character), NOT on "
+"a new line."
+msgstr ""
+"Zorg ervoor dat de cursus OP de laatste regel (na het laatste karakter), "
+"NIET op een nieuwe regel."
+
+#: includes/csv2wp-dashboard.php:144
+msgid "This is seen as a new entry and creates an error !!!"
+msgstr "Dit wordt gezien als een nieuwe regel en genereert een fout !"
+
+#: includes/csv2wp-dashboard.php:156
+msgid "Verify data"
+msgstr "Verifieer data"
+
+#: includes/csv2wp-dashboard.php:157
+msgid "Import data"
+msgstr "Importeer data"
+
+#: includes/csv2wp-help-tabs.php:23
+msgid "On this page you can import a CSV fil and process it."
+msgstr "Op deze pagina kan je een CSV uploaden en verwerken."
+
+#: includes/csv2wp-help-tabs.php:24
+msgid "You can only upload *.csv files."
+msgstr "Je kan alleen *.csv bestanden uploaden."
+
+#: includes/csv2wp-help-tabs.php:37
+msgid "When a file is uploaded, there are 3 things you can do with it."
+msgstr "Wanneer een bestand is geupload, kan je er 3 dingen mee doen."
+
+#: includes/csv2wp-help-tabs.php:39
+msgid "This option verfies if all columns are equally sized."
+msgstr "Deze optie checkt of elke regel hetzelfde aantal kolommen heeft."
+
+#: includes/csv2wp-help-tabs.php:40
+msgid "This option imports the file (which also include a verification)."
+msgstr "Deze optie importeert het bestand (wat ook een verificatie bevat)."
+
+#: includes/csv2wp-help-tabs.php:41
+msgid "This option deletes the file."
+msgstr "Deze optie verwijdert het bestand."
+
+#: includes/csv2wp-help-tabs.php:43
+msgid "Verify a CSV file"
+msgstr "Verifieer een CSV bestand"
+
+#: includes/csv2wp-help-tabs.php:44
+msgid ""
+"Upon verification, the csv file is checked if every row/line has the same "
+"amount of columns."
+msgstr ""
+"Bij verificatie wordt de CSV gecheckt of elke regel hetzelfde aantal "
+"kolommen heeft."
+
+#: includes/csv2wp-help-tabs.php:45
+msgid ""
+"If not, the file is deleted because it can't be used anymore due to the "
+"encounterd errors."
+msgstr ""
+"Zo niet, dan is het bestand verwijderd omdat het niet meer gebruikt kon "
+"worden, ivm voorgekomen fouten."
+
+#: includes/csv2wp-help-tabs.php:46
+msgid "Import a CSV file"
+msgstr "Importeer een CSV bestand"
+
+#: includes/csv2wp-help-tabs.php:47
+msgid ""
+"If you want to import int a table, your CSV must have a header row which is "
+"equal to your (table) column names."
+msgstr ""
+"Als je in een custom tabel wilt importeren, dan moet je CSV een 'header "
+"regel' hebben, welke gelijk moet zijn aan je (tabel) kolom namen."
+
+#: includes/csv2wp-help-tabs.php:48
+msgid ""
+"If you want to import post or user meta without a header row, you must use "
+"the following format: \"post/user ID,meta_key,meta_value\"."
+msgstr ""
+"Als je post of user meta wilt importeren zonder 'header regel', dan moet je "
+"het volgende formaat gebruiken: \"post/user ID,meta_key,meta_value\"."
+
+#: includes/csv2wp-help-tabs.php:49
+msgid "Delete a CSV file"
+msgstr "Verwijder een CSV bestand"
+
+#: includes/csv2wp-help-tabs.php:50
+msgid "Goes without saying, removes a file (from the uploads directory)."
+msgstr "Spreekt voor zich, verwijdert een bestand (uit de uploads folder)."
+
+#: includes/csv2wp-help-tabs.php:62
+msgid "Import into table"
+msgstr "Importeer in tabel"
+
+#: includes/csv2wp-help-tabs.php:63
+msgid "A header row is obligated when you want to import into a table."
+msgstr "Een header regel is verplicht als je wilt importeren in een tabel."
+
+#: includes/csv2wp-help-tabs.php:64
+msgid ""
+"If you select 'import into table', a table is created with the column names "
+"you have in your CSV."
+msgstr ""
+"Als je 'importeren in tabel' kiest, dan wordt er een tabel gecreëerd op "
+"basis van je kolom namen in de CSV."
+
+#: includes/csv2wp-help-tabs.php:65
+msgid ""
+"If a table already exists with this name, any new columns which exsts in the "
+"CSV but not in the table will be appended."
+msgstr ""
+"Als er al een tabel bestaat met deze naam, worden eventuele kolommen die "
+"niet in de tabel staan maar wel in de CSV toegevoegd aan het einde."
+
+#: includes/csv2wp-help-tabs.php:66
+msgid ""
+"All values are inserted as 'text' since the plugin can't tell what type it "
+"is, based on the value alone. We will look into trying to 'set this' later "
+"on."
+msgstr ""
+"Alle waardes worden geïmporteerd als 'tekst' aangezien de plugin aan de "
+"waarde niet kan zien wat voor type het is. We gaan hier wel naar kijken voor "
+"de toekomst."
+
+#: includes/csv2wp-help-tabs.php:67
+msgid "The maximum length of a variable is 254 characters."
+msgstr "De maximum lengte van een waarde is 254 karakters."
+
+#: includes/csv2wp-help-tabs.php:73
+msgid "Import table"
+msgstr "Importeer tabel"
+
+#: includes/csv2wp-help-tabs.php:79
+msgid "Import into meta"
+msgstr "Importeer in meta"
+
+#: includes/csv2wp-help-tabs.php:80
+msgid "There are 3 different ways to import post/user meta."
+msgstr "Er zijn 3 manieren om post/gebruikersmeta te importeren."
+
+#: includes/csv2wp-help-tabs.php:83
+msgid "With table headers"
+msgstr "Met tabel headers"
+
+#: includes/csv2wp-help-tabs.php:85
+msgid "Header must be in the following format: `user id, meta key`."
+msgstr "Moet het volgende formaat zijn: `user id, meta waarde`."
+
+#: includes/csv2wp-help-tabs.php:87
+msgid "Values must be in the following format: `user id, meta value`."
+msgstr "Moet het volgende formaat zijn: `user id, meta waarde`."
+
+#: includes/csv2wp-help-tabs.php:91
+msgid "Without table headers"
+msgstr "Zonder tabel headers"
+
+#: includes/csv2wp-help-tabs.php:93
+msgid "Must be in the following format: `user id, meta key, meta value`."
+msgstr "Moet het volgende formaat zijn: `user id, meta key, meta waarde` etc."
+
+#: includes/csv2wp-help-tabs.php:97
+msgid "Without table headers but with a meta key"
+msgstr "Zonder tabel headers maar met een meta key"
+
+#: includes/csv2wp-help-tabs.php:99
+msgid "Must be in the following format: `user id, meta value`."
+msgstr "Moet het volgende formaat zijn: `user id, meta waarde` etc."
+
+#: includes/csv2wp-help-tabs.php:107
+msgid "Import meta"
+msgstr "Importeer meta"
+
+#: includes/csv2wp-help-tabs.php:115 includes/csv2wp-help-tabs.php:126
+msgid "Preview data"
+msgstr "Preview data"
+
+#: includes/csv2wp-help-tabs.php:116
+msgid "On this page you can preview a CSV file before importing it."
+msgstr "Op deze pagina kan je een CSV bekijken voor je hem verwerkt."
+
+#: includes/csv2wp-help-tabs.php:117 includes/csv2wp-preview.php:40
+msgid ""
+"Please keep in mind that all csv files are verified before displaying (and "
+"therefor can be deleted, when errors are encountered)."
+msgstr ""
+"Onthoud aub dat alle CSV bestanden worden geverifieerd voor het weergeven "
+"(en kunnen daarom dus verwijderd worden wanneer fouten worden tegengekomen)."
+
+#: includes/csv2wp-help-tabs.php:118
+msgid "If you select 'has header', the first table row will be bolded."
+msgstr ""
+"Als je 'heeft header' selecteer, wordt de 1e rij in de tabel bold gemaakt."
+
+#: includes/csv2wp-help-tabs.php:119
+msgid ""
+"You can limit the amount of lines you want to preview if you have a very "
+"large file."
+msgstr ""
+"Je kunt het aantal regels beperken in de preview als je een groot bestand "
+"hebt."
+
+#: includes/csv2wp-help-tabs.php:133
+msgid "Author's website"
+msgstr "Auteur's website"
+
+#: includes/csv2wp-preview.php:16
+msgid "Preview"
+msgstr "Preview"
+
+#: includes/csv2wp-preview.php:39
+msgid "Here you can preview any uploaded csv files."
+msgstr "Hier kun je je ge-uploade csv bestanden previewen."
+
+#: includes/csv2wp-preview.php:104
+msgid "Preview this file"
+msgstr "Preview dit bestand"
+
+#: includes/csv2wp-preview.php:109
+msgid "You have no files to preview."
+msgstr "Je hebt geen bestanden om te previewen."
+
+#: includes/csv2wp-preview.php:120
+msgid "CSV contents"
+msgstr "CSV inhoud"
+
+#: includes/csv2wp-preview.php:150
+#, php-format
+msgid ""
+"You either have errors in your CSV or there is no data. Verify this file on "
+"the <a href=\"%s\">dashboard</a>."
+msgstr ""
+"Of er zijn errors in je CSV of er is geen data. Verifieer dit bestand op het "
+"<a href=\"%s\">dashboard</a>."
+
+#: includes/csv2wp-settings.php:27
+msgid "Who can import CSV data ?"
+msgstr "Wie kan CSV data importeren ?"
+
+#: includes/csv2wp-settings.php:29
+msgid ""
+"Here you can select what capability a user needs to import any data. The "
+"default setting is \"manage_options\" which belongs to administrator."
+msgstr ""
+"Hier kun je selecteren wat voor ‘permissie’ een gebruiker moet hebben om "
+"data te mogen importeren. De standaard instelling is “manage_options” welke "
+"bij administrators hoort."
+
+#: includes/csv2wp-settings.php:31
+msgid ""
+"The reason why it's set per capability instead of per user is because two "
+"users with the same role can have different capabilities."
+msgstr ""
+"De reden waarom het per ‘recht’ is ingesteld ipv per gebruiker is omdat twee "
+"gebruikers met dezelfde rol, verschillende rechten kunnen hebben."
+
+#: includes/csv2wp-settings.php:49
+msgid "Preserve settings"
+msgstr "Instellingen bewaren"
+
+#: includes/csv2wp-settings.php:53
+msgid "If you check this box NO settings will be deleted upon uninstallation."
+msgstr ""
+"Als je deze optie selecteert, worden je instellingen bewaard als je de "
+"plugin verwijdert."
+
+#: includes/csv2wp-settings.php:59
+msgid "Save settings"
+msgstr "Instellingen opslaan"
+
+#: includes/csv2wp-support.php:25
+#, php-format
+msgid ""
+"If you know about this plugin, you probably know me and know where to reach "
+"me. If not, please report it on GitHub in the <a href=\"%s\">issues section</"
+"a>."
+msgstr ""
+"Als je van deze plugin weet, dan ken je mij waarschijnlijk en weet je waar "
+"ik te bereiken ben. Zo niet, dan report het issue aub op GitHub in de <a "
+"href=“%s”>issues sectie</a>."
+
+#: includes/csv2wp-support.php:27
+msgid "Find more info about the plugin on"
+msgstr "Vind meer info over de plugin op"
+
+#: includes/csv2wp-support.php:30
+msgid "About the author"
+msgstr "Over de auteur"
+
+#: includes/csv2wp-support.php:32
+#, php-format
+msgid ""
+"This plugin is created by <a href=\"%s\">Beee</a>, a Wordpress developer "
+"from Amsterdam."
+msgstr ""
+"Deze plugin is geschreven door <a href=\"%s\">Beee</a>, een Wordpress "
+"developer uit Amsterdam."
+
+#: includes/functions.php:74 includes/functions.php:81
+#: includes/functions.php:89
+msgid "You don't have the right amount of columns."
+msgstr "Je hebt niet het correct aantal kolommen."
+
+#: includes/functions.php:100 includes/functions.php:110
+msgid "Since your file is not accurate anymore, the file is deleted."
+msgstr "Aangezien je bestand niet meer correct is, is het verwijderd."
+
+#: includes/functions.php:106
+#, php-format
+msgid "There are too few columns on line %d. %s"
+msgstr "Er zijn te weinig kolommen op regel %d. %s"
+
+#: includes/functions.php:116
+#, php-format
+msgid "There are too many columns on line %d. %s"
+msgstr "Er zijn teveel kolommen op regel %d. %s"
+
+#: includes/functions.php:136
+#, php-format
+msgid "The value '%s' is too long."
+msgstr "De waarde '%s' is te lang."
+
+#: includes/functions.php:188
+msgid "There is an empty line on line "
+msgstr "Er is een lege regel op regel "
+
+#: includes/functions.php:204
+msgid "There are too few columns on line "
+msgstr "Er zijn te weinig kolommen op regel "
+
+#: includes/functions.php:206
+msgid "There are too many columns on line "
+msgstr "Er zijn teveel kolommen op regel "
+
+#~ msgid "You don't have enough columns."
+#~ msgstr "J hebt niet genoeg kolommen"
+
+#~ msgid ""
+#~ "Header must be in the following format: `user id, meta key 1, meta key 2, "
+#~ "meta key 3` etc."
+#~ msgstr ""
+#~ "Header regel moet in het volgende formaat: `user id, meta key 1, meta key "
+#~ "2, meta key 3` etc."
+
+#~ msgid ""
+#~ "Values must be in the following format: `user id, meta value 1, meta "
+#~ "value 2, meta value 3` etc."
+#~ msgstr ""
+#~ "Waardes moeten in het volgende formaat zijn: `user id, meta waarde 1, "
+#~ "meta waarde 2, meta waarde 3` etc."
+
+#~ msgid "&laquo; Previous"
+#~ msgstr "&laquo; Vorige"
+
+#~ msgid "Next &raquo;"
+#~ msgstr "Volgende &raquo;"
+
+#~ msgid "Choose a file"
+#~ msgstr "Kies een bestand"
+
+#~ msgid "Does the data contain a header row ?"
+#~ msgstr "Bevat de data een header regel ?"
+
+#~ msgid "Select a csv file"
+#~ msgstr "Selecteer een CSV bestand"
+
+#~ msgid "YAY ! "
+#~ msgstr "Yay ! "
+
+#~ msgid "Limit lines"
+#~ msgstr "Beperk regels"
+
+#~ msgid "Verify selected file(s)"
+#~ msgstr "Verifieer geselecteerde bestanden"
+
+#~ msgid "Import selected file(s)"
+#~ msgstr "Importeer geselecteerde bestanden"
+
+#~ msgid "Remove selected file(s)"
+#~ msgstr "Verwijder geselecteerde bestanden"
+
+#~ msgid "Here you can preview your uploaded csv files."
+#~ msgstr "Hier kun je je ge-uploade csv bestanden previewen."
+
+#~ msgid "You have no files to map."
+#~ msgstr "Je hebt geen bestanden om te mappen."
+
+#~ msgid "If you want to insert a custom table, a header row is required."
+#~ msgstr ""
+#~ "Indien je wilt importeren in een custom tabel, dan is een 'header regel' "
+#~ "verplicht."
+
+#~ msgid "You have no uploaded csv files to preview."
+#~ msgstr "Je hebt geen bestanden om te previewen."
+
+#~ msgid "You didn't select a file."
+#~ msgstr "Je hebt geen bestand geselecteerd."
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "Misc"
+#~ msgstr "Misc"
+
+#~ msgid "Select a file to 'handle'"
+#~ msgstr "Selecteer een bestand om te ‘gebruiken’"
+
+#~ msgid "AAAAAAAAAND it's gone."
+#~ msgstr "En foetsie."
