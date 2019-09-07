@@ -82,9 +82,9 @@
             <p>
                 <b>1. <?php esc_html_e( 'With table headers', 'csv2wp' ); ?></b>
                 <br />
-                <?php esc_html_e( 'Header must be in the following format: `user id, meta key 1, meta key 2, meta key 3` etc.', 'csv2wp' ); ?>
+                <?php esc_html_e( 'Header must be in the following format: `user id, meta key`.', 'csv2wp' ); ?>
                 <br />
-                <?php esc_html_e( 'Values must be in the following format: `user id, meta value 1, meta value 2, meta value 3` etc.', 'csv2wp' ); ?>
+                <?php esc_html_e( 'Values must be in the following format: `user id, meta value`.', 'csv2wp' ); ?>
             </p>
             
             <p>
