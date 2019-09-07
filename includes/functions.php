@@ -35,16 +35,20 @@
      * @param bool   $verify
      * @param bool   $has_header
      * @param bool   $preview
+     * @param bool   $import_where
+     *
+     * @return array|void
      */
-    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $has_header = false, $preview = false ) {
+    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $has_header = false, $preview = false, $import_where = false ) {
 
         // read file
-        $csv_array   = array();
+        $csv_array   = [];
         $empty_array = false;
-        $new_array   = array();
+        $new_array   = [];
         if ( ( $handle = fopen( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name, "r" ) ) !== false ) {
-            $line_number = 0;
-            while ( ( $csv_line = fgetcsv( $handle, 1000, "{$delimiter}" ) ) !== false ) {
+            $line_number  = 0;
+            $value_length = 254;
+            while ( ( $csv_line = fgetcsv( $handle, $value_length, "{$delimiter}" ) ) !== false ) {
                 $line_number++;
                 $csv_array[ 'delimiter' ] = $delimiter;
                 
@@ -61,6 +65,25 @@
                 }
     
                 // if column count doesn't match benchmark
+                if ( 'meta' == $import_where ) {
+                    // if headers, check if cols are min 2
+                    if ( false != $has_header ) {
+                        if ( count( $csv_line ) < 2 ) {
+                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have enough columns.", "csv2wp" ) ) );
+                            
+                            return;
+                        }
+                    } else {
+                        // if no headers, check if cols are == 3
+                        if ( count( $csv_line ) != 3 ) {
+                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", "csv2wp" ) ) );
+                            
+                            return;
+                        }
+                    }
+                }
+    
+                // if column count doesn't match benchmark
                 if ( count( $csv_line ) != $csv_array[ 'column_count' ] ) {
                     // if column count < benchmark
                     if ( count( $csv_line ) < $csv_array[ 'column_count' ] ) {
@@ -68,7 +91,7 @@
                         if ( true == $verify ) {
                         } elseif ( true != $preview ) {
                             // for real
-                            $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
+                            $error_message = 'Lines 1-' . ( $line_number ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                         }
                         CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
 
@@ -90,15 +113,21 @@
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
 
                     $empty_array = true;
-                    $new_array[] = false;
+                    $new_array   = [];
 
                 } else {
     
                     // create a new array for each row
-                    $new_line   = array();
+                    $new_line   = [];
                     $item_count = 0;
                     foreach ( $csv_line as $item ) {
+    
+                        if ( strlen( $item ) > $value_length ) {
+                            CSV2WP::csv2wp_errors()->add( 'error_too_long_value', esc_html( sprintf( __( "The value '%s' is too long.", "csv2wp" ), $item ) ) );
         
+                            return;
+                        }
+    
                         if ( true == $has_header ) {
                             if ( 1 == $line_number ) {
                                 // do nothing, headers don't need to be added
@@ -139,7 +168,7 @@
     function csv2wp_verify_raw_csv_data( $csv_data = false ) {
         
         if ( false != $csv_data ) {
-            $validated_csv = array();
+            $validated_csv = [];
             $lines         = explode( "\n", $csv_data );
             $line_number   = 0;
             foreach ( $lines as $csv_line ) {
@@ -187,42 +216,4 @@
         }
         
         return false;
-    }
-    
-    
-    /**
-     * Get pagination (if needed)
-     *
-     * @param $pages
-     * @param $page_number
-     *
-     * @return bool|string
-     */
-    function csv2wp_get_pagination( $pages, $page_number ) {
-        
-        if ( $pages == 1 ) {
-            return false;
-        }
-        
-        $big = 999999999; // need an unlikely integer
-        if ( $page_number <= 1 ) {
-            $page_number = 1;
-        }
-        $pagination_args = array(
-            'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-            'format'    => '/page/',
-            'total'     => $pages,
-            'current'   => max( 1, $page_number ),
-            'show_all'  => false,
-            'end_size'  => 3,
-            'mid_size'  => 2,
-            'prev_next' => true,
-            'prev_text' => __( '&laquo; Previous', 'csv2wp' ),
-            'next_text' => __( 'Next &raquo;', 'csv2wp' ),
-            'type'      => 'list',
-        );
-        $pagination      = sprintf( '<div class="paginator">%s</div>', paginate_links( $pagination_args ) );
-        
-        return $pagination;
-        
     }
