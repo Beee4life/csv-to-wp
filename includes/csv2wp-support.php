@@ -5,8 +5,8 @@
      */
     function csv2wp_support_page() {
         
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( esc_html( __( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) ) );
+        if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
+            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
         ?>
 
@@ -16,8 +16,8 @@
             <h1>CSV to WP - <?php esc_html_e( 'Support', 'csv2wp' ); ?></h1>
             
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
-
-            <div id="csv-importer">
+    
+            <div class="csv2wp">
                 
                 <?php echo CSV2WP::csv2wp_admin_menu(); ?>
 
@@ -32,8 +32,8 @@
                     <?php echo sprintf( __( 'This plugin is created by <a href="%s">Beee</a>, a Wordpress developer from Amsterdam.', 'csv2wp' ), 'https://www.berryplasman.com' ); ?>
                 </p>
 
-            </div><!-- end #csv-importer -->
+            </div>
 
-        </div><!-- end .wrap -->
+        </div>
         <?php
     }
