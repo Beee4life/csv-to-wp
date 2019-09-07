@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CSV to WP\n"
-"POT-Creation-Date: 2019-09-07 12:17+0200\n"
+"POT-Creation-Date: 2019-09-07 13:26+0200\n"
 "PO-Revision-Date: 2017-09-19 00:41+0200\n"
 "Last-Translator: Beee\n"
 "Language-Team: \n"
@@ -32,11 +32,11 @@ msgstr ""
 msgid "Dismiss this notice"
 msgstr ""
 
-#: CSV2WP.php:153 CSV2WP.php:192 CSV2WP.php:425 CSV2WP.php:458
+#: CSV2WP.php:153 CSV2WP.php:192 CSV2WP.php:435 CSV2WP.php:468
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: CSV2WP.php:166 CSV2WP.php:370
+#: CSV2WP.php:166 CSV2WP.php:380
 msgid "Congratulations, there appear to be no errors in your CSV."
 msgstr ""
 
@@ -49,77 +49,81 @@ msgstr ""
 msgid "You didn't select a file to handle."
 msgstr ""
 
-#: CSV2WP.php:203
-msgid "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers."
-msgstr ""
-
-#: CSV2WP.php:224
+#: CSV2WP.php:221
 msgid "You didn't enter a table, where to import it."
 msgstr ""
 
-#: CSV2WP.php:228
+#: CSV2WP.php:225
 msgid "You have a space in your table name."
 msgstr ""
 
-#: CSV2WP.php:233
+#: CSV2WP.php:230
+msgid "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers."
+msgstr ""
+
+#: CSV2WP.php:234
 msgid "You unchecked whether the file has a header row. For insert into table, you must have a header row."
 msgstr ""
 
-#: CSV2WP.php:286
+#: CSV2WP.php:245
+msgid "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key."
+msgstr ""
+
+#: CSV2WP.php:292
 #, php-format
 msgid "%s has no column 'post_id'."
 msgstr ""
 
-#: CSV2WP.php:298
+#: CSV2WP.php:304
 #, php-format
 msgid "%s has no column 'user_id'."
 msgstr ""
 
-#: CSV2WP.php:353
+#: CSV2WP.php:365
 #, php-format
 msgid "YAY ! %d lines are imported and the file is deleted."
 msgstr ""
 
-#: CSV2WP.php:355
+#: CSV2WP.php:367
 #, php-format
 msgid "YAY ! %d lines are imported but the file is not deleted."
 msgstr ""
 
-#: CSV2WP.php:381
+#: CSV2WP.php:391
 #, php-format
 msgid "File \"%s\" successfully deleted."
 msgstr ""
 
-#: CSV2WP.php:438
+#: CSV2WP.php:448
 msgid "File \""
 msgstr ""
 
-#: CSV2WP.php:444
+#: CSV2WP.php:454
 msgid "Upload failed. Please try again."
 msgstr ""
 
-#: CSV2WP.php:471
+#: CSV2WP.php:481
 msgid "Settings saved."
 msgstr ""
 
-#: CSV2WP.php:486 includes/csv2wp-dashboard.php:127
+#: CSV2WP.php:496 includes/csv2wp-dashboard.php:127
 #: includes/csv2wp-help-tabs.php:40
 msgid "Import"
 msgstr ""
 
-#: CSV2WP.php:497 includes/csv2wp-dashboard.php:14
+#: CSV2WP.php:507 includes/csv2wp-dashboard.php:14
 msgid "Dashboard"
 msgstr ""
 
-#: CSV2WP.php:499
+#: CSV2WP.php:509
 msgid "Preview file"
 msgstr ""
 
-#: CSV2WP.php:503 includes/csv2wp-settings.php:16
+#: CSV2WP.php:513 includes/csv2wp-settings.php:16
 msgid "Settings"
 msgstr ""
 
-#: CSV2WP.php:505 includes/csv2wp-support.php:16 includes/csv2wp-support.php:24
+#: CSV2WP.php:515 includes/csv2wp-support.php:16 includes/csv2wp-support.php:24
 msgid "Support"
 msgstr ""
 
@@ -340,11 +344,11 @@ msgid "With table headers"
 msgstr ""
 
 #: includes/csv2wp-help-tabs.php:85
-msgid "Header must be in the following format: `user id, meta key 1, meta key 2, meta key 3` etc."
+msgid "Header must be in the following format: `user id, meta key`."
 msgstr ""
 
 #: includes/csv2wp-help-tabs.php:87
-msgid "Values must be in the following format: `user id, meta value 1, meta value 2, meta value 3` etc."
+msgid "Values must be in the following format: `user id, meta value`."
 msgstr ""
 
 #: includes/csv2wp-help-tabs.php:91
@@ -458,41 +462,38 @@ msgstr ""
 msgid "This plugin is created by <a href=\"%s\">Beee</a>, a Wordpress developer from Amsterdam."
 msgstr ""
 
-#: includes/functions.php:72
-msgid "You don't have enough columns."
-msgstr ""
-
-#: includes/functions.php:79
+#: includes/functions.php:74 includes/functions.php:81
+#: includes/functions.php:89
 msgid "You don't have the right amount of columns."
 msgstr ""
 
-#: includes/functions.php:90 includes/functions.php:100
+#: includes/functions.php:100 includes/functions.php:110
 msgid "Since your file is not accurate anymore, the file is deleted."
-msgstr ""
-
-#: includes/functions.php:96
-#, php-format
-msgid "There are too few columns on line %d. %s"
 msgstr ""
 
 #: includes/functions.php:106
 #, php-format
+msgid "There are too few columns on line %d. %s"
+msgstr ""
+
+#: includes/functions.php:116
+#, php-format
 msgid "There are too many columns on line %d. %s"
 msgstr ""
 
-#: includes/functions.php:126
+#: includes/functions.php:136
 #, php-format
 msgid "The value '%s' is too long."
 msgstr ""
 
-#: includes/functions.php:178
+#: includes/functions.php:188
 msgid "There is an empty line on line "
 msgstr ""
 
-#: includes/functions.php:194
+#: includes/functions.php:204
 msgid "There are too few columns on line "
 msgstr ""
 
-#: includes/functions.php:196
+#: includes/functions.php:206
 msgid "There are too many columns on line "
 msgstr ""
