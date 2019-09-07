@@ -7,7 +7,3 @@
 uploads/**
 
 test-data
-
-# Package Managers
-vendor/**
-node_modules/**
