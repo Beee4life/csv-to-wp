@@ -7,7 +7,7 @@
      */
     function csv2wp_check_if_files() {
         
-        $target_dir = wp_upload_dir()[ 'basedir' ] . '/csv2wp';
+        $target_dir = csv2wp_get_upload_folder();
         $file_index = scandir( $target_dir );
         
         if ( is_array( $file_index ) ) {
@@ -45,7 +45,7 @@
         $csv_array   = [];
         $empty_array = false;
         $new_array   = [];
-        if ( ( $handle = fopen( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name, "r" ) ) !== false ) {
+        if ( ( $handle = fopen( csv2wp_get_upload_folder() . '/' . $file_name, "r" ) ) !== false ) {
             $line_number  = 0;
             $value_length = 254;
             while ( ( $csv_line = fgetcsv( $handle, $value_length, "{$delimiter}" ) ) !== false ) {
@@ -116,7 +116,7 @@
                         CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
                     }
                     // delete file
-                    unlink( wp_upload_dir()[ 'basedir' ] . '/csv2wp/' . $file_name );
+                    unlink( csv2wp_get_upload_folder() . '/' . $file_name );
     
                 }
     
@@ -226,4 +226,16 @@
         }
         
         return false;
+    }
+    
+    /**
+     * Get upload folder
+     *
+     * @return string
+     */
+    function csv2wp_get_upload_folder() {
+        
+        $upload_folder = wp_upload_dir()[ 'basedir' ] . '/csv2wp';
+        
+        return $upload_folder;
     }

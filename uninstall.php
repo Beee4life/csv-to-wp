@@ -7,6 +7,6 @@
     
     // drop table
     if ( false == get_option( 'csv2wp_preserve_settings' ) ) {
-        $target_folder = wp_upload_dir()[ 'basedir' ] . '/csv2wp';
+        $target_folder = csv2wp_get_upload_folder();
         rmdir( $target_folder );
     }
