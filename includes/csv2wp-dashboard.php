@@ -6,6 +6,8 @@
         if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
             wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
+        
+        $show_raw = ( defined( 'WP_TESTING' ) && WP_TESTING == 10 ) ? true : false;
         ?>
 
         <div class="wrap">
@@ -133,7 +135,7 @@
                     <?php } ?>
                 </div>
 
-                <?php if ( defined( 'WP_TESTING' ) && WP_TESTING == 1 ) { ?>
+                <?php if ( $show_raw ) { ?>
                     <div class="csv2wp__section">
                         <h2>
                             <?php esc_html_e( 'Import raw CSV data', 'csv2wp' ); ?>
