@@ -93,7 +93,7 @@
                                         </label>
                                     </td>
     
-                                    <td class="xhidden">
+                                    <td>
                                         <?php $amounts = [ 5, 10, 25, 50, 100, 250, 500, 1000 ]; ?>
                                         <label>
                                             <select name="csv2wp_max_lines" id="csv2wp_max_lines">
