@@ -24,10 +24,10 @@
                 <?php
                     $delimiter = false;
                     if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                        $delimiter  = $_POST[ 'csv2wp_delimiter' ];
-                        $file_name  = $_POST[ 'csv2wp_file_name' ];
-                        $has_header = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
-                        $max_lines  = $_POST[ 'csv2wp_max_lines' ];
+                        $delimiter   = $_POST[ 'csv2wp_delimiter' ];
+                        $file_name   = $_POST[ 'csv2wp_file_name' ];
+                        $has_header  = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
+                        $show_length = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
                     } else {
                         $file_name = false;
                     }
@@ -50,6 +50,7 @@
                                     <th><?php esc_html_e( 'File name', 'csv2wp' ); ?></th>
                                     <th><?php esc_html_e( 'Delimiter', 'csv2wp' ); ?></th>
                                     <th><?php esc_html_e( 'Has header', 'csv2wp' ); ?></th>
+                                    <th><?php esc_html_e( 'Show value length', 'csv2wp' ); ?></th>
                                     <th class="xhidden"><?php esc_html_e( 'Max. lines', 'csv2wp' ); ?></th>
                                 </tr>
                                 </thead>
@@ -83,6 +84,12 @@
                                     <td>
                                         <label>
                                             <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="true"<?php if ( isset( $has_header ) && true == $has_header ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
+                                        </label>
+                                    </td>
+    
+                                    <td>
+                                        <label>
+                                            <input name="csv2wp_show_length" id="csv2wp_show_length" type="checkbox" value="true"<?php if ( isset( $show_length ) && true == $show_length ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
                                         </label>
                                     </td>
     
@@ -124,6 +131,9 @@
                                 echo '<tr>';
                                 foreach ( $header_row as $column ) {
                                     echo '<th>' . $column . '</th>';
+                                    if ( $show_length ) {
+                                        echo '<th>Length</th>';
+                                    }
                                 }
                                 echo '</tr>';
                                 echo '</thead>';
@@ -137,6 +147,9 @@
                                     echo '<td>';
                                     echo esc_html($column);
                                     echo '</td>';
+                                    if ( $show_length ) {
+                                        echo '<td>'.strlen($column).'</td>';
+                                    }
                                 }
                                 echo '</tr>';
                                 if ( $line_number == $_POST[ 'csv2wp_max_lines' ] ) {
