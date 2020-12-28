@@ -7,7 +7,7 @@
 }
 
 .csv2wp__menu {
-    margin: 1em 0 2em 0;
+    margin: 1em 0;
 }
 
 .csv2wp__section {
@@ -22,12 +22,70 @@
     margin-top: 0;
 }
 
-.csv2wp__button {
+/* admin pages */
+.csv2wp .admin_left .content,
+.csv2wp .admin_right .content {
+    background: white;
+    box-sizing:            border-box;
+    border:                1px solid #cccccc;
+    padding:               10px;
+    -moz-border-radius:    8px;
+    -webkit-border-radius: 8px;
+}
+
+.csv2wp .admin_left {
+    max-width: 1024px;
 }
 
 .csv2wp__notice.is-dismissible {
     margin:  5px 0 15px;
     padding: 10px 0 10px 15px;
+}
+
+.csv2wp .csv2wp__upload-element {
+    margin-bottom: 1rem;
+}
+
+.csv2wp .csv2wp__upload-element:last-child {
+    margin-bottom: 0;
+}
+
+.csv2wp .form--upload {
+    margin-top: 5px;
+    position:   relative;
+}
+
+.csv2wp .form--upload input[type='file'] {
+    width:   225px;
+    height:  35px;
+    opacity: 0;
+}
+
+.csv2wp .form--upload .val {
+    background:     white;
+    border:         1px solid #ccc;
+    width:          225px;
+    height:         35px;
+    position:       absolute;
+    top:            0;
+    left:           0;
+    font-size:      15px;
+    line-height:    35px;
+    text-indent:    10px;
+    pointer-events: none;
+    overflow:       hidden;
+}
+
+.csv2wp .form--upload .upload_button {
+    border-radius: 0;
+    display:       block;
+    height:        37px;
+    left:          225px;
+    position:      absolute;
+    top:           0;
+    font-size:     15px;
+    line-height:   35px;
+    text-align:    center;
 }
 
 .csv2wp table.csv2wp__table {
