@@ -419,8 +419,8 @@
              */
             public function csv2wp_upload_functions() {
 
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ "upload_file_nonce" ] ) ) {
-                    if ( ! wp_verify_nonce( $_POST[ "upload_file_nonce" ], 'upload-file-nonce' ) ) {
+                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'csv2wp_upload_file_nonce' ] ) ) {
+                    if ( ! wp_verify_nonce( $_POST[ 'csv2wp_upload_file_nonce' ], 'csv2wp-upload-file-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
                         return;
