@@ -7,8 +7,6 @@
      */
     function csv2wp_help_tabs( $screen ) {
 
-        // echo '<pre>'; var_dump($screen); echo '</pre>'; exit;
-
         $screens = [
             'toplevel_page_csv2wp-dashboard',
             'admin_page_csv2wp-preview',
@@ -127,12 +125,10 @@
                 'content' => $tab_content
             ) );
 
+            $sidebar_content = '<p><strong>' . esc_html__( "Author's website", "csv2wp" ) . '</strong></p>';
+            $sidebar_content .= '<p><a href="https://berryplasman.com">berryplasman.com</a></p>';
+            get_current_screen()->set_help_sidebar( $sidebar_content );
         }
 
-        $sidebar_content = '<p><strong>' . esc_html__( "Author's website", "csv2wp" ) . '</strong></p>';
-        $sidebar_content .= '<p><a href="https://berryplasman.com">berryplasman.com</a></p>';
-        get_current_screen()->set_help_sidebar( $sidebar_content );
-
-        // return $old_help;
     }
     add_action( 'current_screen', 'csv2wp_help_tabs', 5 );
