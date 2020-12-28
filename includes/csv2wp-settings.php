@@ -1,29 +1,29 @@
 <?php
-    
+
     /**
      * Content for the settings page
      */
     function csv2wp_settings_page() {
-        
+
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
         ?>
 
-        <div class="wrap">
+        <div class="wrap csv2wp">
             <div id="icon-options-general" class="icon32"><br/></div>
 
             <h1>CSV to WP - <?php esc_html_e( 'Settings', 'csv2wp' ); ?></h1>
-            
+
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
-    
-            <div class="csv2wp">
-                
+
+            <div class="">
+
                 <?php echo CSV2WP::csv2wp_admin_menu(); ?>
 
                 <form name="settings-form" id="settings-form" action="" method="post">
                     <input name="settings_page_nonce" type="hidden" value="<?php echo wp_create_nonce( 'settings-page-nonce' ); ?>"/>
-                    
+
                     <h2><?php esc_html_e( 'Who can import CSV data ?', 'csv2wp' ); ?></h2>
                     <p>
                         <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv2wp' ); ?>
@@ -45,7 +45,7 @@
                     </label>
 
                     <br/><br/>
-    
+
                     <h2><?php esc_html_e( 'Preserve settings', 'csv2wp' ); ?></h2>
 
                     <p>
@@ -56,7 +56,7 @@
 
                     <br/>
 
-                    <input type="submit" class="admin-button admin-button-small" value="<?php esc_html_e( 'Save settings', 'csv2wp' ); ?>"/>
+                    <input type="submit" class="button button-primary" value="<?php esc_html_e( 'Save settings', 'csv2wp' ); ?>"/>
                 </form>
 
             </div>

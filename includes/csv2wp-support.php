@@ -10,14 +10,14 @@
         }
         ?>
 
-        <div class="wrap">
+        <div class="wrap csv2wp">
             <div id="icon-options-general" class="icon32"><br/></div>
 
             <h1>CSV to WP - <?php esc_html_e( 'Support', 'csv2wp' ); ?></h1>
 
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 
-            <div class="csv2wp">
+            <div class="">
 
                 <?php echo CSV2WP::csv2wp_admin_menu(); ?>
 
