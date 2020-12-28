@@ -39,15 +39,16 @@
      *
      * @return array|void
      */
-    function csv2wp_csv_to_array( $file_name, $delimiter = ",", $verify = false, $has_header = false, $preview = false, $import_where = false, $meta_key = false ) {
+    function csv2wp_csv_to_array( $file_name, $delimiter = ';', $verify = false, $has_header = false, $preview = false, $import_where = false, $meta_key = false ) {
 
         // read file
         $csv_array   = [];
         $empty_array = false;
         $new_array   = [];
-        if ( ( $handle = fopen( csv2wp_get_upload_folder() . '/' . $file_name, "r" ) ) !== false ) {
+        if ( ( $handle = fopen( csv2wp_get_upload_folder( '/' ) . $file_name, "r" ) ) !== false ) {
             $line_number  = 0;
-            $value_length = 254;
+            $value_length = apply_filters( 'csv2wp_line_length', 1000 );
+
             while ( ( $csv_line = fgetcsv( $handle, $value_length, "{$delimiter}" ) ) !== false ) {
                 $line_number++;
                 $csv_array[ 'delimiter' ] = $delimiter;
@@ -71,14 +72,14 @@
                         if ( false == $meta_key ) {
                             // if ! has key must be 3
                             if ( count( $csv_line ) != 3 ) {
-                                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", "csv2wp" ) ) );
+                                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", 'csv2wp' ) ) );
 
                                 return;
                             }
                         } else {
                             // if has key must be 2
                             if ( count( $csv_line ) != 2 ) {
-                                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", "csv2wp" ) ) );
+                                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", 'csv2wp' ) ) );
 
                                 return;
                             }
@@ -86,7 +87,7 @@
                     } else {
                         // if no headers, check if cols are == 3
                         if ( count( $csv_line ) != 3 ) {
-                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", "csv2wp" ) ) );
+                            CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', esc_html( __( "You don't have the right amount of columns.", 'csv2wp' ) ) );
 
                             return;
                         }
@@ -116,7 +117,7 @@
                         CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
                     }
                     // delete file
-                    unlink( csv2wp_get_upload_folder() . '/' . $file_name );
+                    unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
 
                 }
 
@@ -133,7 +134,7 @@
                     foreach ( $csv_line as $item ) {
 
                         if ( strlen( $item ) > $value_length ) {
-                            CSV2WP::csv2wp_errors()->add( 'error_too_long_value', esc_html( sprintf( __( "The value '%s' is too long.", "csv2wp" ), $item ) ) );
+                            CSV2WP::csv2wp_errors()->add( 'error_too_long_value', esc_html( sprintf( __( "The value '%s' is too long.", 'csv2wp' ), $item ) ) );
 
                             return;
                         }

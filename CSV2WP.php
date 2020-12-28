@@ -352,7 +352,7 @@
                                 }
 
                                 if ( true === $success ) {
-                                    $result = unlink( csv2wp_get_upload_folder() . '/' . $file_name );
+                                    $result = unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
                                     if ( true == $result ) {
                                         CSV2WP::csv2wp_errors()->add( 'success_data_imported', sprintf( esc_html__( 'YAY ! %d lines are imported and the file is deleted.', 'csv2wp' ), $line_number ) );
                                     } else {
@@ -376,7 +376,7 @@
                         } else {
                             // delete file
                             if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                                unlink( csv2wp_get_upload_folder() . '/' . $file_name );
+                                unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
                                 CSV2WP::csv2wp_errors()->add( 'success_file_deleted', sprintf( esc_html__( 'File "%s" successfully deleted.', 'csv2wp' ), $file_name ) );
                             }
                         }
@@ -429,7 +429,7 @@
                         if ( true != is_dir( csv2wp_get_upload_folder() ) ) {
                             mkdir( csv2wp_get_upload_folder(), 0755 );
                         }
-                        $target_file = csv2wp_get_upload_folder() . '/' . basename( $_FILES[ 'csv_uploaded_file' ][ 'name' ] );
+                        $target_file = csv2wp_get_upload_folder( '/' ) . basename( $_FILES[ 'csv_uploaded_file' ][ 'name' ] );
 
                         if ( move_uploaded_file( $_FILES[ 'csv_uploaded_file' ][ 'tmp_name' ], $target_file ) ) {
                             // file uploaded succeeded
