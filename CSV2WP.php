@@ -419,8 +419,9 @@
              */
             public function csv2wp_upload_functions() {
 
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'csv2wp_upload_file_nonce' ] ) ) {
-                    if ( ! wp_verify_nonce( $_POST[ 'csv2wp_upload_file_nonce' ], 'csv2wp-upload-file-nonce' ) ) {
+                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'csv2wp_upload_csv_nonce' ] ) ) {
+                    if ( ! wp_verify_nonce( $_POST[ 'csv2wp_upload_csv_nonce' ], 'csv2wp-upload-csv-nonce' ) ) {
+                        error_log('nonce');
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
                         return;
@@ -429,12 +430,12 @@
                         if ( true != is_dir( csv2wp_get_upload_folder() ) ) {
                             mkdir( csv2wp_get_upload_folder(), 0755 );
                         }
-                        $target_file = csv2wp_get_upload_folder( '/' ) . basename( $_FILES[ 'csv_uploaded_file' ][ 'name' ] );
+                        $target_file = csv2wp_get_upload_folder( '/' ) . basename( $_FILES[ 'csv_upload' ][ 'name' ] );
 
-                        if ( move_uploaded_file( $_FILES[ 'csv_uploaded_file' ][ 'tmp_name' ], $target_file ) ) {
+                        if ( move_uploaded_file( $_FILES[ 'csv_upload' ][ 'tmp_name' ], $target_file ) ) {
                             // file uploaded succeeded
                             do_action( 'csv2wp_successful_csv_upload' );
-                            CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_uploaded_file' ][ 'name' ] . '" is successfully uploaded and now shows under <b>\'Handle a CSV file\'</b>.', 'csv2wp' ) );
+                            CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', __( 'File "' . $_FILES[ 'csv_upload' ][ 'name' ] . '" is successfully uploaded and now shows under <b>\'Handle a CSV file\'</b>.', 'csv2wp' ) );
 
                             return;
 

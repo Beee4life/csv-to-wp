@@ -1,5 +1,4 @@
 <?php
-
     /**
      * Check if files are uploaded
      *
@@ -97,28 +96,24 @@
                 // if column count doesn't match benchmark
                 if ( count( $csv_line ) != $csv_array[ 'column_count' ] ) {
                     // if column count < benchmark
+                    $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
                     if ( count( $csv_line ) < $csv_array[ 'column_count' ] ) {
-                        $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
                         if ( true == $verify ) {
                         } elseif ( true != $preview ) {
                             // for real
                             $error_message = 'Lines 1-' . ( $line_number ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                         }
-                        CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( __( 'There are too few columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
+                        CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( __( 'There are too few columns on line %d. %s', 'csv2wp' ), $line_number, $error_message ) );
 
                     } elseif ( count( $csv_line ) > $csv_array[ 'column_count' ] ) {
                         // if column count > benchmark
-                        $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' ) );
                         if ( true == $verify ) {
                         } elseif ( true != $preview ) {
                             // for real
                             $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
                         }
-                        CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
+                        CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( esc_html( __( 'There are too many columns on line %d. %s', 'csv2wp' ) ), $line_number, $error_message ) );
                     }
-                    // delete file
-                    unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
-
                 }
 
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
@@ -156,6 +151,10 @@
                 }
             }
             fclose( $handle );
+            if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
+                // delete file upon errors
+                unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
+            }
 
             /**
              * Don't add data if there are any errors. This to prevent rows which had no error from outputting

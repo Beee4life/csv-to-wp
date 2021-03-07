@@ -29,10 +29,10 @@
                     <?php
                         $delimiter = false;
                         if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                            $delimiter   = $_POST[ 'csv2wp_delimiter' ];
-                            $file_name   = $_POST[ 'csv2wp_file_name' ];
-                            $has_header  = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
-                            $show_length = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
+                            $posted_delimiter = $_POST[ 'csv2wp_delimiter' ];
+                            $file_name        = $_POST[ 'csv2wp_file_name' ];
+                            $has_header       = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
+                            $show_length      = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
                         } else {
                             $file_name = false;
                         }
@@ -122,7 +122,7 @@
                     <?php
                         // Get imported data
                         if ( $file_name ) {
-                            $csv_info   = csv2wp_csv_to_array( $file_name, $delimiter, true, $has_header, true );
+                            $csv_info   = csv2wp_csv_to_array( $file_name, $posted_delimiter, true, $has_header, true );
                             $header_row = ( isset( $csv_info[ 'column_names' ] ) ) ? $csv_info[ 'column_names' ] : [];
 
                             echo '<div class="csv2wp__section">';

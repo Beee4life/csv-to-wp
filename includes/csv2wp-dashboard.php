@@ -6,8 +6,10 @@
         if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
             wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
-
-        $show_raw = ( defined( 'LOCALHOST' ) && LOCALHOST == 10 ) ? true : false;
+    
+        $posted_delimiter = ( isset( $_POST[ 'csv2wp_delimiter' ] ) ) ? $_POST[ 'csv2wp_delimiter' ] : false;
+        $show_raw         = ( defined( 'LOCALHOST' ) && LOCALHOST == 10 ) ? true : false;
+    
         ?>
 
         <div class="wrap csv2wp">
@@ -27,16 +29,15 @@
 
                         <form enctype="multipart/form-data" method="post">
                             <input name="csv2wp_upload_csv_nonce" type="hidden" value="<?php echo wp_create_nonce( 'csv2wp-upload-csv-nonce' ); ?>" />
-<!--                            <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />-->
 
                             <div class="csv2wp__upload-element">
-                                <label for="csv2wp_upload_file">
-                                    <?php esc_html_e( 'Choose a (CSV) file to upload', 'csv2wp' ); ?>
+                                <label for="csv_upload">
+                                    <?php esc_html_e( 'Choose a (CSV) file to upload', 'acf-city-selector' ); ?>
                                 </label>
-                                <div class="form--upload form--csv2wp_upload_file">
-                                    <input type="file" name="csv2wp_upload_file" id="csv2wp_upload_file" accept=".csv" />
+                                <div class="form--upload form--csv_upload">
+                                    <input type="file" name="csv_upload" id="csv_upload" accept=".csv" />
                                     <span class="val"></span>
-                                    <span class="upload_button button-primary" data-type="csv2wp_upload_file">
+                                    <span class="upload_button button-primary" data-type="csv_upload">
                                         <?php _e( 'Select file', 'csv2wp' ); ?>
                                     </span>
                                 </div>
@@ -98,7 +99,7 @@
                                             <label>
                                                 <select name="csv2wp_delimiter" id="csv2wp_delimiter">
                                                     <?php foreach( $delimiters as $delimiter ) { ?>
-                                                        <?php $selected_delimiter = ( $delimiter == apply_filters( 'csv2wp_delimiter', ';' ) ) ? ' selected' : false; ?>
+                                                        <?php $selected_delimiter = ( $delimiter == apply_filters( 'csv2wp_delimiter', ( false != $posted_delimiter ) ? $posted_delimiter : ';' ) ) ? ' selected' : false; ?>
                                                         <option value="<?php echo $delimiter; ?>"<?php echo $selected_delimiter; ?>>
                                                             <?php echo $delimiter; ?>
                                                         </option>
@@ -109,7 +110,7 @@
                                         <td class="header">
                                         <span class="csv2wp_header">
                                             <label>
-                                                <input id="csv2wp-header" class="csv2wp__header" name="csv2wp_header" type="checkbox" value="1" checked="checked"> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
+                                                <input id="csv2wp-header" class="csv2wp__header" name="csv2wp_header" type="checkbox" value="1"<?php if ( isset( $_POST[ 'csv2wp_header' ] ) ) { echo ' checked="checked"'; } ?>> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
                                             </label>
                                         </span>
                                         </td>

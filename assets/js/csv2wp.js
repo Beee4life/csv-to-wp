@@ -33,5 +33,6 @@
             var type = $(this).attr('id');
             $('.form--' + type + ' .val').text(this.value.replace(/C:\\fakepath\\/i, ''))
         });
+
     });
 })(jQuery);
