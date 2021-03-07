@@ -14,6 +14,10 @@
     margin-bottom: 2em;
 }
 
+.csv2wp__section:last-child {
+    margin-bottom: 0;
+}
+
 .csv2wp h2 {
     margin-top: 0;
 }
@@ -86,6 +90,10 @@
     font-size:     15px;
     line-height:   35px;
     text-align:    center;
+}
+
+.csv2wp input[name="csv2wp_max_lines"] {
+    width: 70px;
 }
 
 .csv2wp table.csv2wp__table {

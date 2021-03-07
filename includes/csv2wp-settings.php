@@ -50,7 +50,7 @@
 
                     <p>
                         <label>
-                            <input type="checkbox" class="" value="csv2wp_preserve_settings"/> <?php esc_html_e( "If you check this box NO settings will be deleted upon uninstallation.", "csv2wp" ); ?>
+                            <input type="checkbox" class="" value="csv2wp_preserve_settings"/> <?php esc_html_e( "If you check this box settings will be preserved upon uninstallation.", "csv2wp" ); ?>
                         </label>
                     </p>
 

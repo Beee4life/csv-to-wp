@@ -107,7 +107,7 @@
                         $prefix     = false;
                         foreach ( $codes as $code ) {
                             if ( strpos( $code, 'success' ) !== false ) {
-                                $span_class = 'notice-success ';
+                                $span_class = 'updated ';
                                 $prefix     = false;
                             } elseif ( strpos( $code, 'warning' ) !== false ) {
                                 $span_class = 'notice-warning ';
@@ -120,7 +120,7 @@
                                 $prefix     = esc_html( __( 'Error', 'csv2wp' ) );
                             }
                         }
-                        echo '<div class="notice ' . $span_class . 'csv2wp__notice is-dismissible">';
+                        echo '<div id="message" class="notice ' . $span_class . 'csv2wp__notice is-dismissible">';
                         foreach ( $codes as $code ) {
                             $message = CSV2WP::csv2wp_errors()->get_error_message( $code );
                             echo '<div class="">';
@@ -129,7 +129,6 @@
                             }
                             echo $message;
                             echo '</div>';
-                            echo '<button type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice', 'csv2wp' ) . '</span></button>';
                         }
                         echo '</div>';
                     }
@@ -522,10 +521,8 @@
                 require( 'includes/csv2wp-dashboard.php' );
                 add_menu_page( 'CSV Importer', 'CSV to WP', get_option( 'csv2wp_import_role' ), 'csv2wp-dashboard', 'csv2wp_dashboard_page', 'dashicons-grid-view' );
 
-                if ( ! empty( csv2wp_check_if_files() ) ) {
-                    require( 'includes/csv2wp-preview.php' ); // content for the preview page
-                    add_submenu_page( null, 'Preview', 'Preview', get_option( 'csv2wp_import_role' ), 'csv2wp-preview', 'csv2wp_preview_page' );
-                }
+                require( 'includes/csv2wp-preview.php' ); // content for the preview page
+                add_submenu_page( null, 'Preview', 'Preview', get_option( 'csv2wp_import_role' ), 'csv2wp-preview', 'csv2wp_preview_page' );
 
                 // require( 'includes/csv2wp-mapping.php' ); // content for the mapping page
                 if ( function_exists( 'csv2wp_mapping_page' ) ) {

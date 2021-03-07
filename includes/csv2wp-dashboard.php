@@ -46,9 +46,9 @@
                         </form>
                     </div>
 
-                    <div class="csv2wp__section">
-                        <?php $file_index = csv2wp_check_if_files(); ?>
-                        <?php if ( ! empty( $file_index ) ) { ?>
+                    <?php $file_index = csv2wp_check_if_files(); ?>
+                    <?php if ( ! empty( $file_index ) ) { ?>
+                        <div class="csv2wp__section">
                             <h2>
                                 <?php esc_html_e( 'Handle a CSV file', 'csv2wp' ); ?>
                             </h2>
@@ -133,11 +133,8 @@
                                 <input name="csv2wp_import" type="submit" class="button button-primary" value="<?php esc_html_e( 'Import', 'csv2wp' ); ?>"/>
                                 <input name="csv2wp_remove" type="submit" class="button button-primary" value="<?php esc_html_e( 'Remove', 'csv2wp' ); ?>"/>
                             </form>
-
-                        <?php } else { ?>
-                            <p><?php esc_html_e( 'No files uploaded.', 'csv2wp' ); ?></p>
-                        <?php } ?>
-                    </div>
+                        </div>
+                    <?php } ?>
 
                     <?php if ( $show_raw ) { ?>
                         <div class="csv2wp__section">

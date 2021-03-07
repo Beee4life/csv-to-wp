@@ -28,6 +28,7 @@
 
                     <?php
                         $delimiter = false;
+                        $max_lines = ( isset( $_POST[ 'csv2wp_max_lines' ] ) ) ? $_POST[ 'csv2wp_max_lines' ] : 100;
                         if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
                             $posted_delimiter = $_POST[ 'csv2wp_delimiter' ];
                             $file_name        = $_POST[ 'csv2wp_file_name' ];
@@ -97,14 +98,8 @@
                                         </td>
 
                                         <td>
-                                            <?php $amounts = [ 5, 10, 25, 50, 100, 250, 500, 1000 ]; ?>
                                             <label>
-                                                <select name="csv2wp_max_lines" id="csv2wp_max_lines">
-                                                    <option value=""><?php esc_html_e( 'All', 'csv2wp' ); ?></option>
-                                                    <?php foreach( $amounts as $amount ) { ?>
-                                                        <option value="<?php echo $amount; ?>"><?php echo $amount; ?></option>
-                                                    <?php } ?>
-                                                </select>
+                                                <input type="number" name="csv2wp_max_lines" id="csv2wp_max_lines" value="<?php echo $max_lines; ?>" />
                                             </label>
                                         </td>
                                     </tr>
@@ -116,7 +111,10 @@
                         </div>
 
                     <?php } else { ?>
-                        <p><?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?></p>
+                        <div>
+                            <?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?>
+                            <?php echo sprintf( __( 'Upload a csv file from your <a href="%s">dashboard</a>.', 'csv2wp' ), esc_url( admin_url( '/admin.php?page=csv2wp-dashboard' ) ) ); ?>
+                        </div>
                     <?php } ?>
 
                     <?php
@@ -134,9 +132,6 @@
                                     echo '<tr>';
                                     foreach ( $header_row as $column ) {
                                         echo '<th>' . $column . '</th>';
-                                        if ( $show_length ) {
-                                            echo '<th>Length</th>';
-                                        }
                                     }
                                     echo '</tr>';
                                     echo '</thead>';
@@ -149,13 +144,13 @@
                                     foreach ( $line as $column ) {
                                         echo '<td>';
                                         echo esc_html($column);
-                                        echo '</td>';
                                         if ( $show_length ) {
-                                            echo '<td>'.strlen($column).'</td>';
+                                            echo ' ['.strlen($column).']';
                                         }
+                                        echo '</td>';
                                     }
                                     echo '</tr>';
-                                    if ( $line_number == $_POST[ 'csv2wp_max_lines' ] ) {
+                                    if ( $line_number == $max_lines ) {
                                         break;
                                     }
                                 }
@@ -163,7 +158,11 @@
                                 echo '</table>';
                             } else {
                                 echo '<p class="error_notice">';
-                                echo sprintf( __( 'You either have errors in your CSV or there is no data. Verify this file on the <a href="%s">dashboard</a>.', 'csv2wp' ), admin_url( 'admin.php?page=' ) . 'csv2wp-dashboard' );
+                                echo __( 'You either have errors in your CSV or there is no data.', 'csv2wp' );
+                                echo '<br />';
+                                echo __( 'If there are errors the file was deleted.', 'csv2wp' );
+                                echo '<br />';
+                                echo sprintf( __( 'Verify this file on the <a href="%s">dashboard</a>.', 'csv2wp' ), admin_url( 'admin.php?page=' ) . 'csv2wp-dashboard' );
                                 echo '</p>';
                             }
                             echo '</div>';
