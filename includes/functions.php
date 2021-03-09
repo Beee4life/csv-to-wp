@@ -7,17 +7,19 @@
     function csv2wp_check_if_files() {
 
         $target_dir = csv2wp_get_upload_folder();
-        $file_index = scandir( $target_dir );
+        if ( file_exists( $target_dir ) ) {
+            $file_index = scandir( $target_dir );
 
-        if ( is_array( $file_index ) ) {
-            $actual_files = [];
-            foreach ( $file_index as $file ) {
-                if ( '.DS_Store' != $file && '.' != $file && '..' != $file ) {
-                    $actual_files[] = $file;
+            if ( is_array( $file_index ) ) {
+                $actual_files = [];
+                foreach ( $file_index as $file ) {
+                    if ( '.DS_Store' != $file && '.' != $file && '..' != $file ) {
+                        $actual_files[] = $file;
+                    }
                 }
-            }
-            if ( ! empty( $actual_files ) ) {
-                return $actual_files;
+                if ( ! empty( $actual_files ) ) {
+                    return $actual_files;
+                }
             }
         }
 
