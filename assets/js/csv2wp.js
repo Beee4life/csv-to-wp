@@ -26,7 +26,7 @@
 
         $('.upload_button').click(function () {
             var type = $(this).data('type');
-            // $("#" + type).trigger('click');
+            $("#" + type).trigger('click');
         });
 
         $("input[type='file']").change(function () {
