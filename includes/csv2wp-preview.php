@@ -27,13 +27,12 @@
                 <div class="content">
 
                     <?php
-                        $delimiter = false;
-                        $max_lines = ( isset( $_POST[ 'csv2wp_max_lines' ] ) ) ? $_POST[ 'csv2wp_max_lines' ] : 100;
+                        $has_header       = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
+                        $max_lines        = ( isset( $_POST[ 'csv2wp_max_lines' ] ) ) ? $_POST[ 'csv2wp_max_lines' ] : 100;
+                        $posted_delimiter = apply_filters( 'csv2wp_delimiter', ( isset( $_POST[ 'csv2wp_delimiter' ] ) ) ? $_POST[ 'csv2wp_delimiter' ] : false );
+                        $show_length      = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
                         if ( isset( $_POST[ 'csv2wp_file_name' ] ) ) {
-                            $posted_delimiter = $_POST[ 'csv2wp_delimiter' ];
-                            $file_name        = $_POST[ 'csv2wp_file_name' ];
-                            $has_header       = ( isset( $_POST[ 'csv2wp_header_row' ] ) ) ? true : false;
-                            $show_length      = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
+                            $file_name = $_POST[ 'csv2wp_file_name' ];
                         } else {
                             $file_name = false;
                         }
@@ -87,13 +86,13 @@
 
                                         <td>
                                             <label>
-                                                <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="true"<?php if ( isset( $has_header ) && true == $has_header ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
+                                                <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="1"<?php if ( isset( $has_header ) && true == $has_header ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
                                             </label>
                                         </td>
 
                                         <td>
                                             <label>
-                                                <input name="csv2wp_show_length" id="csv2wp_show_length" type="checkbox" value="true"<?php if ( isset( $show_length ) && true == $show_length ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
+                                                <input name="csv2wp_show_length" id="csv2wp_show_length" type="checkbox" value="1"<?php if ( isset( $show_length ) && true == $show_length ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
                                             </label>
                                         </td>
 
