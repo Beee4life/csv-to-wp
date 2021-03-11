@@ -7,13 +7,6 @@
      */
     function csv2wp_help_tabs( $screen ) {
 
-        $screens = [
-            'toplevel_page_csv2wp-dashboard',
-            'admin_page_csv2wp-preview',
-            'admin_page_csv2wp-settings',
-            'admin_page_csv2wp-support',
-        ];
-
         if ( 'toplevel_page_csv2wp-dashboard' == $screen->id ) {
             ob_start();
             ?>
@@ -105,7 +98,20 @@
                 'title'   => esc_html__( 'Import meta', 'csv2wp' ),
                 'content' => $tab_content
             ) );
-
+    
+            ob_start();
+            ?>
+            <h5><?php esc_html_e( 'Support', 'csv2wp' ); ?></h5>
+            <p><?php echo sprintf( __( 'If you need support, please go to %s.', 'csv2wp' ), '<a href="' . esc_url( 'https://github.com/Beee4life/csv-to-wp/issues' ) . '">Github</a>' ); ?></p>
+            <?php
+            $tab_content = ob_get_clean();
+    
+            get_current_screen()->add_help_tab( array(
+                'id'      => 'support',
+                'title'   => esc_html__( 'Support', 'csv2wp' ),
+                'content' => $tab_content
+            ) );
+    
         } elseif ( 'admin_page_csv2wp-preview' == $screen->id ) {
 
             ob_start();
