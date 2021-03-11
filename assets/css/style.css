@@ -27,8 +27,7 @@
 }
 
 /* admin pages */
-.csv2wp .admin_left .content,
-.csv2wp .admin_right .content {
+.csv2wp .admin_left .content {
     background: white;
     box-sizing:            border-box;
     border:                1px solid #cccccc;
