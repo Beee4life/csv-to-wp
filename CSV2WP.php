@@ -202,13 +202,18 @@
                         $import_where     = $_POST[ 'csv2wp_import_in' ];
                         $remove           = ! empty( $_POST[ 'csv2wp_remove' ] ) ? true : false;
                         $verify           = ! empty( $_POST[ 'csv2wp_verify' ] ) ? true : false;
+                        $import_options   = [ 'table', 'postmeta', 'usermeta' ];
 
                         if ( false == $remove ) {
                             $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, $import_where );
 
                             if ( false === $verify ) {
                                 // $verify == false, so import
-                                if ( 'table' == $import_where ) {
+                                if ( ! in_array( $import_where, $import_options ) ) {
+                                    // a custom option, handled in non-plugin code
+                                    do_action( $import_where, $csv_array, $has_header, $file_name );
+
+                                } elseif ( 'table' == $import_where ) {
                                     if ( empty( $_POST[ 'csv2wp_table' ] ) || strlen( $_POST[ 'csv2wp_table' ] ) <= strlen( $wpdb->prefix ) ) {
                                         CSV2WP::csv2wp_errors()->add( "error_no_table_entered", __( "You didn't enter a table, where to import it.", "csv2wp" ) );
                                         return;
@@ -522,20 +527,20 @@
                 add_menu_page( 'CSV Importer', 'CSV to WP', get_option( 'csv2wp_import_role' ), 'csv2wp-dashboard', 'csv2wp_dashboard_page', 'dashicons-grid-view' );
 
                 require( 'includes/csv2wp-preview.php' ); // content for the preview page
-                add_submenu_page( null, 'Preview', 'Preview', get_option( 'csv2wp_import_role' ), 'csv2wp-preview', 'csv2wp_preview_page' );
+                add_submenu_page( 'options.php', 'Preview', 'Preview', get_option( 'csv2wp_import_role' ), 'csv2wp-preview', 'csv2wp_preview_page' );
 
                 // require( 'includes/csv2wp-mapping.php' ); // content for the mapping page
                 if ( function_exists( 'csv2wp_mapping_page' ) ) {
-                    add_submenu_page( null, 'Mapping', 'Mapping', get_option( 'csv2wp_import_role' ), 'csv2wp-mapping', 'csv2wp_mapping_page' );
+                    add_submenu_page( 'options.php', 'Mapping', 'Mapping', get_option( 'csv2wp_import_role' ), 'csv2wp-mapping', 'csv2wp_mapping_page' );
                 }
 
                 require( 'includes/csv2wp-settings.php' ); // content for the settings page
                 if ( function_exists( 'csv2wp_settings_page' ) ) {
-                    add_submenu_page( null, 'Settings', 'Settings', get_option( 'csv2wp_import_role' ), 'csv2wp-settings', 'csv2wp_settings_page' );
+                    add_submenu_page( 'options.php', 'Settings', 'Settings', get_option( 'csv2wp_import_role' ), 'csv2wp-settings', 'csv2wp_settings_page' );
                 }
 
                 require( 'includes/csv2wp-support.php' ); // content for the support page
-                add_submenu_page( null, 'Support', 'Support', get_option( 'csv2wp_import_role' ), 'csv2wp-support', 'csv2wp_support_page' );
+                add_submenu_page( 'options.php', 'Support', 'Support', get_option( 'csv2wp_import_role' ), 'csv2wp-support', 'csv2wp_support_page' );
             }
 
             /**
