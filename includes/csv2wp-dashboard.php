@@ -6,10 +6,15 @@
         if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
             wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
-    
+
         $posted_delimiter = ( isset( $_POST[ 'csv2wp_delimiter' ] ) ) ? $_POST[ 'csv2wp_delimiter' ] : false;
         $show_raw         = ( defined( 'LOCALHOST' ) && LOCALHOST == 10 ) ? true : false;
-    
+        $import_options   = [
+            'table'    => 'Database table',
+            'postmeta' => 'Post meta',
+            'usermeta' => 'User meta',
+        ];
+
         ?>
 
         <div class="wrap csv2wp">
@@ -88,9 +93,12 @@
                                         <td>
                                             <label>
                                                 <select name="csv2wp_import_in" class="csv2wp_import_in" id="csv2wp_import_in">
-                                                    <option value="table"><?php esc_html_e( 'Database table', 'csv2wp' ); ?></option>
-                                                    <option value="postmeta"><?php esc_html_e( 'Post meta', 'csv2wp' ); ?></option>
-                                                    <option value="usermeta"><?php esc_html_e( 'User meta', 'csv2wp' ); ?></option>
+                                                    <?php foreach ( apply_filters( 'csv2wp_import_options', $import_options ) as $import_key => $import_label ) { ?>
+                                                        <option value="<?php echo $import_key; ?>"><?php echo $import_label; ?></option>
+                                                    <?php } ?>
+<!--                                                    <option value="table">--><?php //esc_html_e( 'Database table', 'csv2wp' ); ?><!--</option>-->
+<!--                                                    <option value="postmeta">--><?php //esc_html_e( 'Post meta', 'csv2wp' ); ?><!--</option>-->
+<!--                                                    <option value="usermeta">--><?php //esc_html_e( 'User meta', 'csv2wp' ); ?><!--</option>-->
                                                 </select>
                                             </label>
                                         </td>
