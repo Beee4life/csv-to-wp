@@ -46,7 +46,7 @@
                 add_action( 'admin_init',               array( $this, 'csv2wp_create_uploads_directory' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_upload_functions' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_handle_file_functions' ) );
-                // add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
+                add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
 
                 // add settings link to plugin
                 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'csv2wp_plugin_link' ) );
