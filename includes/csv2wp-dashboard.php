@@ -8,7 +8,7 @@
         }
 
         $posted_delimiter = ( isset( $_POST[ 'csv2wp_delimiter' ] ) ) ? $_POST[ 'csv2wp_delimiter' ] : false;
-        $show_raw         = ( defined( 'LOCALHOST' ) && LOCALHOST == 10 ) ? true : false;
+        $show_raw         = ( defined( 'LOCALHOST' ) && LOCALHOST == 1 ) ? true : false;
         $import_options   = [
             'table'    => 'Database table',
             'postmeta' => 'Post meta',
