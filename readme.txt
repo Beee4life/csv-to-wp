@@ -28,6 +28,10 @@ No, not right now. There are other plugins which do that like [WordPress Importe
 
 Changelog
 
+0.2
+
+Add filter for own option
+
 0.1
 
 Initial release
