@@ -96,9 +96,6 @@
                                                     <?php foreach ( apply_filters( 'csv2wp_import_options', $import_options ) as $import_key => $import_label ) { ?>
                                                         <option value="<?php echo $import_key; ?>"><?php echo $import_label; ?></option>
                                                     <?php } ?>
-<!--                                                    <option value="table">--><?php //esc_html_e( 'Database table', 'csv2wp' ); ?><!--</option>-->
-<!--                                                    <option value="postmeta">--><?php //esc_html_e( 'Post meta', 'csv2wp' ); ?><!--</option>-->
-<!--                                                    <option value="usermeta">--><?php //esc_html_e( 'User meta', 'csv2wp' ); ?><!--</option>-->
                                                 </select>
                                             </label>
                                         </td>
