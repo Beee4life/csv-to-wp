@@ -4,7 +4,7 @@ Welcome to the CSV importer plugin for [Wordpress](https://wordpress.org). I bui
 
 It is still under development, but everything works (afaik).
 
-## Description 
+## Description
 
 This plugin gives you the option to import CSV data through file import and stores it in a custom table or in post/user meta table.
 
@@ -12,7 +12,7 @@ This plugin gives you the option to import CSV data through file import and stor
 
 * Upload the zip through WordPress plugin admin or
 * Upload the files by ftp to `wp-content/plugins`.
-* Activate the plugin `CSV to WP` through the plugins page. 
+* Activate the plugin `CSV to WP` through the plugins page.
 
 ## Usage
 
@@ -20,6 +20,20 @@ This plugin gives you the option to import CSV data through file import and stor
 * Verify it
 * Preview it
 * Import it
+
+## Actions
+
+These actions are available:
+* csv2wp_successful_csv_upload
+* csv2wp_successful_csv_import
+
+## Filters
+
+These filters are available:
+* csv2wp_import_options (array)
+* csv2wp_delimiter (string)
+* csv2wp_line_length (int)
+* csv2wp_upload_folder (string)
 
 ## FAQ
 
