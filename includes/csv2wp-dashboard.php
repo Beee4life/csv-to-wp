@@ -115,7 +115,7 @@
                                         <td class="header">
                                         <span class="csv2wp_header">
                                             <label>
-                                                <input id="csv2wp-header" class="csv2wp__header" name="csv2wp_header" type="checkbox" value="1"<?php if ( isset( $_POST[ 'csv2wp_header' ] ) ) { echo ' checked="checked"'; } ?>> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
+                                                <input id="csv2wp-header" class="csv2wp__header" name="csv2wp_header" type="checkbox" value="1" checked="checked"> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
                                             </label>
                                         </span>
                                         </td>
