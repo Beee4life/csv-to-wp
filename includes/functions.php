@@ -238,7 +238,5 @@
      * @return mixed|void
      */
     function csv2wp_get_upload_folder( $suffix = false ) {
-        $upload_folder = apply_filters( 'csv2wp_upload_folder', wp_upload_dir()[ 'basedir' ] . '/csv2wp' . $suffix );
-
-        return $upload_folder;
+        return apply_filters( 'csv2wp_upload_folder', wp_upload_dir()[ 'basedir' ] . '/csv2wp' . $suffix );
     }
