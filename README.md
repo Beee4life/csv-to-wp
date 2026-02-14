@@ -43,6 +43,10 @@ No, not right now. There are other plugins which do that like [WordPress Importe
 
 ## Changelog
 
+**0.2.1**
+
+* Add composer file
+
 **0.2**
 
 * Add filter for own actions
