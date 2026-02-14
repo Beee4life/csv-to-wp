@@ -86,7 +86,7 @@
 
                                         <td>
                                             <label>
-                                                <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="1"<?php if ( isset( $has_header ) && true == $has_header ) { echo ' checked'; } ?>/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
+                                                <input name="csv2wp_header_row" id="csv2wp_header_row" type="checkbox" value="1" checked="checked"/> <?php esc_html_e( 'Yes', 'csv2wp' ); ?>
                                             </label>
                                         </td>
 
