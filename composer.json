@@ -1,0 +1,21 @@
+{
+  "name":         "beee4life/csv-to-wp",
+  "description":  "Simple csv importer",
+  "type":         "wordpress-plugin",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:Beee4life/csv-to-wp.git"
+    }
+  ],
+  "license":      "GPL-2.0+",
+  "authors":      [
+    {
+      "name":     "Berry Plasman",
+      "homepage": "https://berryplasman.com"
+    }
+  ],
+  "require":      {
+    "composer/installers": "~1.0"
+  }
+}
