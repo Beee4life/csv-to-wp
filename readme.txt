@@ -5,7 +5,7 @@ Tags: csv, import, usermeta, postmeta
 Requires at least: 3.6
 Tested up to: 6.9.1
 Requires PHP: 7.2
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 Author URI: https://berryplasman.com
 Plugin URI: https://github.com/Beee4life/csv-to-wp/
 License: GPLv2 or later
