@@ -5,7 +5,7 @@ Tags: csv, import, usermeta, postmeta
 Requires at least: 3.6
 Tested up to: 6.9.1
 Requires PHP: 7.2
-Stable tag: 0.1
+Stable tag: 0.2.2
 Author URI: https://berryplasman.com
 Plugin URI: https://github.com/Beee4life/csv-to-wp/
 License: GPLv2 or later
@@ -27,6 +27,14 @@ FAQ
 No, not right now. There are other plugins which do that like [WordPress Importer](https://wordpress.org/plugins/wordpress-importer/). Maybe in the future but now there are no plans for it.
 
 Changelog
+
+0.2.2
+
+* Forgotten version
+
+0.2.1
+
+* Add composer file
 
 0.2
 
