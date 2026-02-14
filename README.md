@@ -45,8 +45,8 @@ No, not right now. There are other plugins which do that like [WordPress Importe
 
 **0.2**
 
-Add filter for own option
+* Add filter for own actions
 
 **0.1**
 
-Initial release
+* Initial release
