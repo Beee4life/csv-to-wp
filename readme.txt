@@ -28,6 +28,10 @@ No, not right now. There are other plugins which do that like [WordPress Importe
 
 Changelog
 
+0.2.2
+
+* Forgotten version
+
 0.2.1
 
 * Add composer file
