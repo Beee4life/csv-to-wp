@@ -38,7 +38,7 @@
                         } else { ?>
                         <div class="csv2wp__section">
                             <?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?>
-                            <?php echo sprintf( __( 'Upload a csv file from your <a href="%s">dashboard</a>.', 'csv2wp' ), esc_url( admin_url( '/admin.php?page=csv2wp-dashboard' ) ) ); ?>
+                            <?php echo sprintf( __( 'Upload a csv file from your %s.', 'csv2wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv2wp' ) ) ); ?>
                         </div>
                     <?php } ?>
 
