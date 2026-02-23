@@ -43,6 +43,10 @@ No, not right now. There are other plugins which do that like [WordPress Importe
 
 ## Changelog
 
+**0.3**
+
+* Code cleaning/improvement
+
 **0.2.2**
 
 * Forgotten version
