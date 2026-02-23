@@ -12,8 +12,8 @@
                 <input type="file" name="csv_upload" id="csv_upload" accept=".csv" />
                 <span class="val"></span>
                 <span class="upload_button button-primary" data-type="csv_upload">
-                                        <?php _e( 'Select file', 'csv2wp' ); ?>
-                                    </span>
+                    <?php _e( 'Select file', 'csv2wp' ); ?>
+                </span>
             </div>
         </div>
         <input type="submit" class="button button-primary" value="<?php esc_html_e( 'Upload CSV', 'csv2wp' ); ?>" />
