@@ -27,47 +27,30 @@
      * Read a CSV file, check for correct amount of columns and returns it as an array
      */
     function csv2wp_csv_to_array( string $file_name, string $delimiter = ';', bool $verify = false, bool $has_header = false, bool $preview = false, string $import_where = '', $meta_key = false ) {
-        $csv_array   = [];
-        $empty_array = false;
-        $new_array   = [];
-
-        $handle = fopen( csv2wp_get_upload_folder( '/' ) . $file_name, "r" );
+        $csv_array[ 'delimiter' ] = $delimiter;
+        $empty_array              = false;
+        $line_number              = 0;
+        $new_array                = [];
+        $handle                   = fopen( csv2wp_get_upload_folder( '/' ) . $file_name, "r" );
 
         if ( $handle ) {
-            $line_number  = 0;
             $value_length = apply_filters( 'csv2wp_line_length', 1000 );
 
             while ( ( $csv_line = fgetcsv( $handle, $value_length, "{$delimiter}" ) ) !== false ) {
                 $line_number++;
-                $csv_array[ 'delimiter' ] = $delimiter;
 
                 // if line is 1 and has header == true, count columns (to set benchmark)
-                if ( 1 == $line_number ) {
-                    if ( $has_header ) {
-                        foreach ( $csv_line as $column ) {
-                            $csv_array[ 'column_names' ][] = $column;
-                        }
-                    } else {
-                        // @TODO: check if meta is imported (why)
-                    }
-                    $csv_array[ 'column_count' ] = count( $csv_line );
-                }
+                $header_data = csv2wp_get_header_data( $csv_line, $line_number, $has_header );
 
-                // if column count doesn't match benchmark
-                if ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-                    if ( 1 == $line_number ) {
-                        csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header, $meta_key );
-
-                        if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
-                            return;
-                        }
-                    }
+                if ( is_array( $header_data ) ) {
+                    $csv_array = array_merge( $csv_array, $header_data );
                 }
 
                 // header is ok, so we proceed to check each row, to see if column count doesn't match the benchmark
                 csv2wp_check_column_amount_line( $csv_line, $line_number, $csv_array[ 'column_count' ], $verify, $preview );
 
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
+                    // there are errors, so we retjurn an empty array
                     $empty_array = true;
                     $new_array   = [];
 
@@ -101,8 +84,7 @@
             }
             fclose( $handle );
             if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
-                // delete file upon errors
-                unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
+                csv2wp_delete_file( $file_name );
             }
 
             /**
@@ -115,6 +97,38 @@
         }
 
         return $csv_array;
+    }
+
+    function csv2wp_get_header_data( $csv_line, $line_number, $has_header = false ) {
+        if ( ! $csv_line || ! $line_number || ! $import_where ) {
+            return false;
+        }
+
+        $csv_data = [];
+
+        if ( 1 == $line_number ) {
+            if ( $has_header ) {
+                foreach ( $csv_line as $column ) {
+                    $csv_data[ 'column_names' ][] = $column;
+                }
+            } else {
+                // @TODO: check if meta is imported (why)
+            }
+            $csv_data[ 'column_count' ] = count( $csv_line );
+        }
+
+        if ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
+            if ( 1 == $line_number ) {
+                csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header, $meta_key );
+
+                if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
+                    return;
+                }
+            }
+        }
+
+
+        return $csv_data;
     }
 
     function csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header = false, $meta_key = false ) {
@@ -146,7 +160,7 @@
         if ( isset( $error ) && true == $error ) {
             $message1 = esc_html( __( "You don't have the right amount of columns in your header line.", 'csv2wp' ) );
             $message2 = esc_html__( 'Since your file is not accurate anymore, the file is deleted.', 'csv2wp' );
-            unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
+            csv2wp_delete_file( $file_name );
             CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( '%s %s', $message1, $message2 ) );
         }
     }
@@ -233,4 +247,12 @@
     function csv2wp_get_upload_folder( $suffix = false ) {
         $folder = wp_upload_dir()[ 'basedir' ] . '/csv2wp' . $suffix;
         return apply_filters( 'csv2wp_upload_folder', $folder );
+    }
+
+    function csv2wp_delete_file( $file_name ) {
+        if ( ! empty( $file_name ) && false === apply_filters( 'csv2wp_delete_file', true ) ) {
+            if ( file_exists( csv2wp_get_upload_folder( '/' ) . $file_name ) ) {
+                unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
+            }
+        }
     }
