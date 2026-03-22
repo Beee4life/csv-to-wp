@@ -1,7 +1,4 @@
 <?php
-    /*
-     * Check if files are uploaded
-     */
     function csv2wp_check_if_files() {
         $target_dir = csv2wp_get_upload_folder();
         if ( file_exists( $target_dir ) ) {
@@ -50,7 +47,7 @@
                 csv2wp_check_column_amount_line( $csv_line, $line_number, $csv_array[ 'column_count' ], $verify, $preview );
 
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
-                    // there are errors, so we retjurn an empty array
+                    // there are errors, so we return an empty array
                     $empty_array = true;
                     $new_array   = [];
 

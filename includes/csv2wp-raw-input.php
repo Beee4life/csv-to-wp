@@ -13,6 +13,7 @@
         <?php if ( isset( $_POST[ 'raw_csv_import' ] ) ) { ?>
             <?php $submitted_raw_data = $_POST[ 'raw_csv_import' ]; ?>
         <?php } ?>
+
         <form method="POST">
             <input name="import_raw_rankings_nonce" type="hidden" value="<?php echo wp_create_nonce( 'import-raw-rankings-nonce' ); ?>"/>
             <label for="raw-import" class="screen-reader-text"></label>

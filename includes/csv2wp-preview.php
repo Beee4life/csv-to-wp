@@ -36,10 +36,10 @@
                         if ( $file_index ) {
                             include 'csv2wp-preview-form.php';
                         } else { ?>
-                        <div class="csv2wp__section">
-                            <?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?>
-                            <?php echo sprintf( __( 'Upload a csv file from your %s.', 'csv2wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv2wp' ) ) ); ?>
-                        </div>
+                            <div class="csv2wp__section">
+                                <?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?>
+                                <?php echo sprintf( __( 'Upload a csv file from your %s.', 'csv2wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv2wp' ) ) ); ?>
+                            </div>
                     <?php } ?>
 
                     <?php
@@ -57,7 +57,7 @@
                                 $message .= __( 'If there are errors the file was deleted.', 'csv2wp' );
                                 $message .= '<br />';
                                 $message .= sprintf( __( 'Verify this file on the %s.', 'csv2wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv2wp' ) ) );
-                                echo sprintf( '<p class="error_notice"></p>', $message);
+                                echo sprintf( '<p class="error_notice">%s</p>', $message);
                             }
                             echo '</div>';
                         }
