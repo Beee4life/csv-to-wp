@@ -1,7 +1,7 @@
 <?php
     /*
     Plugin Name: CSV to WP
-    Version: 0.3
+    Version: 0.4
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import an verify CSV data and imports it to your WordPress database.
     Author: Beee
@@ -27,7 +27,7 @@
             public function __construct() {
                 $this->settings = array(
                     'path'    => trailingslashit( dirname( __FILE__ ) ),
-                    'version' => '0.3',
+                    'version' => '0.4',
                 );
 
                 // (de)activation hooks
@@ -348,24 +348,6 @@
                 return $links;
             }
 
-            public static function csv2wp_admin_menu() {
-                $menu = sprintf( '<div class="csv2wp__menu"><a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html( __( 'Dashboard', 'csv2wp' ) ) );
-                if ( ! empty( csv2wp_check_if_files() ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-preview' ), esc_html( __( 'Preview file', 'csv2wp' ) ) );
-                }
-                if ( function_exists( 'csv2wp_mapping_page' ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-mapping' ), esc_html( __( 'Mappings', 'csv2wp' ) ) );
-                }
-                if ( function_exists( 'csv2wp_settings_page' ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-settings' ), esc_html( __( 'Settings', 'csv2wp' ) ) );
-                }
-                $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-support' ), esc_html( __( 'Support', 'csv2wp' ) ) );
-                $menu .= '</div>';
-
-                return $menu;
-
-            }
-
             public function csv2wp_add_admin_pages() {
                 include 'includes/csv2wp-dashboard.php';
                 add_menu_page( 'CSV Importer', 'CSV to WP', get_option( 'csv2wp_import_role' ), 'csv2wp-dashboard', 'csv2wp_dashboard_page', 'dashicons-grid-view' );
@@ -396,6 +378,24 @@
                 wp_enqueue_script( 'csv2wp' );
             }
 
+            public static function csv2wp_admin_menu() {
+                $menu = sprintf( '<div class="csv2wp__menu"><a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html( __( 'Dashboard', 'csv2wp' ) ) );
+                if ( ! empty( csv2wp_check_if_files() ) ) {
+                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-preview' ), esc_html( __( 'Preview file', 'csv2wp' ) ) );
+                }
+                if ( function_exists( 'csv2wp_mapping_page' ) ) {
+                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-mapping' ), esc_html( __( 'Mappings', 'csv2wp' ) ) );
+                }
+                if ( function_exists( 'csv2wp_settings_page' ) ) {
+                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-settings' ), esc_html( __( 'Settings', 'csv2wp' ) ) );
+                }
+                $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-support' ), esc_html( __( 'Support', 'csv2wp' ) ) );
+                $menu .= '</div>';
+
+                return $menu;
+
+            }
+
             public static function get_instance() {
                 static $instance;
 
@@ -407,6 +407,6 @@
             }
         }
 
-    endif; // class_exists check
+        CSV2WP::get_instance();
 
-    CSV2WP::get_instance();
+    endif; // class_exists check
