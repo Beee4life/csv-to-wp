@@ -342,7 +342,8 @@
             }
 
             public function csv2wp_plugin_link( $links ) {
-                array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=csv2wp-dashboard' ) . '">' . __( 'Import', 'csv2wp' ) . '</a>' );
+                $new_link = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( __( 'Import', 'csv2wp' ) ) );
+                array_unshift( $links, $new_link );
 
                 return $links;
             }
