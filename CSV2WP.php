@@ -125,8 +125,7 @@
             }
 
             public function csv2wp_import_raw_csv_data() {
-
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_raw_rankings_nonce" ] ) ) {
+                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'import_raw_rankings_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ "import_raw_rankings_nonce" ], 'import-raw-rankings-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
@@ -165,7 +164,7 @@
              * @TODO: cut this into littler functions
              */
             public function csv2wp_handle_file_functions() {
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'select_file_nonce' ] ) ) {
+                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'select_file_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'select_file_nonce' ], 'select-file-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
@@ -291,7 +290,7 @@
             }
 
             public function csv2wp_upload_functions() {
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'csv2wp_upload_csv_nonce' ] ) ) {
+                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'csv2wp_upload_csv_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'csv2wp_upload_csv_nonce' ], 'csv2wp-upload-csv-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
@@ -323,9 +322,6 @@
             }
 
             public function csv2wp_settings_page_functions() {
-                /*
-                 * Update who can manage
-                 */
                 if ( isset( $_POST[ 'settings_page_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'settings_page_nonce' ], 'settings-page-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html( __( 'Something went wrong. Please try again.', 'csv2wp' ) ) );

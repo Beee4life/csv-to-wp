@@ -5,7 +5,7 @@
      */
     function csv2wp_settings_page() {
 
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
             wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
         }
         ?>
