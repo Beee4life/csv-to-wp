@@ -181,9 +181,9 @@
                         $delimiter        = sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] );
                         $entered_meta_key = ( isset( $_POST[ 'csv2wp_meta' ] ) ) ? sanitize_text_field( $_POST[ 'csv2wp_meta' ] ) : false;
                         $file_name        = sanitize_text_field( $_POST[ 'csv2wp_file_name' ] );
-                        $has_header       = isset( $_POST[ 'csv2wp_header' ] ) ? true : false;
+                        $has_header       = true;
                         $import_where     = sanitize_text_field( $_POST[ 'csv2wp_import_in' ] );
-                        $our_options      = [ 'table', 'postmeta', 'usermeta' ];
+                        $plugin_options   = [ 'table', 'postmeta', 'usermeta' ];
                         $remove           = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
                         $verify           = isset( $_POST[ 'csv2wp_verify' ] ) ? true : false;
 
@@ -192,7 +192,7 @@
 
                             if ( false === $verify ) {
                                 // $verify == false, so import for real
-                                if ( ! in_array( $import_where, $our_options ) ) {
+                                if ( ! in_array( $import_where, $plugin_options ) ) {
                                     // execute a custom option, set by a filter
                                     do_action( $import_where, $csv_array, $has_header, $file_name );
 
