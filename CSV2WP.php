@@ -355,11 +355,6 @@
                 include 'includes/csv2wp-preview.php'; // content for the preview page
                 add_submenu_page( 'options.php', 'Preview', 'Preview', get_option( 'csv2wp_import_role' ), 'csv2wp-preview', 'csv2wp_preview_page' );
 
-                // include 'includes/csv2wp-mapping.php'; // content for the mapping page
-                if ( function_exists( 'csv2wp_mapping_page' ) ) {
-                    add_submenu_page( 'options.php', 'Mapping', 'Mapping', get_option( 'csv2wp_import_role' ), 'csv2wp-mapping', 'csv2wp_mapping_page' );
-                }
-
                 include 'includes/csv2wp-settings.php'; // content for the settings page
                 if ( function_exists( 'csv2wp_settings_page' ) ) {
                     add_submenu_page( 'options.php', 'Settings', 'Settings', get_option( 'csv2wp_import_role' ), 'csv2wp-settings', 'csv2wp_settings_page' );
@@ -370,11 +365,10 @@
             }
 
             public function csv2wp_enqueue_scripts() {
-                wp_register_style( 'csv2wp', plugins_url( 'assets/css/style.css', __FILE__ ), false, $this->settings[ 'version' ] );
+                wp_register_style( 'csv2wp', plugins_url( 'assets/css/style.css', __FILE__ ), [], $this->settings[ 'version' ] );
                 wp_enqueue_style( 'csv2wp' );
 
-                $plugin_dir = plugin_dir_url( __FILE__ );
-                wp_register_script( 'csv2wp', "{$plugin_dir}assets/js/csv2wp.js", array( 'jquery' ), $this->settings[ 'version' ] );
+                wp_register_script( 'csv2wp', plugins_url( 'assets/js/csv2wp.js', __FILE__ ), [], $this->settings[ 'version' ] );
                 wp_enqueue_script( 'csv2wp' );
             }
 
