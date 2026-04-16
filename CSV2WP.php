@@ -385,12 +385,10 @@
                         'url'   => admin_url( 'admin.php?page=csv2wp-preview' ),
                     ];
                 }
-                if ( function_exists( 'csv2wp_settings_page' ) ) {
-                    $menu_items[] = [
-                        'title' => esc_html( __( 'Settings', 'csv2wp' ) ),
-                        'url'   => admin_url( 'admin.php?page=csv2wp-settings' ),
-                    ];
-                }
+                $menu_items[] = [
+                    'title' => esc_html( __( 'Settings', 'csv2wp' ) ),
+                    'url'   => admin_url( 'admin.php?page=csv2wp-settings' ),
+                ];
                 $menu_items[] = [
                     'title' => esc_html( __( 'Support', 'csv2wp' ) ),
                     'url'   => admin_url( 'admin.php?page=csv2wp-support' ),
