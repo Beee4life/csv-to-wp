@@ -40,25 +40,3 @@ These filters are available:
 = Can I import posts and other WordPress data with it ? =
 
 No, not right now. There are other plugins which do that like [WordPress Importer](https://wordpress.org/plugins/wordpress-importer/). Maybe in the future but now there are no plans for it.
-
-## Changelog
-
-**0.3**
-
-* Code cleaning/improvement
-
-**0.2.2**
-
-* Forgotten version
-
-**0.2.1**
-
-* Add composer file
-
-**0.2**
-
-* Add filter for own actions
-
-**0.1**
-
-* Initial release

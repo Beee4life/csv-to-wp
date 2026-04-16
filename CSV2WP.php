@@ -1,7 +1,7 @@
 <?php
     /*
     Plugin Name: CSV to WP
-    Version: 0.5
+    Version: 0.5.1
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import an verify CSV data and imports it to your WordPress database.
     Author: Beee
@@ -17,7 +17,7 @@
 
     if ( ! defined( 'ABSPATH' ) ) {
         exit;
-    } // Exit if accessed directly
+    }
 
     if ( ! class_exists( 'CSV2WP' ) ) :
 
@@ -27,7 +27,7 @@
             public function __construct() {
                 $this->settings = array(
                     'path'    => trailingslashit( dirname( __FILE__ ) ),
-                    'version' => '0.5',
+                    'version' => '0.5.1',
                 );
 
                 // (de)activation hooks
@@ -53,7 +53,6 @@
 
                 include 'includes/functions.php';
                 include 'includes/csv2wp-help-tabs.php';
-
             }
 
             public function csv2wp_plugin_activation() {
@@ -125,9 +124,8 @@
             }
 
             public function csv2wp_import_raw_csv_data() {
-
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ "import_raw_rankings_nonce" ] ) ) {
-                    if ( ! wp_verify_nonce( $_POST[ "import_raw_rankings_nonce" ], 'import-raw-rankings-nonce' ) ) {
+                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'import_raw_rankings_nonce' ] ) ) {
+                    if ( ! wp_verify_nonce( $_POST[ 'import_raw_rankings_nonce' ], 'import-raw-rankings-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
                         return;
@@ -165,7 +163,7 @@
              * @TODO: cut this into littler functions
              */
             public function csv2wp_handle_file_functions() {
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'select_file_nonce' ] ) ) {
+                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'select_file_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'select_file_nonce' ], 'select-file-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
@@ -177,22 +175,22 @@
                         }
 
                         global $wpdb;
-                        $create_table     = false;
-                        $delimiter        = sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] );
-                        $entered_meta_key = ( isset( $_POST[ 'csv2wp_meta' ] ) ) ? sanitize_text_field( $_POST[ 'csv2wp_meta' ] ) : false;
-                        $file_name        = sanitize_text_field( $_POST[ 'csv2wp_file_name' ] );
-                        $has_header       = isset( $_POST[ 'csv2wp_header' ] ) ? true : false;
-                        $import_where     = sanitize_text_field( $_POST[ 'csv2wp_import_in' ] );
-                        $our_options      = [ 'table', 'postmeta', 'usermeta' ];
-                        $remove           = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
-                        $verify           = isset( $_POST[ 'csv2wp_verify' ] ) ? true : false;
+                        $create_table   = false;
+                        $delimiter      = sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] );
+                        $file_name      = sanitize_text_field( $_POST[ 'csv2wp_file_name' ] );
+                        $has_header     = $_POST[ 'csv2wp_header' ];
+                        $import_where   = sanitize_text_field( $_POST[ 'csv2wp_import_in' ] );
+                        $meta_key       = ( isset( $_POST[ 'csv2wp_meta' ] ) ) ? sanitize_text_field( $_POST[ 'csv2wp_meta' ] ) : false;
+                        $plugin_options = [ 'table', 'postmeta', 'usermeta' ];
+                        $remove         = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
+                        $verify         = isset( $_POST[ 'csv2wp_verify' ] ) ? true : false;
 
                         if ( false === $remove ) {
-                            $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, false, $import_where );
+                            $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, false, $import_where, $meta_key );
 
                             if ( false === $verify ) {
                                 // $verify == false, so import for real
-                                if ( ! in_array( $import_where, $our_options ) ) {
+                                if ( ! in_array( $import_where, $plugin_options ) ) {
                                     // execute a custom option, set by a filter
                                     do_action( $import_where, $csv_array, $has_header, $file_name );
 
@@ -202,7 +200,7 @@
                                         CSV2WP::csv2wp_errors()->add( "error_no_table_entered", __( "You didn't enter a table, where to import it.", 'csv2wp' ) );
                                     } elseif ( strpos( ' ', $table ) !== false ) {
                                         CSV2WP::csv2wp_errors()->add( "error_space_in_table", __( 'You have a space in your table name.', 'csv2wp' ) );
-                                    } elseif ( false !== $has_header && false != $entered_meta_key ) {
+                                    } elseif ( false !== $has_header && false != $meta_key ) {
                                         CSV2WP::csv2wp_errors()->add( "error_header_meta", __( "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers.", 'csv2wp' ) );
                                     } elseif ( false == $_POST[ 'csv2wp_header' ] ) {
                                         CSV2WP::csv2wp_errors()->add( "error_no_header", esc_html__( 'You unchecked whether the file has a header row. For insert into table, you must have a header row.', 'csv2wp' ) );
@@ -213,7 +211,7 @@
                                     }
 
                                 } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-                                    if ( false !== $has_header && false != $entered_meta_key ) {
+                                    if ( false !== $has_header && false != $meta_key ) {
                                         CSV2WP::csv2wp_errors()->add( 'error_header_meta', __( "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key.", 'csv2wp' ) );
                                     }
                                 }
@@ -291,37 +289,38 @@
             }
 
             public function csv2wp_upload_functions() {
-                if ( current_user_can( 'manage_options' ) && isset( $_POST[ 'csv2wp_upload_csv_nonce' ] ) ) {
+                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'csv2wp_upload_csv_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'csv2wp_upload_csv_nonce' ], 'csv2wp-upload-csv-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
                         return;
                     } else {
-                        $file_name   = sanitize_file_name( $_FILES[ 'csv2wp_upload_csv_file' ][ 'name' ] );
-                        $target_file = sprintf( '%s/%s', csv2wp_get_upload_folder(), basename( $file_name ) );
+                        if ( isset( $_FILES[ 'csv2wp_upload' ][ 'name' ] ) ) {
+                            $file_name   = sanitize_file_name( $_FILES[ 'csv2wp_upload' ][ 'name' ] );
+                            $target_file = sprintf( '%s/%s', csv2wp_get_upload_folder(), basename( $file_name ) );
 
-                        if ( move_uploaded_file( $_FILES[ 'csv_upload' ][ 'tmp_name' ], $target_file ) ) {
-                            // file uploaded succeeded
-                            do_action( 'csv2wp_successful_csv_upload' );
-                            $message = sprintf( __( 'File %s is successfully uploaded and now shows under %s.', 'csv2wp' ), $file_name, sprintf( '<b>%s</b>', esc_html__( 'Handle a csv file', 'csv2wp' ) ) );
-                            CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', $message );
+                            if ( move_uploaded_file( $_FILES[ 'csv2wp_upload' ][ 'tmp_name' ], $target_file ) ) {
+                                // file uploaded succeeded
+                                do_action( 'csv2wp_successful_csv_upload' );
+                                $message = sprintf( __( 'File %s is successfully uploaded and now shows under %s.', 'csv2wp' ), $file_name, sprintf( '<b>%s</b>', esc_html__( 'Handle a csv file', 'csv2wp' ) ) );
+                                CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', $message );
 
-                            return;
+                                return;
 
-                        } else {
-                            // file upload failed
-                            CSV2WP::csv2wp_errors()->add( 'error_file_uploaded', esc_html( __( 'Upload failed. Please try again.', 'csv2wp' ) ) );
+                            } else {
+                                // file upload failed
+                                CSV2WP::csv2wp_errors()->add( 'error_file_uploaded', esc_html( __( 'Upload failed. Please try again.', 'csv2wp' ) ) );
 
-                            return;
+                                return;
+                            }
                         }
                     }
+
+                    return;
                 }
             }
 
             public function csv2wp_settings_page_functions() {
-                /*
-                 * Update who can manage
-                 */
                 if ( isset( $_POST[ 'settings_page_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'settings_page_nonce' ], 'settings-page-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html( __( 'Something went wrong. Please try again.', 'csv2wp' ) ) );
@@ -343,7 +342,8 @@
             }
 
             public function csv2wp_plugin_link( $links ) {
-                array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=csv2wp-dashboard' ) . '">' . __( 'Import', 'csv2wp' ) . '</a>' );
+                $new_link = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( __( 'Import', 'csv2wp' ) ) );
+                array_unshift( $links, $new_link );
 
                 return $links;
             }
@@ -355,11 +355,6 @@
                 include 'includes/csv2wp-preview.php'; // content for the preview page
                 add_submenu_page( 'options.php', 'Preview', 'Preview', get_option( 'csv2wp_import_role' ), 'csv2wp-preview', 'csv2wp_preview_page' );
 
-                // include 'includes/csv2wp-mapping.php'; // content for the mapping page
-                if ( function_exists( 'csv2wp_mapping_page' ) ) {
-                    add_submenu_page( 'options.php', 'Mapping', 'Mapping', get_option( 'csv2wp_import_role' ), 'csv2wp-mapping', 'csv2wp_mapping_page' );
-                }
-
                 include 'includes/csv2wp-settings.php'; // content for the settings page
                 if ( function_exists( 'csv2wp_settings_page' ) ) {
                     add_submenu_page( 'options.php', 'Settings', 'Settings', get_option( 'csv2wp_import_role' ), 'csv2wp-settings', 'csv2wp_settings_page' );
@@ -370,27 +365,45 @@
             }
 
             public function csv2wp_enqueue_scripts() {
-                wp_register_style( 'csv2wp', plugins_url( 'assets/css/style.css', __FILE__ ), false, $this->settings[ 'version' ] );
+                wp_register_style( 'csv2wp', plugins_url( 'assets/css/style.css', __FILE__ ), [], $this->settings[ 'version' ] );
                 wp_enqueue_style( 'csv2wp' );
 
-                $plugin_dir = plugin_dir_url( __FILE__ );
-                wp_register_script( 'csv2wp', "{$plugin_dir}assets/js/csv2wp.js", array( 'jquery' ), $this->settings[ 'version' ] );
+                wp_register_script( 'csv2wp', plugins_url( 'assets/js/csv2wp.js', __FILE__ ), [], $this->settings[ 'version' ] );
                 wp_enqueue_script( 'csv2wp' );
             }
 
             public static function csv2wp_admin_menu() {
-                $menu = sprintf( '<div class="csv2wp__menu"><a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html( __( 'Dashboard', 'csv2wp' ) ) );
+                $menu_items = [
+                    [
+                        'title' => esc_html( __( 'Dashboard', 'csv2wp' ) ),
+                        'url'   => admin_url( 'admin.php?page=csv2wp-dashboard' ),
+                    ],
+                ];
                 if ( ! empty( csv2wp_check_if_files() ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-preview' ), esc_html( __( 'Preview file', 'csv2wp' ) ) );
+                    $menu_items[] = [
+                        'title' => esc_html( __( 'Preview file', 'csv2wp' ) ),
+                        'url'   => admin_url( 'admin.php?page=csv2wp-preview' ),
+                    ];
                 }
-                if ( function_exists( 'csv2wp_mapping_page' ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-mapping' ), esc_html( __( 'Mappings', 'csv2wp' ) ) );
+                $menu_items[] = [
+                    'title' => esc_html( __( 'Settings', 'csv2wp' ) ),
+                    'url'   => admin_url( 'admin.php?page=csv2wp-settings' ),
+                ];
+                $menu_items[] = [
+                    'title' => esc_html( __( 'Support', 'csv2wp' ) ),
+                    'url'   => admin_url( 'admin.php?page=csv2wp-support' ),
+                ];
+
+                ob_start();
+                foreach( $menu_items as $item ) {
+                    if ( 'Dashboard' !== $item['title'] ) {
+                        echo ' | ';
+                    }
+                    echo sprintf( '<a href="%s">%s</a>', $item['url'], $item['title'] );
                 }
-                if ( function_exists( 'csv2wp_settings_page' ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-settings' ), esc_html( __( 'Settings', 'csv2wp' ) ) );
-                }
-                $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-support' ), esc_html( __( 'Support', 'csv2wp' ) ) );
-                $menu .= '</div>';
+
+                $content = ob_get_clean();
+                $menu    = sprintf( '<div class="csv2wp__menu">%s</div>', $content );
 
                 return $menu;
 
