@@ -297,11 +297,11 @@
 
                         return;
                     } else {
-                        if ( isset( $_FILES[ 'csv_upload' ][ 'name' ] ) ) {
-                            $file_name   = sanitize_file_name( $_FILES[ 'csv_upload' ][ 'name' ] );
+                        if ( isset( $_FILES[ 'csv2wp_upload' ][ 'name' ] ) ) {
+                            $file_name   = sanitize_file_name( $_FILES[ 'csv2wp_upload' ][ 'name' ] );
                             $target_file = sprintf( '%s/%s', csv2wp_get_upload_folder(), basename( $file_name ) );
 
-                            if ( move_uploaded_file( $_FILES[ 'csv_upload' ][ 'tmp_name' ], $target_file ) ) {
+                            if ( move_uploaded_file( $_FILES[ 'csv2wp_upload' ][ 'tmp_name' ], $target_file ) ) {
                                 // file uploaded succeeded
                                 do_action( 'csv2wp_successful_csv_upload' );
                                 $message = sprintf( __( 'File %s is successfully uploaded and now shows under %s.', 'csv2wp' ), $file_name, sprintf( '<b>%s</b>', esc_html__( 'Handle a csv file', 'csv2wp' ) ) );
