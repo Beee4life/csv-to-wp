@@ -247,7 +247,7 @@
     }
 
     function csv2wp_delete_file( $file_name ) {
-        if ( ! empty( $file_name ) && false === apply_filters( 'csv2wp_delete_file', true ) ) {
+        if ( ! empty( $file_name ) ) {
             if ( file_exists( csv2wp_get_upload_folder( '/' ) . $file_name ) ) {
                 unlink( csv2wp_get_upload_folder( '/' ) . $file_name );
             }
