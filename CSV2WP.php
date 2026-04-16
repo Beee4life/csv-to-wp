@@ -177,18 +177,19 @@
                         }
 
                         global $wpdb;
-                        $create_table     = false;
-                        $delimiter        = sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] );
-                        $entered_meta_key = ( isset( $_POST[ 'csv2wp_meta' ] ) ) ? sanitize_text_field( $_POST[ 'csv2wp_meta' ] ) : false;
-                        $file_name        = sanitize_text_field( $_POST[ 'csv2wp_file_name' ] );
-                        $has_header       = $_POST[ 'csv2wp_header' ];
-                        $import_where     = sanitize_text_field( $_POST[ 'csv2wp_import_in' ] );
-                        $plugin_options   = [ 'table', 'postmeta', 'usermeta' ];
-                        $remove           = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
-                        $verify           = isset( $_POST[ 'csv2wp_verify' ] ) ? true : false;
+                        $create_table   = false;
+                        $delimiter      = sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] );
+                        $file_name      = sanitize_text_field( $_POST[ 'csv2wp_file_name' ] );
+                        $has_header     = $_POST[ 'csv2wp_header' ];
+                        $import_where   = sanitize_text_field( $_POST[ 'csv2wp_import_in' ] );
+                        $meta_key       = ( isset( $_POST[ 'csv2wp_meta' ] ) ) ? sanitize_text_field( $_POST[ 'csv2wp_meta' ] ) : false;
+                        $plugin_options = [ 'table', 'postmeta', 'usermeta' ];
+                        $remove         = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
+                        $verify         = isset( $_POST[ 'csv2wp_verify' ] ) ? true : false;
 
                         if ( false === $remove ) {
-                            $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, false, $import_where );
+                            $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, false, $import_where, $meta_key );
+                            echo '<pre>'; var_dump($csv_array); echo '</pre>'; exit;
 
                             if ( false === $verify ) {
                                 // $verify == false, so import for real
@@ -202,7 +203,7 @@
                                         CSV2WP::csv2wp_errors()->add( "error_no_table_entered", __( "You didn't enter a table, where to import it.", 'csv2wp' ) );
                                     } elseif ( strpos( ' ', $table ) !== false ) {
                                         CSV2WP::csv2wp_errors()->add( "error_space_in_table", __( 'You have a space in your table name.', 'csv2wp' ) );
-                                    } elseif ( false !== $has_header && false != $entered_meta_key ) {
+                                    } elseif ( false !== $has_header && false != $meta_key ) {
                                         CSV2WP::csv2wp_errors()->add( "error_header_meta", __( "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers.", 'csv2wp' ) );
                                     } elseif ( false == $_POST[ 'csv2wp_header' ] ) {
                                         CSV2WP::csv2wp_errors()->add( "error_no_header", esc_html__( 'You unchecked whether the file has a header row. For insert into table, you must have a header row.', 'csv2wp' ) );
@@ -213,7 +214,7 @@
                                     }
 
                                 } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-                                    if ( false !== $has_header && false != $entered_meta_key ) {
+                                    if ( false !== $has_header && false != $meta_key ) {
                                         CSV2WP::csv2wp_errors()->add( 'error_header_meta', __( "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key.", 'csv2wp' ) );
                                     }
                                 }
