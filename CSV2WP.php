@@ -1,7 +1,7 @@
 <?php
     /*
-    Plugin Name: CSV to WP
-    Version: 0.4
+    Plugin Name: CSV to WP (dev)
+    Version: 0.5
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import an verify CSV data and imports it to your WordPress database.
     Author: Beee
@@ -27,7 +27,7 @@
             public function __construct() {
                 $this->settings = array(
                     'path'    => trailingslashit( dirname( __FILE__ ) ),
-                    'version' => '0.4',
+                    'version' => '0.5',
                 );
 
                 // (de)activation hooks
@@ -225,7 +225,7 @@
                                 $success = $this->csv2wp_process_data( $csv_array, $import_where, $has_header, $create_table );
 
                                 if ( true === $success ) {
-                                    $delete_result = csv2wp_delete_file( $file_name );
+                                    $delete_result = csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
                                     if ( isset( $delete_result ) && true == $delete_result ) {
                                         CSV2WP::csv2wp_errors()->add( 'success_data_imported', sprintf( esc_html__( 'YAY ! %d lines are imported and the file is deleted.', 'csv2wp' ), $line_number ) );
                                     } else {
