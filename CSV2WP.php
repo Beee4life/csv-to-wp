@@ -373,18 +373,39 @@
             }
 
             public static function csv2wp_admin_menu() {
-                $menu = sprintf( '<div class="csv2wp__menu"><a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html( __( 'Dashboard', 'csv2wp' ) ) );
+                $menu_items = [
+                    [
+                        'title' => esc_html( __( 'Dashboard', 'csv2wp' ) ),
+                        'url'   => admin_url( 'admin.php?page=csv2wp-dashboard' ),
+                    ],
+                ];
                 if ( ! empty( csv2wp_check_if_files() ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-preview' ), esc_html( __( 'Preview file', 'csv2wp' ) ) );
-                }
-                if ( function_exists( 'csv2wp_mapping_page' ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-mapping' ), esc_html( __( 'Mappings', 'csv2wp' ) ) );
+                    $menu_items[] = [
+                        'title' => esc_html( __( 'Preview file', 'csv2wp' ) ),
+                        'url'   => admin_url( 'admin.php?page=csv2wp-preview' ),
+                    ];
                 }
                 if ( function_exists( 'csv2wp_settings_page' ) ) {
-                    $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-settings' ), esc_html( __( 'Settings', 'csv2wp' ) ) );
+                    $menu_items[] = [
+                        'title' => esc_html( __( 'Settings', 'csv2wp' ) ),
+                        'url'   => admin_url( 'admin.php?page=csv2wp-settings' ),
+                    ];
                 }
-                $menu .= sprintf( ' | <a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-support' ), esc_html( __( 'Support', 'csv2wp' ) ) );
-                $menu .= '</div>';
+                $menu_items[] = [
+                    'title' => esc_html( __( 'Support', 'csv2wp' ) ),
+                    'url'   => admin_url( 'admin.php?page=csv2wp-support' ),
+                ];
+
+                ob_start();
+                foreach( $menu_items as $item ) {
+                    if ( 'Dashboard' !== $item['title'] ) {
+                        echo ' | ';
+                    }
+                    echo sprintf( '<a href="%s">%s</a>', $item['url'], $item['title'] );
+                }
+
+                $content = ob_get_clean();
+                $menu    = sprintf( '<div class="csv2wp__menu">%s</div>', $content );
 
                 return $menu;
 
