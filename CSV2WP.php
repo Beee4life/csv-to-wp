@@ -53,7 +53,6 @@
 
                 include 'includes/functions.php';
                 include 'includes/csv2wp-help-tabs.php';
-
             }
 
             public function csv2wp_plugin_activation() {
