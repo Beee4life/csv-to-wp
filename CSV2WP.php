@@ -181,7 +181,7 @@
                         $delimiter        = sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] );
                         $entered_meta_key = ( isset( $_POST[ 'csv2wp_meta' ] ) ) ? sanitize_text_field( $_POST[ 'csv2wp_meta' ] ) : false;
                         $file_name        = sanitize_text_field( $_POST[ 'csv2wp_file_name' ] );
-                        $has_header       = true;
+                        $has_header       = $_POST[ 'csv2wp_header' ];
                         $import_where     = sanitize_text_field( $_POST[ 'csv2wp_import_in' ] );
                         $plugin_options   = [ 'table', 'postmeta', 'usermeta' ];
                         $remove           = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
