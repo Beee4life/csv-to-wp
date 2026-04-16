@@ -126,7 +126,7 @@
 
             public function csv2wp_import_raw_csv_data() {
                 if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'import_raw_rankings_nonce' ] ) ) {
-                    if ( ! wp_verify_nonce( $_POST[ "import_raw_rankings_nonce" ], 'import-raw-rankings-nonce' ) ) {
+                    if ( ! wp_verify_nonce( $_POST[ 'import_raw_rankings_nonce' ], 'import-raw-rankings-nonce' ) ) {
                         CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv2wp' ) );
 
                         return;
