@@ -189,7 +189,6 @@
 
                         if ( false === $remove ) {
                             $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, false, $import_where, $meta_key );
-                            echo '<pre>'; var_dump($csv_array); echo '</pre>'; exit;
 
                             if ( false === $verify ) {
                                 // $verify == false, so import for real
