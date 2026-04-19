@@ -78,6 +78,7 @@
 
                 } else {
                     // prepare data for update_*_meta
+                    $id = false;
                     if ( isset( $line[ 0 ] ) ) {
                         $id = $line[ 0 ];
                     }
