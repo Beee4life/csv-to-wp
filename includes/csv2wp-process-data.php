@@ -79,7 +79,7 @@
                 } else {
                     // prepare data for update_*_meta
                     if ( isset( $line[ 0 ] ) ) {
-                        $post_id = $line[ 0 ];
+                        $id = $line[ 0 ];
                     }
 
                     if ( false != $entered_meta_key ) {
@@ -90,11 +90,11 @@
                         $meta_value = $line[ 2 ];
                     }
 
-                    if ( false != $post_id && false != $meta_key && false != $meta_value ) {
+                    if ( false != $id && false != $meta_key && false != $meta_value ) {
                         if ( 'postmeta' == $import_where ) {
-                            $result = update_post_meta( $post_id, $meta_key, $meta_value );
+                            $result = update_post_meta( $id, $meta_key, $meta_value );
                         } elseif ( 'usermeta' == $import_where ) {
-                            $result = update_user_meta( $post_id, $meta_key, $meta_value );
+                            $result = update_user_meta( $id, $meta_key, $meta_value );
                         }
                         if ( false != $result ) {
                             $line_number++;
