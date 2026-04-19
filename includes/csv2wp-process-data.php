@@ -29,7 +29,7 @@
 
         } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
             foreach( $csv_array[ 'data' ] as $line ) {
-                $header_row = ( true === $has_header ) ? $csv_array[ 'column_names' ] : [];
+                $header_row = ( true == $has_header ) ? $csv_array[ 'column_names' ] : [];
                 $post_id    = false;
                 $user_id    = false;
 
@@ -78,7 +78,10 @@
 
                 } else {
                     // prepare data for update_*_meta
-                    $id = $line[ 0 ];
+                    $id = false;
+                    if ( isset( $line[ 0 ] ) ) {
+                        $id = $line[ 0 ];
+                    }
 
                     if ( false != $entered_meta_key ) {
                         $meta_key   = $entered_meta_key;

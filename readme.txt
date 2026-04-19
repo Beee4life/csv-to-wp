@@ -3,7 +3,7 @@ Contributors: beee4life
 Donate link: http://example.com/
 Tags: csv, import, usermeta, postmeta
 Requires at least: 3.6
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 Requires PHP: 7.2
 Stable tag: 0.2.2
 Author URI: https://berryplasman.com
