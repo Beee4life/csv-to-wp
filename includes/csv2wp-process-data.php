@@ -78,12 +78,8 @@
 
                 } else {
                     // prepare data for update_*_meta
-                    if ( ! $post_id ) {
-                        if ( isset( $line[0] ) ) {
-                            $post_id = $line[ 0 ];
-                        } elseif ( isset( $line['post_id'] ) ) {
-                            $post_id = $line[ 'post_id' ];
-                        }
+                    if ( isset( $line[ 0 ] ) ) {
+                        $post_id = $line[ 0 ];
                     }
 
                     if ( false != $entered_meta_key ) {
