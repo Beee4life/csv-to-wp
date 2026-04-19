@@ -37,7 +37,7 @@
                 $line_number++;
 
                 // if line is 1 and has header == true, count columns (to set benchmark)
-                $header_data = csv2wp_get_header_data( $csv_line, $line_number, $import_where, $has_header );
+                $header_data = csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $has_header, $meta_key );
 
                 if ( is_array( $header_data ) ) {
                     $csv_array = array_merge( $csv_array, $header_data );
@@ -96,8 +96,8 @@
         return $csv_array;
     }
 
-    function csv2wp_get_header_data( $csv_line, $line_number, $import_where, $has_header = false ) {
-        if ( ! $csv_line || ! $line_number || ! $import_where ) {
+    function csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $has_header = false, $meta_key = false ) {
+        if ( ! $file_name || ! $csv_line || ! $line_number || ! $import_where ) {
             return false;
         }
 
