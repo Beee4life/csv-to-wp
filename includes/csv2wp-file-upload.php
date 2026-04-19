@@ -8,7 +8,7 @@
             <label for="csv2wp_upload">
                 <?php esc_html_e( 'Choose a (CSV) file to upload', 'acf-city-selector' ); ?>
             </label>
-            <div class="form--upload form--csv_upload">
+            <div class="form--upload form--csv2wp_upload">
                 <input type="file" name="csv2wp_upload" id="csv2wp_upload" accept=".csv" />
                 <span class="val"></span>
                 <span class="upload_button button-primary" data-type="csv2wp_upload">
