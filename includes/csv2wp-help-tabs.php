@@ -31,7 +31,7 @@
             </ul>
             <h5><?php esc_html_e( 'Verify a CSV file', 'csv-to-wp' ); ?></h5>
             <p><?php esc_html_e( 'Upon verification, the csv file is checked if every row/line has the same amount of columns.', 'csv-to-wp' ); ?></p>
-            <p><?php esc_html_e( "If not, the file is deleted because it can't be used anymore due to the encounterd errors.", "csv2wp" ); ?></p>
+            <p><?php esc_html_e( "If not, the file is deleted because it can't be used anymore due to the encounterd errors.", 'csv-to-wp' ); ?></p>
             <h5><?php esc_html_e( 'Import a CSV file', 'csv-to-wp' ); ?></h5>
             <p><?php esc_html_e( 'If you want to import int a table, your CSV must have a header row which is equal to your (table) column names.', 'csv-to-wp' ); ?></p>
             <p><?php esc_html_e( 'If you want to import post or user meta without a header row, you must use the following format: "post/user ID,meta_key,meta_value".', 'csv-to-wp' ); ?></p>
@@ -50,10 +50,10 @@
             ?>
             <h5><?php esc_html_e( 'Import into table', 'csv-to-wp' ); ?></h5>
             <p><?php esc_html_e( 'A header row is obligated when you want to import into a table.', 'csv-to-wp' ); ?></p>
-            <p><?php esc_html_e( "If you select 'import into table', a table is created with the column names you have in your CSV.", "csv2wp" ); ?></p>
-            <p><?php esc_html_e( "If a table already exists with this name, any new columns which exsts in the CSV but not in the table will be appended.", "csv2wp" ); ?></p>
-            <p><?php esc_html_e( "All values are inserted as 'text' since the plugin can't tell what type it is, based on the value alone. We will look into trying to 'set this' later on.", "csv2wp" ); ?></p>
-            <p><?php esc_html_e( "The maximum length of a variable is 254 characters.", "csv2wp" ); ?></p>
+            <p><?php esc_html_e( "If you select 'import into table', a table is created with the column names you have in your CSV.", 'csv-to-wp' ); ?></p>
+            <p><?php esc_html_e( "If a table already exists with this name, any new columns which exsts in the CSV but not in the table will be appended.", 'csv-to-wp' ); ?></p>
+            <p><?php esc_html_e( "All values are inserted as 'text' since the plugin can't tell what type it is, based on the value alone. We will look into trying to 'set this' later on.", 'csv-to-wp' ); ?></p>
+            <p><?php esc_html_e( "The maximum length of a variable is 254 characters.", 'csv-to-wp' ); ?></p>
             <?php
             $tab_content = ob_get_clean();
 
@@ -117,7 +117,7 @@
             <h5><?php esc_html_e( 'Preview data', 'csv-to-wp' ); ?></h5>
             <p><?php esc_html_e( 'On this page you can preview a CSV file before importing it.', 'csv-to-wp' ); ?></p>
             <p><?php esc_html_e( 'Please keep in mind that all csv files are verified before displaying (and therefor can be deleted, when errors are encountered).', 'csv-to-wp' ); ?></p>
-            <p><?php esc_html_e( "If you select 'has header', the first table row will be bolded.", "csv2wp" ); ?></p>
+            <p><?php esc_html_e( "If you select 'has header', the first table row will be bolded.", 'csv-to-wp' ); ?></p>
             <p><?php esc_html_e( 'You can limit the amount of lines you want to preview if you have a very large file.', 'csv-to-wp' ); ?></p>
 
             <?php
@@ -129,7 +129,7 @@
                 'content' => $tab_content
             ) );
 
-            $sidebar_content = '<p><strong>' . esc_html__( "Author's website", "csv2wp" ) . '</strong></p>';
+            $sidebar_content = '<p><strong>' . esc_html__( "Author's website", 'csv-to-wp' ) . '</strong></p>';
             $sidebar_content .= '<p><a href="https://berryplasman.com">berryplasman.com</a></p>';
             get_current_screen()->set_help_sidebar( $sidebar_content );
         }

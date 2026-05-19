@@ -28,7 +28,7 @@
                     <p>
                         <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv-to-wp' ); ?>
                             <br />
-                        <?php esc_html_e( "The reason why it's set per capability instead of per user is because two users with the same role can have different capabilities.", "csv2wp" ); ?>
+                        <?php esc_html_e( "The reason why it's set per capability instead of per user is because two users with the same role can have different capabilities.", 'csv-to-wp' ); ?>
                     </p>
 
                     <?php
@@ -50,7 +50,7 @@
 
                     <p>
                         <label>
-                            <input type="checkbox" class="" value="csv2wp_preserve_settings"/> <?php esc_html_e( "If you check this box settings will be preserved upon uninstallation, otherwise they will be deleted.", "csv2wp" ); ?>
+                            <input type="checkbox" class="" value="csv2wp_preserve_settings"/> <?php esc_html_e( "If you check this box settings will be preserved upon uninstallation, otherwise they will be deleted.", 'csv-to-wp' ); ?>
                         </label>
                     </p>
 
