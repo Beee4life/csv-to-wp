@@ -3,11 +3,12 @@
     Plugin Name: CSV to WP
     Version: 0.7.0
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
-    Description: This plugin allows you to import an verify CSV data and imports it to your WordPress database.
+    Description: This plugin allows you to import and verify CSV data and imports it to your WordPress database.
     Author: Beee
     Author URI: https://berryplasman.com
     Text-domain: csv-to-wp
-    License: GPL2v2
+    License: GPL v2 or later
+    License URI: https://www.gnu.org/licenses/gpl-2.0.html
        ___  ____ ____ ____
       / _ )/ __/  __/  __/
      / _  / _/   _/   _/
@@ -44,7 +45,6 @@
 
                 // csv actions
                 add_action( 'admin_init',               array( $this, 'csv2wp_create_uploads_directory' ) );
-                add_action( 'admin_init',               array( $this, 'csv2wp_upload_functions' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_handle_file_functions' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_import_raw_csv_data' ) );
 
@@ -108,12 +108,12 @@
                                 $prefix     = esc_html( __( 'Error', 'csv-to-wp' ) );
                             }
                         }
-                        echo '<div id="message" class="notice ' . $span_class . 'csv2wp__notice is-dismissible">';
+                        echo sprintf( '<div id="message" class="notice %scsv2wp__notice is-dismissible">', esc_attr( $span_class ) );
                         foreach ( $codes as $code ) {
                             $message = CSV2WP::csv2wp_errors()->get_error_message( $code );
                             echo '<div class="">';
                             if ( true == $prefix ) {
-                                echo '<strong>' . $prefix . ':</strong> ';
+                                echo sprintf( '<strong>%s:</strong> ', esc_html( $prefix ) );
                             }
                             echo $message;
                             echo '</div>';
@@ -192,6 +192,7 @@
                                 // $verify == false, so import for real
                                 if ( ! in_array( $import_where, $plugin_options ) ) {
                                     // execute a custom option, set by a filter
+                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
                                     do_action( $import_where, $csv_array, $has_header, $file_name );
 
                                 } elseif ( 'table' == $import_where ) {
@@ -223,6 +224,7 @@
                                 $success = $this->csv2wp_process_data( $csv_array, $import_where, $has_header, $create_table, $meta_key );
 
                                 if ( true === $success ) {
+                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                                     $delete_result = csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
                                     if ( isset( $delete_result ) && true == $delete_result ) {
                                         CSV2WP::csv2wp_errors()->add( 'success_data_imported', sprintf( esc_html__( 'YAY ! %d lines are imported and the file is deleted.', 'csv-to-wp' ), $line_number ) );
@@ -288,38 +290,6 @@
                 }
             }
 
-            public function csv2wp_upload_functions() {
-                if ( current_user_can( get_option( 'csv2wp_import_role' ) ) && isset( $_POST[ 'csv2wp_upload_csv_nonce' ] ) ) {
-                    if ( ! wp_verify_nonce( $_POST[ 'csv2wp_upload_csv_nonce' ], 'csv2wp-upload-csv-nonce' ) ) {
-                        CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', esc_html__( 'Something went wrong. Please try again.', 'csv-to-wp' ) );
-
-                        return;
-                    } else {
-                        if ( isset( $_FILES[ 'csv2wp_upload' ][ 'name' ] ) ) {
-                            $file_name   = sanitize_file_name( $_FILES[ 'csv2wp_upload' ][ 'name' ] );
-                            $target_file = sprintf( '%s/%s', csv2wp_get_upload_folder(), basename( $file_name ) );
-
-                            if ( move_uploaded_file( $_FILES[ 'csv2wp_upload' ][ 'tmp_name' ], $target_file ) ) {
-                                // file uploaded succeeded
-                                do_action( 'csv2wp_successful_csv_upload' );
-                                $message = sprintf( __( 'File %s is successfully uploaded and now shows under %s.', 'csv-to-wp' ), $file_name, sprintf( '<b>%s</b>', esc_html__( 'Handle a csv file', 'csv-to-wp' ) ) );
-                                CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', $message );
-
-                                return;
-
-                            } else {
-                                // file upload failed
-                                CSV2WP::csv2wp_errors()->add( 'error_file_uploaded', esc_html( __( 'Upload failed. Please try again.', 'csv-to-wp' ) ) );
-
-                                return;
-                            }
-                        }
-                    }
-
-                    return;
-                }
-            }
-
             public function csv2wp_settings_page_functions() {
                 if ( isset( $_POST[ 'settings_page_nonce' ] ) ) {
                     if ( ! wp_verify_nonce( $_POST[ 'settings_page_nonce' ], 'settings-page-nonce' ) ) {
@@ -342,7 +312,7 @@
             }
 
             public function csv2wp_plugin_link( $links ) {
-                $new_link = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( __( 'Import', 'csv-to-wp' ) ) );
+                $new_link = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=csv2wp-dashboard' ) ), esc_html( __( 'Import', 'csv-to-wp' ) ) );
                 array_unshift( $links, $new_link );
 
                 return $links;
@@ -368,7 +338,7 @@
                 wp_register_style( 'csv-to-wp', plugins_url( 'assets/css/style.css', __FILE__ ), [], $this->settings[ 'version' ] );
                 wp_enqueue_style( 'csv-to-wp' );
 
-                wp_register_script( 'csv-to-wp', plugins_url( 'assets/js/csv2wp.js', __FILE__ ), [], $this->settings[ 'version' ] );
+                wp_register_script( 'csv-to-wp', plugins_url( 'assets/js/csv2wp.js', __FILE__ ), [], $this->settings[ 'version' ], true );
                 wp_enqueue_script( 'csv-to-wp' );
             }
 
@@ -376,7 +346,7 @@
                 $menu_items = [
                     [
                         'title' => esc_html( __( 'Dashboard', 'csv-to-wp' ) ),
-                        'url'   => admin_url( 'admin.php?page=csv2wp-dashboard' ),
+                        'url'   => esc_url( admin_url( 'admin.php?page=csv2wp-dashboard' ) ),
                     ],
                 ];
                 if ( ! empty( csv2wp_check_if_files() ) ) {
@@ -399,7 +369,7 @@
                     if ( 'Dashboard' !== $item['title'] ) {
                         echo ' | ';
                     }
-                    echo sprintf( '<a href="%s">%s</a>', $item['url'], $item['title'] );
+                    echo sprintf( '<a href="%s">%s</a>', esc_url( $item[ 'url' ] ), esc_html( $item[ 'title' ] ) );
                 }
 
                 $content = ob_get_clean();

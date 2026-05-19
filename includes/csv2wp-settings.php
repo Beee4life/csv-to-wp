@@ -1,4 +1,7 @@
 <?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        exit;
+    }
 
     /**
      * Content for the settings page
@@ -22,7 +25,7 @@
                 <?php echo CSV2WP::csv2wp_admin_menu(); ?>
 
                 <form name="settings-form" id="settings-form" action="" method="post">
-                    <input name="settings_page_nonce" type="hidden" value="<?php echo wp_create_nonce( 'settings-page-nonce' ); ?>"/>
+                    <input name="settings_page_nonce" type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'settings-page-nonce' ) ); ?>"/>
 
                     <h2><?php esc_html_e( 'Who can import CSV data ?', 'csv-to-wp' ); ?></h2>
                     <p>
@@ -39,7 +42,7 @@
                     <label>
                         <select name="csv2wp_select_cap" id="csv2wp_select_cap">
                             <?php foreach ( $all_capabilities as $key => $value ) { ?>
-                                <option value="<?php echo $key; ?>"<?php echo( $import_user_role == $key ? ' selected' : '' ); ?>><?php echo $key; ?></option>
+                                <option value="<?php echo esc_attr( $key ); ?>"<?php echo( $import_user_role == $key ? ' selected' : '' ); ?>><?php echo esc_html( $key ); ?></option>
                             <?php } ?>
                         </select>
                     </label>

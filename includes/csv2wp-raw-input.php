@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <?php if ( $show_raw ) { ?>
     <div class="csv2wp__section">
         <h2>
@@ -15,9 +16,9 @@
         <?php } ?>
 
         <form method="POST">
-            <input name="import_raw_rankings_nonce" type="hidden" value="<?php echo wp_create_nonce( 'import-raw-rankings-nonce' ); ?>"/>
+            <input name="import_raw_rankings_nonce" type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'import-raw-rankings-nonce' ) ); ?>"/>
             <label for="raw-import" class="screen-reader-text"></label>
-            <textarea name="raw_csv_import" id="raw-import" type="textarea" rows="5" cols="50" placeholder=""><?php echo $submitted_raw_data; ?></textarea>
+            <textarea name="raw_csv_import" id="raw-import" type="textarea" rows="5" cols="50" placeholder=""><?php echo esc_textarea( $submitted_raw_data ); ?></textarea>
             <br/>
             <input name="verify" type="submit" class="button button-primary" value="<?php esc_html_e( 'Verify data', 'csv-to-wp' ); ?>"/>
             <input name="import" type="submit" class="button button-primary" value="<?php esc_html_e( 'Import data', 'csv-to-wp' ); ?>"/>

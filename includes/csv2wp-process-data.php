@@ -1,4 +1,8 @@
 <?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        exit;
+    }
+
     // There are no (more) errors, so file can be processed
     // $verify = false, so this is for real
     $max_lines = ( ! empty( $_POST[ 'csv2wp_max_lines' ] ) ) ? $_POST[ 'csv2wp_max_lines' ] : false;
@@ -16,6 +20,7 @@
                     foreach( $line as $column_name => $value ) {
                         $data_line[ strtolower( $column_name ) ] = $value;
                     }
+                    // @TODO: improve/sanitize
                     $result = $wpdb->insert( $table, $data_line );
                     if ( 1 == $result ) {
                         $line_number++;

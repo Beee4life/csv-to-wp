@@ -1,4 +1,7 @@
 <?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        exit;
+    }
 
     /**
      * Content for the settings page
@@ -27,10 +30,10 @@
                 <div class="content">
                     <?php
                         $file_index       = csv2wp_check_if_files();
-                        $file_name        = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( $_POST[ 'csv2wp_file_name' ] ) : false;
+                        $file_name        = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
                         $has_header       = isset( $_POST[ 'csv2wp_header_row' ] ) ? true : false;
                         $max_lines        = isset( $_POST[ 'csv2wp_max_lines' ] ) ? (int) $_POST[ 'csv2wp_max_lines' ] : 100;
-                        $posted_delimiter = isset( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( $_POST[ 'csv2wp_delimiter' ] ) : ',';
+                        $posted_delimiter = isset( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_delimiter' ] ) ) : ',';
                         $show_length      = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
 
                         if ( $file_index ) {
@@ -38,7 +41,7 @@
                         } else { ?>
                             <div class="csv2wp__section">
                                 <?php esc_html_e( 'You have no files to preview.', 'csv-to-wp' ); ?>
-                                <?php echo sprintf( __( 'Upload a csv file from your %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv-to-wp' ) ) ); ?>
+                                <?php echo sprintf( esc_html__( 'Upload a csv file from your %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=csv2wp-dashboard' ) ), esc_html__( 'dashboard', 'csv-to-wp' ) ) ); ?>
                             </div>
                     <?php } ?>
 
@@ -56,7 +59,8 @@
                                 $message .= '<br />';
                                 $message .= __( 'If there are errors the file was deleted.', 'csv-to-wp' );
                                 $message .= '<br />';
-                                $message .= sprintf( __( 'Verify this file on the %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv-to-wp' ) ) );
+                                $message .= sprintf( __( 'Verify this file on the %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=csv2wp-dashboard' ) ), esc_html__( 'dashboard', 'csv-to-wp' ) ) );
+                                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 echo sprintf( '<p class="error_notice">%s</p>', $message);
                             }
                             echo '</div>';
