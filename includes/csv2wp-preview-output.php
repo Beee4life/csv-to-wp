@@ -1,5 +1,5 @@
 <?php
-    echo '<h2>' . __( 'CSV contents', 'csv2wp' ) . '</h2>';
+    echo '<h2>' . __( 'CSV contents', 'csv-to-wp' ) . '</h2>';
     echo '<table class="csv2wp__table csv2wp__table--preview">';
     if ( $has_header && ! empty( $header_row ) ) {
         echo '<thead>';

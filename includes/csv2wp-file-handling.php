@@ -2,10 +2,10 @@
 <?php if ( ! empty( $file_index ) ) { ?>
     <div class="csv2wp__section">
         <h2>
-            <?php esc_html_e( 'Handle a CSV file', 'csv2wp' ); ?>
+            <?php esc_html_e( 'Handle a CSV file', 'csv-to-wp' ); ?>
         </h2>
         <p>
-            <?php esc_html_e( 'Select a file, select where to import it, whether the file has a header row and if you want to limit the amount of lines.', 'csv2wp' ); ?>
+            <?php esc_html_e( 'Select a file, select where to import it, whether the file has a header row and if you want to limit the amount of lines.', 'csv-to-wp' ); ?>
         </p>
 
         <?php global $wpdb; ?>
@@ -16,11 +16,11 @@
             <table class="csv2wp__table">
                 <thead>
                 <tr>
-                    <th><?php esc_html_e( 'File name', 'csv2wp' ); ?></th>
-                    <th><?php esc_html_e( 'Import in', 'csv2wp' ); ?></th>
-                    <th><?php esc_html_e( 'Delimiter', 'csv2wp' ); ?></th>
-                    <th><span class="csv2wp__th csv2wp__th--table"><?php esc_html_e( 'Table', 'csv2wp' ); ?></span><span class="csv2wp__th csv2wp__th--meta hidden"><?php esc_html_e( 'Meta key', 'csv2wp' ); ?></span></th>
-                    <th class="hidden"><?php esc_html_e( 'Max. lines', 'csv2wp' ); ?></th>
+                    <th><?php esc_html_e( 'File name', 'csv-to-wp' ); ?></th>
+                    <th><?php esc_html_e( 'Import in', 'csv-to-wp' ); ?></th>
+                    <th><?php esc_html_e( 'Delimiter', 'csv-to-wp' ); ?></th>
+                    <th><span class="csv2wp__th csv2wp__th--table"><?php esc_html_e( 'Table', 'csv-to-wp' ); ?></span><span class="csv2wp__th csv2wp__th--meta hidden"><?php esc_html_e( 'Meta key', 'csv-to-wp' ); ?></span></th>
+                    <th class="hidden"><?php esc_html_e( 'Max. lines', 'csv-to-wp' ); ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,7 +29,7 @@
                         <label>
                             <select id="csv2wp_row_id" name="csv2wp_file_name">
                                 <?php if ( count( $file_index ) > 1 ) { ?>
-                                    <option value=""><?php esc_html_e( 'Select a file', 'csv2wp' ); ?></option>
+                                    <option value=""><?php esc_html_e( 'Select a file', 'csv-to-wp' ); ?></option>
                                 <?php } ?>
                                 <?php foreach ( $file_index as $file ) { ?>
                                     <option value="<?php echo $file; ?>"><?php echo $file; ?></option>
@@ -74,9 +74,9 @@
                 </tbody>
             </table>
 
-            <input name="csv2wp_verify" type="submit" class="button button-primary" value="<?php esc_html_e( 'Verify', 'csv2wp' ); ?>"/>
-            <input name="csv2wp_import" type="submit" class="button button-primary" value="<?php esc_html_e( 'Import', 'csv2wp' ); ?>"/>
-            <input name="csv2wp_remove" type="submit" class="button button-primary" value="<?php esc_html_e( 'Remove', 'csv2wp' ); ?>"/>
+            <input name="csv2wp_verify" type="submit" class="button button-primary" value="<?php esc_html_e( 'Verify', 'csv-to-wp' ); ?>"/>
+            <input name="csv2wp_import" type="submit" class="button button-primary" value="<?php esc_html_e( 'Import', 'csv-to-wp' ); ?>"/>
+            <input name="csv2wp_remove" type="submit" class="button button-primary" value="<?php esc_html_e( 'Remove', 'csv-to-wp' ); ?>"/>
         </form>
     </div>
 <?php } ?>

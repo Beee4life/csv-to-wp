@@ -4,7 +4,7 @@
      */
     function csv2wp_dashboard_page() {
         if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
-            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
+            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv-to-wp' ) );
         }
 
         $posted_delimiter = ( isset( $_POST[ 'csv2wp_delimiter' ] ) ) ? $_POST[ 'csv2wp_delimiter' ] : false;
@@ -20,7 +20,7 @@
         <div class="wrap csv2wp">
             <div id="icon-options-general" class="icon32"><br/></div>
 
-            <h2>CSV to WP - <?php esc_html_e( 'Dashboard', 'csv2wp' ); ?></h2>
+            <h2>CSV to WP - <?php esc_html_e( 'Dashboard', 'csv-to-wp' ); ?></h2>
 
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 

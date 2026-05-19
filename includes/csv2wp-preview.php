@@ -6,22 +6,22 @@
     function csv2wp_preview_page() {
 
         if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
-            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
+            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv-to-wp' ) );
         }
         ?>
 
         <div class="wrap csv2wp">
             <div id="icon-options-general" class="icon32"><br/></div>
 
-            <h1>CSV to WP - <?php esc_html_e( 'Preview', 'csv2wp' ); ?></h1>
+            <h1>CSV to WP - <?php esc_html_e( 'Preview', 'csv-to-wp' ); ?></h1>
 
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 
             <?php echo CSV2WP::csv2wp_admin_menu(); ?>
 
-            <p><?php esc_html_e( 'Here you can preview any uploaded csv files.', 'csv2wp' ); ?></p>
+            <p><?php esc_html_e( 'Here you can preview any uploaded csv files.', 'csv-to-wp' ); ?></p>
 
-            <p><?php esc_html_e( 'Please keep in mind that all csv files are verified before displaying (and therefor can be deleted, when errors are encountered).', 'csv2wp' ); ?></p>
+            <p><?php esc_html_e( 'Please keep in mind that all csv files are verified before displaying (and therefor can be deleted, when errors are encountered).', 'csv-to-wp' ); ?></p>
 
             <div class="admin_left">
                 <div class="content">
@@ -37,8 +37,8 @@
                             include 'csv2wp-preview-form.php';
                         } else { ?>
                             <div class="csv2wp__section">
-                                <?php esc_html_e( 'You have no files to preview.', 'csv2wp' ); ?>
-                                <?php echo sprintf( __( 'Upload a csv file from your %s.', 'csv2wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv2wp' ) ) ); ?>
+                                <?php esc_html_e( 'You have no files to preview.', 'csv-to-wp' ); ?>
+                                <?php echo sprintf( __( 'Upload a csv file from your %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv-to-wp' ) ) ); ?>
                             </div>
                     <?php } ?>
 
@@ -52,11 +52,11 @@
                             if ( isset( $csv_info[ 'data' ] ) && ! empty( $csv_info[ 'data' ] ) ) {
                                 include 'csv2wp-preview-output.php';
                             } else {
-                                $message = __( 'You either have errors in your CSV or there is no data.', 'csv2wp' );
+                                $message = __( 'You either have errors in your CSV or there is no data.', 'csv-to-wp' );
                                 $message .= '<br />';
-                                $message .= __( 'If there are errors the file was deleted.', 'csv2wp' );
+                                $message .= __( 'If there are errors the file was deleted.', 'csv-to-wp' );
                                 $message .= '<br />';
-                                $message .= sprintf( __( 'Verify this file on the %s.', 'csv2wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv2wp' ) ) );
+                                $message .= sprintf( __( 'Verify this file on the %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=csv2wp-dashboard' ), esc_html__( 'dashboard', 'csv-to-wp' ) ) );
                                 echo sprintf( '<p class="error_notice">%s</p>', $message);
                             }
                             echo '</div>';

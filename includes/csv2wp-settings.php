@@ -6,14 +6,14 @@
     function csv2wp_settings_page() {
 
         if ( ! current_user_can( get_option( 'csv2wp_import_role' ) ) ) {
-            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv2wp' ) );
+            wp_die( esc_html__( 'Sorry, you do not have sufficient permissions to access this page.', 'csv-to-wp' ) );
         }
         ?>
 
         <div class="wrap csv2wp">
             <div id="icon-options-general" class="icon32"><br/></div>
 
-            <h1>CSV to WP - <?php esc_html_e( 'Settings', 'csv2wp' ); ?></h1>
+            <h1>CSV to WP - <?php esc_html_e( 'Settings', 'csv-to-wp' ); ?></h1>
 
             <?php CSV2WP::csv2wp_show_admin_notices(); ?>
 
@@ -24,9 +24,9 @@
                 <form name="settings-form" id="settings-form" action="" method="post">
                     <input name="settings_page_nonce" type="hidden" value="<?php echo wp_create_nonce( 'settings-page-nonce' ); ?>"/>
 
-                    <h2><?php esc_html_e( 'Who can import CSV data ?', 'csv2wp' ); ?></h2>
+                    <h2><?php esc_html_e( 'Who can import CSV data ?', 'csv-to-wp' ); ?></h2>
                     <p>
-                        <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv2wp' ); ?>
+                        <?php esc_html_e( 'Here you can select what capability a user needs to import any data. The default setting is "manage_options" which belongs to administrator.', 'csv-to-wp' ); ?>
                             <br />
                         <?php esc_html_e( "The reason why it's set per capability instead of per user is because two users with the same role can have different capabilities.", "csv2wp" ); ?>
                     </p>
@@ -46,7 +46,7 @@
 
                     <br/><br/>
 
-                    <h2><?php esc_html_e( 'Preserve settings', 'csv2wp' ); ?></h2>
+                    <h2><?php esc_html_e( 'Preserve settings', 'csv-to-wp' ); ?></h2>
 
                     <p>
                         <label>
@@ -56,7 +56,7 @@
 
                     <br/>
 
-                    <input type="submit" class="button button-primary" value="<?php esc_html_e( 'Save settings', 'csv2wp' ); ?>"/>
+                    <input type="submit" class="button button-primary" value="<?php esc_html_e( 'Save settings', 'csv-to-wp' ); ?>"/>
                 </form>
 
             </div>

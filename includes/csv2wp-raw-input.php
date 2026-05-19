@@ -1,12 +1,12 @@
 <?php if ( $show_raw ) { ?>
     <div class="csv2wp__section">
         <h2>
-            <?php esc_html_e( 'Import raw CSV data', 'csv2wp' ); ?>
+            <?php esc_html_e( 'Import raw CSV data', 'csv-to-wp' ); ?>
         </h2>
         <p>
-            <?php esc_html_e( 'Make sure the cursor is ON the last line (after the last character), NOT on a new line.', 'csv2wp' ); ?>
+            <?php esc_html_e( 'Make sure the cursor is ON the last line (after the last character), NOT on a new line.', 'csv-to-wp' ); ?>
             <br/>
-            <?php esc_html_e( 'This is seen as a new entry and creates an error !!!', 'csv2wp' ); ?>
+            <?php esc_html_e( 'This is seen as a new entry and creates an error !!!', 'csv-to-wp' ); ?>
         </p>
 
         <?php $submitted_raw_data = false; ?>
@@ -19,8 +19,8 @@
             <label for="raw-import" class="screen-reader-text"></label>
             <textarea name="raw_csv_import" id="raw-import" type="textarea" rows="5" cols="50" placeholder=""><?php echo $submitted_raw_data; ?></textarea>
             <br/>
-            <input name="verify" type="submit" class="button button-primary" value="<?php esc_html_e( 'Verify data', 'csv2wp' ); ?>"/>
-            <input name="import" type="submit" class="button button-primary" value="<?php esc_html_e( 'Import data', 'csv2wp' ); ?>"/>
+            <input name="verify" type="submit" class="button button-primary" value="<?php esc_html_e( 'Verify data', 'csv-to-wp' ); ?>"/>
+            <input name="import" type="submit" class="button button-primary" value="<?php esc_html_e( 'Import data', 'csv-to-wp' ); ?>"/>
         </form>
     </div>
 <?php } ?>

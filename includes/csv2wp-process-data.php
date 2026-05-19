@@ -37,7 +37,7 @@
                 if ( 'postmeta' == $import_where ) {
                     if ( ! empty( $header_row ) ) {
                         if ( ! in_array( 'post_id', $header_row ) ) {
-                            CSV2WP::csv2wp_errors()->add( "error_no_postid", sprintf( esc_html__( "%s has no column 'post_id'.", 'csv2wp' ), $file_name ) );
+                            CSV2WP::csv2wp_errors()->add( "error_no_postid", sprintf( esc_html__( "%s has no column 'post_id'.", 'csv-to-wp' ), $file_name ) );
 
                             return;
                         } else {
@@ -49,7 +49,7 @@
                 } elseif ( 'usermeta' == $import_where ) {
                     if ( ! empty( $header_row ) ) {
                         if ( ! in_array( 'user_id', $header_row ) ) {
-                            CSV2WP::csv2wp_errors()->add( "error_no_userid", sprintf( esc_html__( "%s has no column 'user_id'.", 'csv2wp' ), $file_name ) );
+                            CSV2WP::csv2wp_errors()->add( "error_no_userid", sprintf( esc_html__( "%s has no column 'user_id'.", 'csv-to-wp' ), $file_name ) );
 
                             return;
                         } else {
