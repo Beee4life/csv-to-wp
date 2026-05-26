@@ -68,7 +68,8 @@
             }
 
             public function csv2wp_create_uploads_directory() {
-                if ( true != is_dir( csv2wp_get_upload_folder() ) ) {
+                $csv2wp_upload_folder = csv2wp_get_upload_folder();
+                if ( true != is_dir( $csv2wp_upload_folder ) ) {
                     require_once ABSPATH . 'wp-admin/includes/file.php';
                     WP_Filesystem();
                     global $wp_filesystem;
