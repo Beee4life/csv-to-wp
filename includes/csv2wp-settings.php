@@ -22,7 +22,7 @@
 
             <div class="">
 
-                <?php echo CSV2WP::csv2wp_admin_menu(); ?>
+                <?php echo wp_kses_post( CSV2WP::csv2wp_admin_menu() ); ?>
 
                 <form name="settings-form" id="settings-form" action="" method="post">
                     <input name="settings_page_nonce" type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'settings-page-nonce' ) ); ?>"/>

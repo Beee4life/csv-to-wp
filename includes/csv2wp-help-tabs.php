@@ -103,6 +103,7 @@
             ob_start();
             ?>
             <h5><?php esc_html_e( 'Support', 'csv-to-wp' ); ?></h5>
+            <?php // translators: link to github issues ?>
             <p><?php echo sprintf( esc_html__( 'If you need support, please go to %s.', 'csv-to-wp' ), '<a href="' . esc_url( 'https://github.com/Beee4life/csv-to-wp/issues' ) . '">Github</a>' ); ?></p>
             <?php
             $tab_content = ob_get_clean();

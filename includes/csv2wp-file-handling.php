@@ -62,7 +62,7 @@
                     </td>
                     <td>
                         <label>
-                            <input id="csv2wp_key_table" class="csv2wp__key csv2wp__key--table" name="csv2wp_table" type="text" size="10" value="" placeholder="<?php echo $wpdb->prefix; ?>">
+                            <input id="csv2wp_key_table" class="csv2wp__key csv2wp__key--table" name="csv2wp_table" type="text" size="10" value="" placeholder="<?php echo esc_attr( $wpdb->prefix ); ?>">
                             <input id="csv2wp_key_meta" class="csv2wp__key csv2wp__key--meta hidden" name="csv2wp_meta" type="text" size="10" value="" placeholder="meta key">
                         </label>
                     </td>

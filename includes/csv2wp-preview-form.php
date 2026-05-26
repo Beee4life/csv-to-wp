@@ -17,7 +17,6 @@
                 <td>
                     <label>
                         <select name="csv2wp_file_name" id="select-preview-file">
-                            <?php $posted_file = ( isset( $_POST[ 'csv2wp_file_name' ] ) ) ? $_POST[ 'csv2wp_file_name' ] : false; ?>
                             <?php if ( count( $file_index ) > 1 ) { ?>
                                 <option value=""><?php esc_html_e( 'Select a file', 'csv-to-wp' ); ?></option>
                             <?php } ?>
@@ -33,7 +32,7 @@
                     <label>
                         <select name="csv2wp_delimiter" id="csv2wp_delimiter">
                             <?php foreach( $delimiters as $delimiter ) { ?>
-                                <?php $selected_delimiter = ( $delimiter == apply_filters( 'csv2wp_delimiter', ';' ) ) ? ' selected' : false; ?>
+                                <?php $selected_delimiter = ( $delimiter == $posted_delimiter ) ? ' selected' : false; ?>
                                 <option value="<?php echo esc_attr( $delimiter ); ?>"<?php echo esc_attr( $selected_delimiter ); ?>>
                                     <?php echo esc_attr( $delimiter ); ?>
                                 </option>
