@@ -1,7 +1,7 @@
 === CSV to WP ===
 Contributors: beee4life
 Tags: csv, import, usermeta, postmeta
-Requires at least: 3.6
+Requires at least: 4.7
 Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 0.7.0
