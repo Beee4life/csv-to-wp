@@ -1,26 +1,25 @@
 === CSV to WP ===
 Contributors: beee4life
-Donate link: http://example.com/
 Tags: csv, import, usermeta, postmeta
-Requires at least: 3.6
-Tested up to: 6.9.4
-Requires PHP: 7.2
-Stable tag: 0.2.2
+Requires at least: 4.7
+Tested up to: 7.0
+Requires PHP: 7.4
+Stable tag: 0.7.0
 Author URI: https://berryplasman.com
 Plugin URI: https://github.com/Beee4life/csv-to-wp/
-License: GPLv2 or later
+License: GPL v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This plugin gives you the option to import CSV data through file import and stores it in a custom table or in post/user meta table.
 
-Usage
+== Usage ==
 
 * Upload CSV data through file upload
 * Verify it
 * Preview it
 * Import it
 
-FAQ
+== FAQ ==
 
 = Can I import posts and other WordPress data with it ? =
 
