@@ -41,7 +41,6 @@
                 add_action( 'admin_init',               array( $this, 'csv2wp_errors' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_admin_menu' ) );
                 add_action( 'admin_init',               array( $this, 'csv2wp_settings_page_functions' ) );
-                add_action( 'plugins_loaded',           array( $this, 'csv2wp_load_textdomain' ) );
 
                 // csv actions
                 add_action( 'admin_init',               array( $this, 'csv2wp_create_uploads_directory' ) );
@@ -75,10 +74,6 @@
                     global $wp_filesystem;
                     $wp_filesystem->mkdir( $csv2wp_upload_folder, 0755 );
                 }
-            }
-
-            public function csv2wp_load_textdomain() {
-                load_plugin_textdomain( 'csv-to-wp', false, basename( dirname( plugin_basename( __FILE__ ) ) ) . '/languages' );
             }
 
             public static function csv2wp_errors() {
