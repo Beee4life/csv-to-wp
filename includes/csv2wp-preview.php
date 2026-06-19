@@ -23,8 +23,8 @@
             if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ 'select_preview_nonce' ] ) ), 'select-preview-nonce' ) ) {
                 CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv-to-wp' ) );
             } else {
-                $posted_file        = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
-                $has_header       = isset( $_POST[ 'csv2wp_header_row' ] ) ? true : false;
+                $posted_file      = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
+                $has_header       = true;
                 $max_lines        = isset( $_POST[ 'csv2wp_max_lines' ] ) ? (int) $_POST[ 'csv2wp_max_lines' ] : 100;
                 $posted_delimiter = isset( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_delimiter' ] ) ) : ',';
                 $show_length      = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
