@@ -66,9 +66,14 @@
                             if ( isset( $csv_info[ 'data' ] ) && ! empty( $csv_info[ 'data' ] ) ) {
                                 include 'csv2wp-preview-output.php';
                             } else {
+                                $delete  = apply_filters( 'delete_csv_after_process', true );
                                 $message = __( 'You either have errors in your CSV or there is no data.', 'csv-to-wp' );
                                 $message .= '<br />';
-                                $message .= __( 'If there are errors the file was deleted.', 'csv-to-wp' );
+                                if ( ! $delete ) {
+                                    $message .= esc_html__( 'Your file is not deleted, because of a filter.', 'csv-to-wp' );
+                                } else {
+                                    $message .= esc_html__( 'Since your file is not accurate anymore, the file is deleted', 'csv-to-wp' );
+                                }
                                 $message .= '<br />';
                                 // translators: dashboard
                                 $message .= sprintf( __( 'Verify this file on the %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=csv2wp-dashboard' ) ), esc_html__( 'dashboard', 'csv-to-wp' ) ) );
