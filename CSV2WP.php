@@ -195,11 +195,11 @@
                                 } elseif ( 'table' == $import_where ) {
                                     $table = isset( $_POST[ 'csv2wp_table' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_table' ] ) ) : false;
                                     if ( empty( $table ) || strlen( $table ) <= strlen( $wpdb->prefix ) ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_no_table_entered", __( "You didn't enter a table, where to import it.", 'csv-to-wp' ) );
+                                        CSV2WP::csv2wp_errors()->add( 'error_no_table_entered', esc_html__( "You didn't enter a table, where to import it.", 'csv-to-wp' ) );
                                     } elseif ( strpos( ' ', $table ) !== false ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_space_in_table", __( 'You have a space in your table name.', 'csv-to-wp' ) );
+                                        CSV2WP::csv2wp_errors()->add( 'error_space_in_table', esc_html__( 'You have a space in your table name.', 'csv-to-wp' ) );
                                     } elseif ( false !== $meta_key ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_header_meta", __( "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers.", 'csv-to-wp' ) );
+                                        CSV2WP::csv2wp_errors()->add( 'error_header_meta', esc_html__( "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers.", 'csv-to-wp' ) );
                                     }
 
                                     if ( ! CSV2WP::csv2wp_errors()->get_error_codes() ) {
@@ -207,7 +207,7 @@
                                     }
 
                                 } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) && false !== $meta_key ) {
-                                    CSV2WP::csv2wp_errors()->add( 'error_header_meta', __( "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key.", 'csv-to-wp' ) );
+                                    CSV2WP::csv2wp_errors()->add( 'error_header_meta', esc_html__( "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key.", 'csv-to-wp' ) );
                                 }
 
                                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
