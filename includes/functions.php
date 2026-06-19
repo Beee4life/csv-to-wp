@@ -135,8 +135,8 @@
             }
             $csv_data[ 'column_count' ] = count( $csv_line );
 
-            if ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-                csv2wp_check_column_amount_header( $csv_line, $file_name, $meta_key );
+            if ( $import_where && in_array( $import_where, [ 'table', 'usermeta', 'postmeta' ] ) ) {
+                csv2wp_check_column_amount_header( $csv_line, $file_name, $import_where, $meta_key );
 
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
                     return;
@@ -147,27 +147,32 @@
         return $csv_data;
     }
 
-    function csv2wp_check_column_amount_header( $csv_line, $file_name, $meta_key = false ) {
+    function csv2wp_check_column_amount_header( $csv_line, $file_name, $import_where = 'postmeta', $meta_key = false ) {
         if ( ! $csv_line ) {
-            $message = esc_html( __( "You have an empty header line.", 'csv-to-wp' ) );
+            $message = esc_html__( 'You have an empty header line.', 'csv-to-wp' );
             return $message;
         }
 
-        // if headers, check if cols are min 2
-        if ( false == $meta_key ) {
-            // if there is no meta_key, there must be 3 columns
-            if ( count( $csv_line ) !== 3 ) {
+        if ( 'table' == $import_where ) {
+            if ( count( $csv_line ) !== 2 ) {
                 $error = true;
             }
         } else {
-            // if there is no meta_key, there must be 2 columns
-            if ( count( $csv_line ) !== 2 ) {
-                $error = true;
+            if ( false == $meta_key ) {
+                // if there is no meta_key, there must be 3 columns
+                if ( count( $csv_line ) !== 3 ) {
+                    $error = true;
+                }
+            } else {
+                // if there is a meta_key, there must be 2 columns
+                if ( count( $csv_line ) !== 2 ) {
+                    $error = true;
+                }
             }
         }
 
         if ( isset( $error ) && true == $error ) {
-            $message1 = esc_html( __( "You don't have the right amount of columns in your header line.", 'csv-to-wp' ) );
+            $message1 = esc_html__( "You don't have the right amount of columns in your header line.", 'csv-to-wp' );
             $message2 = esc_html__( 'Since your file is not accurate anymore, the file is deleted.', 'csv-to-wp' );
             csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
             CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( '%s %s', $message1, $message2 ) );
