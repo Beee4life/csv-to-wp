@@ -14,7 +14,6 @@
 
         $file_index       = csv2wp_check_if_files();
         $posted_file      = false;
-        $has_header       = false;
         $max_lines        = 100;
         $posted_delimiter = ',';
         $show_length      = false;
@@ -23,8 +22,7 @@
             if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ 'select_preview_nonce' ] ) ), 'select-preview-nonce' ) ) {
                 CSV2WP::csv2wp_errors()->add( 'error_nonce_no_match', __( 'Something went wrong. Please try again.', 'csv-to-wp' ) );
             } else {
-                $posted_file        = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
-                $has_header       = isset( $_POST[ 'csv2wp_header_row' ] ) ? true : false;
+                $posted_file      = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
                 $max_lines        = isset( $_POST[ 'csv2wp_max_lines' ] ) ? (int) $_POST[ 'csv2wp_max_lines' ] : 100;
                 $posted_delimiter = isset( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_delimiter' ] ) ) : ',';
                 $show_length      = ( isset( $_POST[ 'csv2wp_show_length' ] ) ) ? true : false;
@@ -61,16 +59,21 @@
                     <?php
                         // Get imported data
                         if ( $posted_file ) {
-                            $csv_info   = csv2wp_csv_to_array( $posted_file, $posted_delimiter, true, $has_header, true );
+                            $csv_info   = csv2wp_csv_to_array( $posted_file, $posted_delimiter, true, true );
                             $header_row = ( isset( $csv_info[ 'column_names' ] ) ) ? $csv_info[ 'column_names' ] : [];
 
                             echo '<div class="csv2wp__section">';
                             if ( isset( $csv_info[ 'data' ] ) && ! empty( $csv_info[ 'data' ] ) ) {
                                 include 'csv2wp-preview-output.php';
                             } else {
+                                $delete  = apply_filters( 'delete_csv_after_process', true );
                                 $message = __( 'You either have errors in your CSV or there is no data.', 'csv-to-wp' );
                                 $message .= '<br />';
-                                $message .= __( 'If there are errors the file was deleted.', 'csv-to-wp' );
+                                if ( ! $delete ) {
+                                    $message .= esc_html__( 'Your file is not deleted, because of a filter.', 'csv-to-wp' );
+                                } else {
+                                    $message .= esc_html__( 'Since your file is not accurate anymore, the file is deleted', 'csv-to-wp' );
+                                }
                                 $message .= '<br />';
                                 // translators: dashboard
                                 $message .= sprintf( __( 'Verify this file on the %s.', 'csv-to-wp' ), sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=csv2wp-dashboard' ) ), esc_html__( 'dashboard', 'csv-to-wp' ) ) );

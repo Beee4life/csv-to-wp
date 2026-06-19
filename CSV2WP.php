@@ -1,7 +1,7 @@
 <?php
     /*
     Plugin Name: CSV to WP
-    Version: 0.7.0
+    Version: 0.8.0
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import and verify CSV data and imports it to your WordPress database.
     Author: Beee
@@ -28,7 +28,7 @@
             public function __construct() {
                 $this->settings = array(
                     'path'    => trailingslashit( dirname( __FILE__ ) ),
-                    'version' => '0.7.0',
+                    'version' => '0.8.0',
                 );
 
                 // (de)activation hooks
@@ -175,51 +175,46 @@
                         $create_table   = false;
                         $delimiter      = isset( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_delimiter' ] ) ) : ',';
                         $file_name      = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
-                        $has_header     = isset( $_POST[ 'csv2wp_header' ] ) ? true : false;
                         $import_where   = isset( $_POST[ 'csv2wp_import_in' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_import_in' ] ) ) : false;
-                        $meta_key       = isset( $_POST[ 'csv2wp_meta' ] ) ? sanitize_meta( wp_unslash( $_POST[ 'csv2wp_meta' ] ) ) : false;
+                        $meta_key       = isset( $_POST[ 'csv2wp_meta' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_meta' ] ) ) : false;
                         $plugin_options = [ 'table', 'postmeta', 'usermeta' ];
                         $remove         = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
                         $table          = false;
                         $verify         = isset( $_POST[ 'csv2wp_verify' ] ) ? true : false;
 
                         if ( false === $remove ) {
-                            $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $has_header, false, $import_where, $meta_key );
+                            $csv_array = csv2wp_csv_to_array( $file_name, $delimiter, $verify, $import_where, $meta_key );
 
                             if ( false === $verify ) {
                                 // $verify == false, so import for real
                                 if ( ! in_array( $import_where, $plugin_options ) ) {
                                     // execute a custom option, set by a filter
                                     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
-                                    do_action( $import_where, $csv_array, $has_header, $file_name );
+                                    do_action( $import_where, $csv_array, $file_name );
 
                                 } elseif ( 'table' == $import_where ) {
                                     $table = isset( $_POST[ 'csv2wp_table' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_table' ] ) ) : false;
                                     if ( empty( $table ) || strlen( $table ) <= strlen( $wpdb->prefix ) ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_no_table_entered", __( "You didn't enter a table, where to import it.", 'csv-to-wp' ) );
+                                        CSV2WP::csv2wp_errors()->add( 'error_no_table_entered', esc_html__( "You didn't enter a table, where to import it.", 'csv-to-wp' ) );
                                     } elseif ( strpos( ' ', $table ) !== false ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_space_in_table", __( 'You have a space in your table name.', 'csv-to-wp' ) );
-                                    } elseif ( false !== $has_header && false != $meta_key ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_header_meta", __( "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers.", 'csv-to-wp' ) );
-                                    } elseif ( false == $has_header ) {
-                                        CSV2WP::csv2wp_errors()->add( "error_no_header", esc_html__( 'You unchecked whether the file has a header row. For insert into table, you must have a header row.', 'csv-to-wp' ) );
+                                        CSV2WP::csv2wp_errors()->add( 'error_space_in_table', esc_html__( 'You have a space in your table name.', 'csv-to-wp' ) );
+                                    } elseif ( false !== $meta_key ) {
+                                        CSV2WP::csv2wp_errors()->add( 'error_header_meta', esc_html__( "You can't have 'has header' and 'meta key' selected at the same time. If you enter a meta key, your CSV file can't be headers.", 'csv-to-wp' ) );
                                     }
 
                                     if ( ! CSV2WP::csv2wp_errors()->get_error_codes() ) {
                                         $create_table = $this->csv2wp_create_custom_table( $table, $csv_array[ 'column_names' ] );
                                     }
 
-                                } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-                                    if ( false !== $has_header && false != $meta_key ) {
-                                        CSV2WP::csv2wp_errors()->add( 'error_header_meta', __( "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key.", 'csv-to-wp' ) );
-                                    }
+                                } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) && false !== $meta_key ) {
+                                    CSV2WP::csv2wp_errors()->add( 'error_header_meta', esc_html__( "You can't have 'has header' and 'meta key' selected at the same time. If your CSV has headers, you can't use a meta key.", 'csv-to-wp' ) );
                                 }
 
                                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
                                     return;
                                 }
 
-                                $success = $this->csv2wp_process_data( $csv_array, $import_where, $has_header, $create_table, $meta_key, $table );
+                                $success = $this->csv2wp_process_data( $csv_array, $import_where, $create_table, $meta_key, $table );
 
                                 if ( true === $success ) {
                                     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
@@ -249,7 +244,7 @@
                         } else {
                             // delete file
                             if ( ! empty( $file_name ) ) {
-                                csv2wp_delete_file( $file_name );
+                                csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
                                 // translators: file name
                                 CSV2WP::csv2wp_errors()->add( 'success_file_deleted', sprintf( esc_html__( 'File "%s" successfully deleted.', 'csv-to-wp' ), $file_name ) );
                             }
@@ -258,7 +253,7 @@
                 }
             }
 
-            public function csv2wp_process_data( $csv_array, $import_where, $has_header = true, $create_table = false, $entered_meta_key = false, $table = false ) {
+            public function csv2wp_process_data( $csv_array, $import_where, $create_table = false, $entered_meta_key = false, $table = false ) {
                 // There are no (more) errors, so file can be processed
                 // $verify = false, so this is for real
                 // @TODO: $max_lines can probably be removed since only used in preview
@@ -290,7 +285,7 @@
 
                     } elseif ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
                         foreach( $csv_array[ 'data' ] as $line ) {
-                            $header_row = ( true == $has_header ) ? $csv_array[ 'column_names' ] : [];
+                            $header_row = $csv_array[ 'column_names' ];
                             $post_id    = false;
                             $user_id    = false;
 

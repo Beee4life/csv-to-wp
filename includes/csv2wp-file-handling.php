@@ -12,7 +12,6 @@
 
         <form method="POST">
             <input name="select_file_nonce" type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'select-file-nonce' ) ); ?>"/>
-            <input name="csv2wp_header" type="hidden" value="<?php echo esc_attr( apply_filters( 'csv2wp_has_header', true ) ); ?>"/>
 
             <table class="csv2wp__table">
                 <thead>

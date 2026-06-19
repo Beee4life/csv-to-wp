@@ -24,7 +24,7 @@
         return [];
     }
 
-    function csv2wp_csv_to_array( string $file_name, string $delimiter = ';', bool $verify = false, bool $has_header = false, bool $preview = false, string $import_where = '', $meta_key = false ) {
+    function csv2wp_csv_to_array( string $file_name, string $delimiter = ';', bool $verify = false, bool $preview = false, string $import_where = '', $meta_key = false ) {
         global $wp_filesystem;
 
         if ( empty( $wp_filesystem ) ) {
@@ -67,7 +67,7 @@
             }
 
             // if line is 1 and has header == true, count columns (to set benchmark)
-            $header_data = csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $has_header, $meta_key );
+            $header_data = csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $meta_key );
 
             if ( is_array( $header_data ) ) {
                 $csv_array = array_merge( $csv_array, $header_data );
@@ -89,19 +89,15 @@
                 foreach ( $csv_line as $item ) {
                     if ( strlen( $item ) > $value_length ) {
                         // translators: %s: item value
-                        CSV2WP::csv2wp_errors()->add( 'error_too_long_value', esc_html( sprintf( __( "The value '%s' is too long.", 'csv-to-wp' ), $item ) ) );
+                        CSV2WP::csv2wp_errors()->add( 'error_too_long_value', sprintf( esc_html__( "The value '%s' is too long.", 'csv-to-wp' ), $item ) );
 
                         return;
                     }
 
-                    if ( true === $has_header ) {
-                        if ( 1 == $line_number ) {
-                            // do nothing, headers don't need to be added
-                        } else {
-                            $new_line[ $csv_array[ 'column_names' ][ $item_count ] ] = $item;
-                        }
+                    if ( 1 == $line_number ) {
+                        // do nothing, headers don't need to be added
                     } else {
-                        $new_line[] = $item;
+                        $new_line[ $csv_array[ 'column_names' ][ $item_count ] ] = $item;
                     }
                     $item_count++;
                 }
@@ -112,7 +108,7 @@
         }
 
         if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
-            csv2wp_delete_file( $file_name );
+            csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
         }
 
         /**
@@ -126,27 +122,21 @@
         return $csv_array;
     }
 
-    function csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $has_header = false, $meta_key = false ) {
-        if ( ! $file_name || ! $csv_line || ! $line_number || ! $import_where ) {
+    function csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $meta_key = false ) {
+        if ( ! $file_name || ! $csv_line || ! $line_number ) {
             return false;
         }
 
         $csv_data = [];
 
         if ( 1 == $line_number ) {
-            if ( $has_header ) {
-                foreach ( $csv_line as $column ) {
-                    $csv_data[ 'column_names' ][] = $column;
-                }
-            } else {
-                // @TODO: check if meta is imported (why)
+            foreach ( $csv_line as $column ) {
+                $csv_data[ 'column_names' ][] = $column;
             }
             $csv_data[ 'column_count' ] = count( $csv_line );
-        }
 
-        if ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-            if ( 1 == $line_number ) {
-                csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header, $meta_key );
+            if ( $import_where && in_array( $import_where, [ 'table', 'usermeta', 'postmeta' ] ) ) {
+                csv2wp_check_column_amount_header( $csv_line, $file_name, $import_where, $meta_key );
 
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
                     return;
@@ -154,47 +144,44 @@
             }
         }
 
-
         return $csv_data;
     }
 
-    function csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header = false, $meta_key = false ) {
+    function csv2wp_check_column_amount_header( $csv_line, $file_name, $import_where = 'postmeta', $meta_key = false ) {
         if ( ! $csv_line ) {
-            $message = esc_html( __( "You have an empty header line.", 'csv-to-wp' ) );
+            $message = esc_html__( 'You have an empty header line.', 'csv-to-wp' );
             return $message;
         }
 
-        // if headers, check if cols are min 2
-        if ( false !== $has_header ) {
+        if ( 'table' == $import_where ) {
+            if ( count( $csv_line ) !== 2 ) {
+                $error = true;
+            }
+        } else {
             if ( false == $meta_key ) {
                 // if there is no meta_key, there must be 3 columns
                 if ( count( $csv_line ) !== 3 ) {
                     $error = true;
                 }
             } else {
-                // if there is no meta_key, there must be 2 columns
+                // if there is a meta_key, there must be 2 columns
                 if ( count( $csv_line ) !== 2 ) {
                     $error = true;
                 }
             }
-        } else {
-            // if there are no headers, check if there are 3 columns
-            if ( count( $csv_line ) !== 3 ) {
-                $error = true;
-            }
         }
 
         if ( isset( $error ) && true == $error ) {
-            $message1 = esc_html( __( "You don't have the right amount of columns in your header line.", 'csv-to-wp' ) );
+            $message1 = esc_html__( "You don't have the right amount of columns in your header line.", 'csv-to-wp' );
             $message2 = esc_html__( 'Since your file is not accurate anymore, the file is deleted.', 'csv-to-wp' );
-            csv2wp_delete_file( $file_name );
+            csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
             CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( '%s %s', $message1, $message2 ) );
         }
     }
 
     function csv2wp_check_column_amount_line( $csv_line, $line_number, $column_count, $verify = false, $preview = false ) {
         if ( ! $csv_line || ! $column_count ) {
-            $message = esc_html( __( "No data or no column count", 'csv-to-wp' ) );
+            $message = esc_html__( 'No data or no column count', 'csv-to-wp' );
             CSV2WP::csv2wp_errors()->add( 'error_no_data_count', $message );
         }
 
@@ -203,29 +190,37 @@
             $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv-to-wp' ) );
             if ( count( $csv_line ) < $column_count ) {
                 if ( true == $verify ) {
-                    // no lines will be imported in preview mode, so no message needed
+                    $delete = apply_filters( 'delete_csv_after_process', true );
+                    if ( ! $delete ) {
+                        $error_message = esc_html__( 'Your file is not deleted, because of a filter.', 'csv-to-wp' );
+                    } else {
+                        $error_message = esc_html__( 'Since your file is not accurate anymore, the file is deleted', 'csv-to-wp' );
+                    }
+
                 } elseif ( true != $preview ) {
                     // for real
-                    $error_message = 'Lines 1-' . ( $line_number ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
+                    $error_message = sprintf( 'Lines 1-%d are correctly imported but since your file is not accurate anymore, the file is deleted', $line_number );
                 }
                 // translators: 1. line number, 2. error message
-                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( __( 'There are too few columns on line %1$d. %2$s', 'csv-to-wp' ), $line_number, $error_message ) );
+                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( esc_html__( 'There are too few columns on line %1$d. %2$s', 'csv-to-wp' ), $line_number, $error_message ) );
 
             } elseif ( count( $csv_line ) > $column_count ) {
                 // if column count > benchmark
                 if ( true == $verify ) {
+                    $delete = apply_filters( 'delete_csv_after_process', true );
+                    if ( ! $delete ) {
+                        $error_message = esc_html__( 'Your file is not deleted, because of a filter.', 'csv-to-wp' );
+                    } else {
+                        $error_message = esc_html__( 'Since your file is not accurate anymore, the file is deleted', 'csv-to-wp' );
+                    }
                 } elseif ( true != $preview ) {
                     // for real
-                    $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
+                    $error_message = sprintf( esc_html__( 'Lines 0-%d are correctly imported but since your file is not accurate anymore, the file is deleted', 'csv-to-wp' ), $line_number - 1 );
                 }
                 // translators: 1. line number, 2. error message
                 CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( esc_html( __( 'There are too many columns on line %1$d. %2$s', 'csv-to-wp' ) ), $line_number, $error_message ) );
             }
         }
-
-
-
-        return true;
     }
 
     function csv2wp_verify_raw_csv_data( string $csv_data = '' ) : array|false {

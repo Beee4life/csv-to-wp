@@ -2,7 +2,7 @@
 <div class="csv2wp__section">
     <form name="select-preview-file" id="settings-form" action="" method="post">
         <input name="select_preview_nonce" type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'select-preview-nonce' ) ); ?>"/>
-        <input name="csv2wp_has_header" type="hidden" value="1"/>
+
         <table class="csv2wp__table">
             <thead>
             <tr>
