@@ -24,7 +24,7 @@
         return [];
     }
 
-    function csv2wp_csv_to_array( string $file_name, string $delimiter = ';', bool $verify = false, bool $has_header = false, bool $preview = false, string $import_where = '', $meta_key = false ) {
+    function csv2wp_csv_to_array( string $file_name, string $delimiter = ';', bool $verify = false, bool $preview = false, string $import_where = '', $meta_key = false ) {
         global $wp_filesystem;
 
         if ( empty( $wp_filesystem ) ) {
@@ -67,7 +67,7 @@
             }
 
             // if line is 1 and has header == true, count columns (to set benchmark)
-            $header_data = csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $has_header, $meta_key );
+            $header_data = csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $meta_key );
 
             if ( is_array( $header_data ) ) {
                 $csv_array = array_merge( $csv_array, $header_data );
@@ -94,14 +94,10 @@
                         return;
                     }
 
-                    if ( true === $has_header ) {
-                        if ( 1 == $line_number ) {
-                            // do nothing, headers don't need to be added
-                        } else {
-                            $new_line[ $csv_array[ 'column_names' ][ $item_count ] ] = $item;
-                        }
+                    if ( 1 == $line_number ) {
+                        // do nothing, headers don't need to be added
                     } else {
-                        $new_line[] = $item;
+                        $new_line[ $csv_array[ 'column_names' ][ $item_count ] ] = $item;
                     }
                     $item_count++;
                 }
@@ -112,7 +108,7 @@
         }
 
         if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
-            csv2wp_delete_file( $file_name );
+            csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
         }
 
         /**
@@ -126,27 +122,21 @@
         return $csv_array;
     }
 
-    function csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $has_header = false, $meta_key = false ) {
-        if ( ! $file_name || ! $csv_line || ! $line_number || ! $import_where ) {
+    function csv2wp_get_header_data( $file_name, $csv_line, $line_number, $import_where, $meta_key = false ) {
+        if ( ! $file_name || ! $csv_line || ! $line_number ) {
             return false;
         }
 
         $csv_data = [];
 
         if ( 1 == $line_number ) {
-            if ( $has_header ) {
-                foreach ( $csv_line as $column ) {
-                    $csv_data[ 'column_names' ][] = $column;
-                }
-            } else {
-                // @TODO: check if meta is imported (why)
+            foreach ( $csv_line as $column ) {
+                $csv_data[ 'column_names' ][] = $column;
             }
             $csv_data[ 'column_count' ] = count( $csv_line );
-        }
 
-        if ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
-            if ( 1 == $line_number ) {
-                csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header, $meta_key );
+            if ( in_array( $import_where, [ 'usermeta', 'postmeta' ] ) ) {
+                csv2wp_check_column_amount_header( $csv_line, $file_name, $meta_key );
 
                 if ( CSV2WP::csv2wp_errors()->get_error_codes() ) {
                     return;
@@ -154,32 +144,24 @@
             }
         }
 
-
         return $csv_data;
     }
 
-    function csv2wp_check_column_amount_header( $csv_line, $file_name, $has_header = false, $meta_key = false ) {
+    function csv2wp_check_column_amount_header( $csv_line, $file_name, $meta_key = false ) {
         if ( ! $csv_line ) {
             $message = esc_html( __( "You have an empty header line.", 'csv-to-wp' ) );
             return $message;
         }
 
         // if headers, check if cols are min 2
-        if ( false !== $has_header ) {
-            if ( false == $meta_key ) {
-                // if there is no meta_key, there must be 3 columns
-                if ( count( $csv_line ) !== 3 ) {
-                    $error = true;
-                }
-            } else {
-                // if there is no meta_key, there must be 2 columns
-                if ( count( $csv_line ) !== 2 ) {
-                    $error = true;
-                }
+        if ( false == $meta_key ) {
+            // if there is no meta_key, there must be 3 columns
+            if ( count( $csv_line ) !== 3 ) {
+                $error = true;
             }
         } else {
-            // if there are no headers, check if there are 3 columns
-            if ( count( $csv_line ) !== 3 ) {
+            // if there is no meta_key, there must be 2 columns
+            if ( count( $csv_line ) !== 2 ) {
                 $error = true;
             }
         }
@@ -187,7 +169,7 @@
         if ( isset( $error ) && true == $error ) {
             $message1 = esc_html( __( "You don't have the right amount of columns in your header line.", 'csv-to-wp' ) );
             $message2 = esc_html__( 'Since your file is not accurate anymore, the file is deleted.', 'csv-to-wp' );
-            csv2wp_delete_file( $file_name );
+            csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
             CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns', sprintf( '%s %s', $message1, $message2 ) );
         }
     }
@@ -222,8 +204,6 @@
                 CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( esc_html( __( 'There are too many columns on line %1$d. %2$s', 'csv-to-wp' ) ), $line_number, $error_message ) );
             }
         }
-
-
 
         return true;
     }

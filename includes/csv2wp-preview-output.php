@@ -5,7 +5,7 @@
 
     echo '<h2>' . esc_html__( 'CSV contents', 'csv-to-wp' ) . '</h2>';
     echo '<table class="csv2wp__table csv2wp__table--preview">';
-    if ( $has_header && ! empty( $header_row ) ) {
+    if ( ! empty( $header_row ) ) {
         echo '<thead>';
         echo '<tr>';
         foreach ( $header_row as $column ) {
