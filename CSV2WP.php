@@ -177,7 +177,7 @@
                         $file_name      = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
                         $has_header     = isset( $_POST[ 'csv2wp_header' ] ) ? true : false;
                         $import_where   = isset( $_POST[ 'csv2wp_import_in' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_import_in' ] ) ) : false;
-                        $meta_key       = isset( $_POST[ 'csv2wp_meta' ] ) ? sanitize_meta( wp_unslash( $_POST[ 'csv2wp_meta' ] ) ) : false;
+                        $meta_key       = isset( $_POST[ 'csv2wp_meta' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_meta' ] ) ) : false;
                         $plugin_options = [ 'table', 'postmeta', 'usermeta' ];
                         $remove         = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
                         $table          = false;
