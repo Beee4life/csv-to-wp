@@ -89,7 +89,7 @@
                 foreach ( $csv_line as $item ) {
                     if ( strlen( $item ) > $value_length ) {
                         // translators: %s: item value
-                        CSV2WP::csv2wp_errors()->add( 'error_too_long_value', esc_html( sprintf( __( "The value '%s' is too long.", 'csv-to-wp' ), $item ) ) );
+                        CSV2WP::csv2wp_errors()->add( 'error_too_long_value', sprintf( esc_html__( "The value '%s' is too long.", 'csv-to-wp' ), $item ) );
 
                         return;
                     }
@@ -181,7 +181,7 @@
 
     function csv2wp_check_column_amount_line( $csv_line, $line_number, $column_count, $verify = false, $preview = false ) {
         if ( ! $csv_line || ! $column_count ) {
-            $message = esc_html( __( "No data or no column count", 'csv-to-wp' ) );
+            $message = esc_html__( 'No data or no column count', 'csv-to-wp' );
             CSV2WP::csv2wp_errors()->add( 'error_no_data_count', $message );
         }
 
@@ -190,27 +190,37 @@
             $error_message = esc_html( __( 'Since your file is not accurate anymore, the file is deleted.', 'csv-to-wp' ) );
             if ( count( $csv_line ) < $column_count ) {
                 if ( true == $verify ) {
-                    // no lines will be imported in preview mode, so no message needed
+                    $delete = apply_filters( 'delete_csv_after_process', true );
+                    if ( ! $delete ) {
+                        $error_message = esc_html__( 'Your file is not deleted, because of a filter.', 'csv-to-wp' );
+                    } else {
+                        $error_message = esc_html__( 'Since your file is not accurate anymore, the file is deleted', 'csv-to-wp' );
+                    }
+
                 } elseif ( true != $preview ) {
                     // for real
-                    $error_message = 'Lines 1-' . ( $line_number ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
+                    $error_message = sprintf( 'Lines 1-%d are correctly imported but since your file is not accurate anymore, the file is deleted', $line_number );
                 }
                 // translators: 1. line number, 2. error message
-                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( __( 'There are too few columns on line %1$d. %2$s', 'csv-to-wp' ), $line_number, $error_message ) );
+                CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( esc_html__( 'There are too few columns on line %1$d. %2$s', 'csv-to-wp' ), $line_number, $error_message ) );
 
             } elseif ( count( $csv_line ) > $column_count ) {
                 // if column count > benchmark
                 if ( true == $verify ) {
+                    $delete = apply_filters( 'delete_csv_after_process', true );
+                    if ( ! $delete ) {
+                        $error_message = esc_html__( 'Your file is not deleted, because of a filter.', 'csv-to-wp' );
+                    } else {
+                        $error_message = esc_html__( 'Since your file is not accurate anymore, the file is deleted', 'csv-to-wp' );
+                    }
                 } elseif ( true != $preview ) {
                     // for real
-                    $error_message = 'Lines 0-' . ( $line_number - 1 ) . ' are correctly imported but since your file is not accurate anymore, the file is deleted';
+                    $error_message = sprintf( esc_html__( 'Lines 0-%d are correctly imported but since your file is not accurate anymore, the file is deleted', 'csv-to-wp' ), $line_number - 1 );
                 }
                 // translators: 1. line number, 2. error message
                 CSV2WP::csv2wp_errors()->add( 'error_no_correct_columns_' . $line_number, sprintf( esc_html( __( 'There are too many columns on line %1$d. %2$s', 'csv-to-wp' ) ), $line_number, $error_message ) );
             }
         }
-
-        return true;
     }
 
     function csv2wp_verify_raw_csv_data( string $csv_data = '' ) : array|false {
