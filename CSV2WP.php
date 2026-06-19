@@ -249,7 +249,7 @@
                         } else {
                             // delete file
                             if ( ! empty( $file_name ) ) {
-                                csv2wp_delete_file( $file_name );
+                                csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
                                 // translators: file name
                                 CSV2WP::csv2wp_errors()->add( 'success_file_deleted', sprintf( esc_html__( 'File "%s" successfully deleted.', 'csv-to-wp' ), $file_name ) );
                             }
