@@ -21,8 +21,9 @@
                 }
 
                 if ( isset( $_FILES[ 'csv2wp_upload' ] ) && ! empty( $_FILES[ 'csv2wp_upload' ][ 'name' ] ) ) {
-                    $file_name = sanitize_file_name( $_FILES[ 'csv2wp_upload' ][ 'name' ] );
-                    $file_ext  = pathinfo( $file_name, PATHINFO_EXTENSION );
+                    $uploaded_file = $_FILES[ 'csv2wp_upload' ];
+                    $file_name     = sanitize_file_name( $uploaded_file[ 'name' ] );
+                    $file_ext      = pathinfo( $file_name, PATHINFO_EXTENSION );
 
                     if ( 'csv' !== strtolower( $file_ext ) ) {
                         wp_die( esc_html__( 'Only CSV files are allowed.', 'csv-to-wp' ) );
@@ -48,13 +49,13 @@
                         'mimes'     => array( 'csv' => 'text/csv' ),
                     );
 
-                    $movefile = wp_handle_upload( $uploaded_file, $upload_overrides );
+                    $move_file = wp_handle_upload( $uploaded_file, $upload_overrides );
 
                     remove_filter( 'upload_dir', $custom_dir_callback );
 
-                    if ( $movefile && ! isset( $movefile['error'] ) ) {
+                    if ( $move_file && ! isset( $move_file['error'] ) ) {
                         // SUCCESS: Path inside your custom folder
-                        $target_file = $movefile[ 'file' ];
+                        $target_file = $move_file[ 'file' ];
 
                         do_action( 'csv2wp_successful_csv_upload', $target_file );
 
@@ -67,7 +68,7 @@
                         CSV2WP::csv2wp_errors()->add( 'success_file_uploaded', $message );
 
                     } else {
-                        CSV2WP::csv2wp_errors()->add( 'upload_error', esc_html( $movefile[ 'error' ] ) );
+                        CSV2WP::csv2wp_errors()->add( 'upload_error', esc_html( $move_file[ 'error' ] ) );
                     }
                 }
 
