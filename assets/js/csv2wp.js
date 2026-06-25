@@ -1,37 +1,30 @@
 (function($) {
-    $(document).ready(function() {
+    $(function() {
 
-        var header_id = 'csv2wp-header';
-        var key = '.csv2wp__key';
-        var table_header = '.csv2wp__th';
+        const keyClass = '.csv2wp__key';
+        const tableHeaderClass = '.csv2wp__th';
 
-        $('select.csv2wp_import_in').change(function () {
+        $('select.csv2wp_import_in').on('change', function () {
+            const $this = $(this);
+            let changedValue = $this.val();
 
-            $changed_value = $(this).val();
-
-            if ( 'table' !== $changed_value ){
-                $changed_value = $changed_value.substr(4);
-                document.getElementById(header_id).checked = false;
-            } else {
-                document.getElementById(header_id).checked = true;
+            if ('table' !== changedValue && changedValue) {
+                changedValue = changedValue.substr(4);
             }
-            var changed_value = $changed_value;
 
-            $(table_header).addClass('hidden');
-            $(key).addClass('hidden');
-            $(table_header + '--' + changed_value).removeClass('hidden');
-            $(key + '--' + changed_value).removeClass('hidden');
-
+            $(`${tableHeaderClass}--${changedValue}`).removeClass('hidden');
+            $(`${keyClass}--${changedValue}`).removeClass('hidden');
         });
 
-        $('.upload_button').click(function () {
-            var type = $(this).data('type');
-            $("#" + type).trigger('click');
+        $('.upload_button').on('click', function () {
+            const type = $(this).data('type');
+            $(`#${type}`).trigger('click');
         });
 
-        $("input[type='file']").change(function () {
-            var type = $(this).attr('id');
-            $('.form--' + type + ' .val').text(this.value.replace(/C:\\fakepath\\/i, ''))
+        $("input[type='file']").on('change', function () {
+            const type = $(this).attr('id');
+            const fileName = this.value.replace(/C:\\fakepath\\/i, '');
+            $(`.form--${type} .val`).text(fileName);
         });
 
     });

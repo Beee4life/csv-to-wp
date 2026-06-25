@@ -1,7 +1,7 @@
 <?php
     /*
     Plugin Name: CSV to WP
-    Version: 0.9.0
+    Version: 0.10.0
     Plugin URI: https://github.com/Beee4life/csv-to-wp/
     Description: This plugin allows you to import and verify CSV data and imports it to your WordPress database.
     Author: Beee
@@ -27,7 +27,7 @@
 
             public function __construct() {
                 $this->settings = array(
-                    'version' => '0.9.0',
+                    'version' => '0.10.0',
                 );
 
                 // (de)activation hooks
@@ -172,10 +172,10 @@
 
                         global $wpdb;
                         $create_table   = false;
-                        $delimiter      = isset( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_delimiter' ] ) ) : ',';
-                        $file_name      = isset( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
-                        $import_where   = isset( $_POST[ 'csv2wp_import_in' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_import_in' ] ) ) : false;
-                        $meta_key       = isset( $_POST[ 'csv2wp_meta' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_meta' ] ) ) : false;
+                        $delimiter      = ! empty( $_POST[ 'csv2wp_delimiter' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_delimiter' ] ) ) : ',';
+                        $file_name      = ! empty( $_POST[ 'csv2wp_file_name' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_file_name' ] ) ) : false;
+                        $import_where   = ! empty( $_POST[ 'csv2wp_import_in' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_import_in' ] ) ) : false;
+                        $meta_key       = ! empty( $_POST[ 'csv2wp_meta' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'csv2wp_meta' ] ) ) : false;
                         $plugin_options = [ 'table', 'postmeta', 'usermeta' ];
                         $remove         = isset( $_POST[ 'csv2wp_remove' ] ) ? true : false;
                         $table          = false;
@@ -213,9 +213,9 @@
                                     return;
                                 }
 
-                                $success = $this->csv2wp_process_data( $csv_array, $import_where, $create_table, $meta_key, $table );
+                                $line_number = $this->csv2wp_process_data( $csv_array, $import_where, $create_table, $meta_key, $table );
 
-                                if ( true === $success ) {
+                                if ( 0 < $line_number ) {
                                     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                                     $delete_result = csv2wp_delete_file( $file_name, apply_filters( 'delete_csv_after_process', true ) );
                                     if ( isset( $delete_result ) && true == $delete_result ) {
@@ -225,9 +225,9 @@
                                         // translators: amount of lines imported
                                         CSV2WP::csv2wp_errors()->add( 'success_data_imported', sprintf( esc_html__( 'YAY ! %d lines are imported but the file is not deleted.', 'csv-to-wp' ), $line_number ) );
                                     }
-                                    do_action( 'csv2wp_successful_csv_import', $line_number );
-
-                                    return;
+                                    do_action( 'csv2wp_successful_csv_import' );
+                                } else {
+                                    // no lines imported
                                 }
 
                             } else {
@@ -235,8 +235,6 @@
                                 // @TODO: verify table create
                                 if ( ! empty( $csv_array[ 'data' ] ) ) {
                                     CSV2WP::csv2wp_errors()->add( 'success_no_errors_in_csv', esc_html__( 'Congratulations, there appear to be no errors in your CSV.', 'csv-to-wp' ) );
-
-                                    return;
                                 }
                             }
 
@@ -363,6 +361,12 @@
                         }
                     }
                 }
+
+                if ( isset( $line_number ) ) {
+                    return $line_number;
+                }
+
+                return 0;
             }
 
             public function csv2wp_create_custom_table( $name, $columns = [] ) {
