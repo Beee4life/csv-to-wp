@@ -225,7 +225,7 @@
                                         // translators: amount of lines imported
                                         CSV2WP::csv2wp_errors()->add( 'success_data_imported', sprintf( esc_html__( 'YAY ! %d lines are imported but the file is not deleted.', 'csv-to-wp' ), $line_number ) );
                                     }
-                                    do_action( 'csv2wp_successful_csv_import' );
+                                    do_action( 'csv2wp_successful_csv_import', $file_name );
                                 } else {
                                     // no lines imported
                                 }
